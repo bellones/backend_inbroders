@@ -1,0 +1,260 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Empresa {
+  id                  String                @id @default(uuid())
+  razaoSocial         String
+  nomeFantasia        String?
+  inscricaoMunicipal  String?
+  inscricaoEstadual   String?
+  cnpj                String
+  dataCadastro        DateTime?             @default(now())
+  dataAtualizado      DateTime?
+  ativo               Boolean               @default(true)
+  matriz              Boolean               @default(false)
+  Usuario             Usuario[]
+  EnderecoEmpresa     EnderecoEmpresa[]
+  ContaFixa           Conta[]
+  TipoLancamento      TipoLancamento[]
+  CategoriaLancamento CategoriaLancamento[]
+  Lancamento          Lancamento[]
+  Financeiro          Financeiro[]
+  FormaPagamento      FormaPagamento[]
+  Ocorrencia          Ocorrencia[]
+  FinanceiroCategoria FinanceiroCategoria[]
+  TipoConta           TipoConta[]
+  ContatoTipo         ContatoTipo[]
+  Tipo                Tipo[]
+  Classificacao       Classificacao[]
+}
+
+model Usuario {
+  id        String      @id @default(uuid())
+  nome      String
+  email     String      @unique
+  senha     String
+  empresa   Empresa     @relation(fields: [idEmpresa], references: [id])
+  idEmpresa String
+  ativo     Boolean     @default(true)
+  Permissao Permissao[]
+}
+
+model MatrizFilial {
+  id       String  @id @default(uuid())
+  idMatriz String
+  idFilial String
+  ativo    Boolean @default(true)
+}
+
+model Permissao {
+  id        String   @id @default(uuid())
+  usuario   Usuario  @relation(fields: [idUsuario], references: [id])
+  idUsuario String
+  listar    Boolean? @default(false)
+  cadastrar Boolean? @default(false)
+  editar    Boolean? @default(false)
+  excluir   Boolean? @default(false)
+}
+
+model EnderecoEmpresa {
+  id          String   @id @default(uuid())
+  empresa     Empresa  @relation(fields: [idEmpresa], references: [id])
+  idEmpresa   String
+  cep         String
+  local       String
+  numero      String
+  bairro      String
+  complemento String?
+  cidade      String
+  estado      String
+  ativo       Boolean? @default(true)
+  principal   Boolean? @default(false)
+}
+
+model Tipo {
+  id        String   @id @default(uuid())
+  nome      String
+  empresa   Empresa  @relation(fields: [idEmpresa], references: [id])
+  idEmpresa String
+  Pessoa    Pessoa[]
+}
+
+model Classificacao {
+  id        String   @id @default(uuid())
+  nome      String
+  empresa   Empresa  @relation(fields: [idEmpresa], references: [id])
+  idEmpresa String
+  Pessoa    Pessoa[]
+}
+
+model Pessoa {
+  id                 String           @id @default(uuid())
+  tipo               Tipo             @relation(fields: [idTipo], references: [id])
+  idTipo             String
+  nome               String
+  documento          String?
+  razaoSocial        String?
+  nomeFantasia       String?
+  inscricaoMunicipal String?
+  inscricaoEstadual  String?
+  ativo              Boolean?         @default(true)
+  dataCadastro       DateTime?        @default(now())
+  contribuinte       Boolean?         @default(false)
+  Contato            Contato[]
+  EnderecoPessoa     EnderecoPessoa[]
+  Lancamento         Lancamento[]
+  Financeiro         Financeiro[]
+  Classificacao      Classificacao?   @relation(fields: [classificacaoId], references: [id])
+  classificacaoId    String?
+}
+
+model ContatoTipo {
+  id        String    @id @default(uuid())
+  nome      String
+  empresa   Empresa   @relation(fields: [idEmpresa], references: [id])
+  idEmpresa String
+  Contato   Contato[]
+}
+
+model Contato {
+  id        String      @id @default(uuid())
+  pessoa    Pessoa      @relation(fields: [idPessoa], references: [id])
+  idPessoa  String
+  tipo      ContatoTipo @relation(fields: [idTipo], references: [id])
+  idTipo    String
+  titutlo   String
+  descricao String
+  ativo     Boolean?    @default(true)
+
+  @@index([descricao])
+}
+
+model EnderecoPessoa {
+  id          String   @id @default(uuid())
+  pessoa      Pessoa   @relation(fields: [idPessoa], references: [id])
+  idPessoa    String
+  cep         String
+  local       String
+  numero      String
+  bairro      String
+  complemento String?
+  cidade      String
+  estado      String
+  ativo       Boolean? @default(true)
+  principal   Boolean? @default(false)
+}
+
+model TipoConta {
+  id        String  @id @default(uuid())
+  empresa   Empresa @relation(fields: [idEmpresa], references: [id])
+  idEmpresa String
+  descricao String
+  Conta     Conta[]
+}
+
+model Conta {
+  id          String       @id @default(uuid())
+  empresa     Empresa      @relation(fields: [idEmpresa], references: [id])
+  idEmpresa   String
+  tipoconta   TipoConta    @relation(fields: [idTipoConta], references: [id])
+  idTipoConta String
+  banco       String
+  agencia     String
+  conta       String
+  ativo       Boolean?     @default(true)
+  Lancamento  Lancamento[]
+}
+
+model TipoLancamento {
+  id         String       @id @default(uuid())
+  empresa    Empresa      @relation(fields: [idEmpresa], references: [id])
+  idEmpresa  String
+  nome       String
+  ativo      Boolean?     @default(true)
+  Lancamento Lancamento[]
+}
+
+model CategoriaLancamento {
+  id         String       @id @default(uuid())
+  empresa    Empresa      @relation(fields: [idEmpresa], references: [id])
+  idEmpresa  String
+  nome       String
+  ativo      Boolean?     @default(true)
+  Lancamento Lancamento[]
+}
+
+model Lancamento {
+  id               String              @id @default(uuid())
+  empresa          Empresa             @relation(fields: [idEmpresa], references: [id])
+  idEmpresa        String
+  categoria        CategoriaLancamento @relation(fields: [idCategoria], references: [id])
+  idCategoria      String
+  conta            Conta               @relation(fields: [contaId], references: [id])
+  pessoa           Pessoa?             @relation(fields: [idPessoa], references: [id])
+  idPessoa         String?
+  contaId          String
+  data             DateTime
+  competencia      DateTime
+  valor            Decimal
+  tipo             String
+  texto            String?
+  arquivo          String?
+  tipolancamento   TipoLancamento      @relation(fields: [tipoLancamentoId], references: [id])
+  tipoLancamentoId String
+}
+
+model FormaPagamento {
+  id         String       @id @default(uuid())
+  empresa    Empresa      @relation(fields: [idEmpresa], references: [id])
+  idEmpresa  String
+  nome       String
+  Financeiro Financeiro[]
+}
+
+model Ocorrencia {
+  id         String       @id @default(uuid())
+  empresa    Empresa      @relation(fields: [idEmpresa], references: [id])
+  idEmpresa  String
+  nome       String
+  Financeiro Financeiro[]
+}
+
+model FinanceiroCategoria {
+  id         String       @id @default(uuid())
+  empresa    Empresa      @relation(fields: [idEmpresa], references: [id])
+  idEmpresa  String
+  nome       String
+  Financeiro Financeiro[]
+}
+
+model Financeiro {
+  id                    String               @id @default(uuid())
+  empresa               Empresa              @relation(fields: [idEmpresa], references: [id])
+  idEmpresa             String
+  pessoa                Pessoa               @relation(fields: [idPessoa], references: [id])
+  idPessoa              String
+  formapagamento        FormaPagamento       @relation(fields: [formaPagamentoId], references: [id])
+  formaPagamentoId      String
+  vencimento            DateTime
+  vecimentoOriginal     DateTime
+  valor                 Decimal
+  emissao               DateTime?            @default(now())
+  competencia           DateTime?            @default(now())
+  documento             String?
+  texto                 String?
+  arquivo               String?
+  Ocorrencia            Ocorrencia?          @relation(fields: [ocorrenciaId], references: [id])
+  ocorrenciaId          String?
+  FinanceiroCategoria   FinanceiroCategoria? @relation(fields: [financeiroCategoriaId], references: [id])
+  financeiroCategoriaId String?
+  dataPagamento         String
+}
