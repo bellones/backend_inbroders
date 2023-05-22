@@ -35,6 +35,7 @@ model Empresa {
   ContatoTipo         ContatoTipo[]
   Tipo                Tipo[]
   Classificacao       Classificacao[]
+  Pessoa              Pessoa[]
 }
 
 model Usuario {
@@ -85,6 +86,7 @@ model Tipo {
   nome      String
   empresa   Empresa  @relation(fields: [idEmpresa], references: [id])
   idEmpresa String
+  ativo     Boolean  @default(true)
   Pessoa    Pessoa[]
 }
 
@@ -93,6 +95,7 @@ model Classificacao {
   nome      String
   empresa   Empresa  @relation(fields: [idEmpresa], references: [id])
   idEmpresa String
+  ativo     Boolean  @default(true)
   Pessoa    Pessoa[]
 }
 
@@ -115,6 +118,8 @@ model Pessoa {
   Financeiro         Financeiro[]
   Classificacao      Classificacao?   @relation(fields: [classificacaoId], references: [id])
   classificacaoId    String?
+  empresa            Empresa          @relation(fields: [idEmpresa], references: [id])
+  idEmpresa          String
 }
 
 model ContatoTipo {
@@ -126,16 +131,14 @@ model ContatoTipo {
 }
 
 model Contato {
-  id        String      @id @default(uuid())
-  pessoa    Pessoa      @relation(fields: [idPessoa], references: [id])
-  idPessoa  String
-  tipo      ContatoTipo @relation(fields: [idTipo], references: [id])
-  idTipo    String
-  titutlo   String
-  descricao String
-  ativo     Boolean?    @default(true)
-
-  @@index([descricao])
+  id            String       @id @default(uuid())
+  pessoa        Pessoa       @relation(fields: [idPessoa], references: [id])
+  idPessoa      String
+  titulo        String
+  descricao     String
+  ativo         Boolean?     @default(true)
+  ContatoTipo   ContatoTipo? @relation(fields: [contatoTipoId], references: [id])
+  contatoTipoId String?
 }
 
 model EnderecoPessoa {

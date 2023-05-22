@@ -7,5 +7,7 @@ export class CreateContatoDto {
   idTipo: string;
   @IsString()
   descricao: string;
+  @IsString()
+  titulo: string;
   ativo: boolean;
 }

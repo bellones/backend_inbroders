@@ -32,7 +32,8 @@ export class ContatoService {
         descricao: dto.descricao,
         idPessoa: dto.idPessoa,
         ativo: true,
-        idTipo: dto.idTipo,
+        titulo: dto.titulo,
+        contatoTipoId: dto.idTipo,
       },
     });
     newEnd !== null ? (response = true) : (response = false);
@@ -46,7 +47,8 @@ export class ContatoService {
       },
       data: {
         descricao: dto.descricao,
-        idTipo: dto.idTipo,
+        titulo: dto.titulo,
+        contatoTipoId: dto.idTipo,
       },
     });
     update !== null ? (response = true) : (response = false);

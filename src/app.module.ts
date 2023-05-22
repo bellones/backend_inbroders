@@ -16,6 +16,9 @@ import { PermissaoModule } from './permissao/permissao.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { TipoLancamentoModule } from './tipo-lancamento/tipo-lancamento.module';
 import { UserModule } from './user/user.module';
+import { PessoaTipoModule } from './pessoa-tipo/pessoa-tipo.module';
+import { PessoaClassificacaoModule } from './pessoa-classificacao/pessoa-classificacao.module';
+import { PessoaModule } from './pessoa/pessoa.module';
 
 @Module({
   imports: [
@@ -35,6 +38,9 @@ import { UserModule } from './user/user.module';
     FinanceiroCategoriaModule,
     FinanceiroModule,
     LancamentoModule,
+    PessoaTipoModule,
+    PessoaClassificacaoModule,
+    PessoaModule,
   ],
   controllers: [],
   providers: [AppService],
