@@ -23,6 +23,7 @@ export class PessoaClassificacaoService {
     return await this.prisma.classificacao.findMany({
       where: {
         idEmpresa: id,
+        ativo: true,
       },
     });
   }

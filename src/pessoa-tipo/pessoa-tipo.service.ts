@@ -23,6 +23,7 @@ export class PessoaTipoService {
     return await this.prisma.tipo.findMany({
       where: {
         idEmpresa: id,
+        ativo: true,
       },
     });
   }

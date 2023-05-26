@@ -111,7 +111,7 @@ model Pessoa {
   inscricaoEstadual  String?
   ativo              Boolean?         @default(true)
   dataCadastro       DateTime?        @default(now())
-  contribuinte       Boolean?         @default(false)
+  contribuinte       String
   Contato            Contato[]
   EnderecoPessoa     EnderecoPessoa[]
   Lancamento         Lancamento[]

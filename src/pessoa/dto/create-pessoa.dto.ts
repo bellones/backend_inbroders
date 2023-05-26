@@ -14,5 +14,5 @@ export class CreatePessoaDto {
   nomeFantasia?: string;
   inscricaoMunicipal?: string;
   inscricaoEstadual?: string;
-  contribuinte?: boolean;
+  contribuinte?: string;
 }
