@@ -19,6 +19,8 @@ import { UserModule } from './user/user.module';
 import { PessoaTipoModule } from './pessoa-tipo/pessoa-tipo.module';
 import { PessoaClassificacaoModule } from './pessoa-classificacao/pessoa-classificacao.module';
 import { PessoaModule } from './pessoa/pessoa.module';
+import { OrcamentoTipoModule } from './orcamento-tipo/orcamento-tipo.module';
+import { OrcamentoModule } from './orcamento/orcamento.module';
 
 @Module({
   imports: [
@@ -41,6 +43,8 @@ import { PessoaModule } from './pessoa/pessoa.module';
     PessoaTipoModule,
     PessoaClassificacaoModule,
     PessoaModule,
+    OrcamentoTipoModule,
+    OrcamentoModule,
   ],
   controllers: [],
   providers: [AppService],
