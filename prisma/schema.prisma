@@ -36,6 +36,8 @@ model Empresa {
   Tipo                Tipo[]
   Classificacao       Classificacao[]
   Pessoa              Pessoa[]
+  OrcamentoTipo       OrcamentoTipo[]
+  Orcamento           Orcamento[]
 }
 
 model Usuario {
@@ -120,6 +122,7 @@ model Pessoa {
   classificacaoId    String?
   empresa            Empresa          @relation(fields: [idEmpresa], references: [id])
   idEmpresa          String
+  orcamento          Orcamento[]
 }
 
 model ContatoTipo {
@@ -260,4 +263,40 @@ model Financeiro {
   FinanceiroCategoria   FinanceiroCategoria? @relation(fields: [financeiroCategoriaId], references: [id])
   financeiroCategoriaId String?
   dataPagamento         String
+}
+
+model OrcamentoTipo {
+  id        String      @id @default(uuid())
+  empresa   Empresa     @relation(fields: [idEmpresa], references: [id])
+  idEmpresa String
+  nome      String
+  Orcamento Orcamento[]
+}
+
+model Orcamento {
+  id              String          @id @default(uuid())
+  empresa         Empresa         @relation(fields: [idEmpresa], references: [id])
+  idEmpresa       String
+  OrcamentoTipo   OrcamentoTipo?  @relation(fields: [orcamentoTipoId], references: [id])
+  orcamentoTipoId String?
+  Pessoa          Pessoa?         @relation(fields: [pessoaId], references: [id])
+  pessoaId        String?
+  nome            String
+  descricao       String
+  valor           Decimal
+  margem          Decimal
+  desconto        Decimal
+  descontoTipo    String
+  orcamentoItem   OrcamentoItem[]
+  ativo           Boolean         @default(true)
+}
+
+model OrcamentoItem {
+  id          String     @id @default(uuid())
+  Orcamento   Orcamento? @relation(fields: [orcamentoId], references: [id])
+  orcamentoId String?
+  descricao   String
+  quantidade  Decimal
+  valor       Decimal
+  unidade     String
 }
