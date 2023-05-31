@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { OrcamentoService } from './orcamento.service';
 import { OrcamentoController } from './orcamento.controller';
+import { OrcamentoService } from './orcamento.service';
 
 @Module({
   controllers: [OrcamentoController],
-  providers: [OrcamentoService]
+  providers: [OrcamentoService],
 })
 export class OrcamentoModule {}

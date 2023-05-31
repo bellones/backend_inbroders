@@ -1,7 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { OrcamentoService } from './orcamento.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
+import { OrcamentoService } from './orcamento.service';
 
 @Controller('orcamento')
 export class OrcamentoController {
@@ -12,23 +20,26 @@ export class OrcamentoController {
     return this.orcamentoService.create(createOrcamentoDto);
   }
 
-  @Get()
-  findAll() {
-    return this.orcamentoService.findAll();
+  @Get('/list/:id')
+  findAll(@Param('id') id: string) {
+    return this.orcamentoService.findAll(id);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.orcamentoService.findOne(+id);
+    return this.orcamentoService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrcamentoDto: UpdateOrcamentoDto) {
-    return this.orcamentoService.update(+id, updateOrcamentoDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateOrcamentoDto: UpdateOrcamentoDto,
+  ) {
+    return this.orcamentoService.update(id, updateOrcamentoDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.orcamentoService.remove(+id);
+    return this.orcamentoService.remove(id);
   }
 }
