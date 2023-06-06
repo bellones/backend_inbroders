@@ -37,6 +37,8 @@ export class OrcamentoService {
       },
       include: {
         orcamentoItem: true,
+        OrcamentoTipo: true,
+        Pessoa: true,
       },
     });
   }

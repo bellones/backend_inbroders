@@ -25,6 +25,19 @@ export class PessoaService {
     return item;
   }
 
+  async search(busca: string, idEmpresa: string): Promise<Pessoa[]> {
+    return await this.prisma.pessoa.findMany({
+      where: {
+        ativo: true,
+        idEmpresa: idEmpresa,
+        nome: {
+          contains: busca.toLowerCase(),
+          mode: 'insensitive',
+        },
+      },
+    });
+  }
+
   async findAll(id: string): Promise<Pessoa[]> {
     return await this.prisma.pessoa.findMany({
       where: {

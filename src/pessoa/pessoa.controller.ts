@@ -30,6 +30,11 @@ export class PessoaController {
     return this.pessoaService.findOne(id);
   }
 
+  @Get('/search/:id/:busca')
+  search(@Param('id') id: string, @Param('busca') busca: string) {
+    return this.pessoaService.search(busca, id);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePessoaDto: UpdatePessoaDto) {
     return this.pessoaService.update(id, updatePessoaDto);
