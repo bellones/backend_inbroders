@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { CreateOrcamentoItemDto } from './dto/create-orcamento-item.dto';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 import { OrcamentoService } from './orcamento.service';
@@ -18,6 +19,11 @@ export class OrcamentoController {
   @Post()
   create(@Body() createOrcamentoDto: CreateOrcamentoDto) {
     return this.orcamentoService.create(createOrcamentoDto);
+  }
+
+  @Post('/itens')
+  createItens(@Body() dto: CreateOrcamentoItemDto) {
+    return this.orcamentoService.createItem(dto);
   }
 
   @Get('/list/:id')
@@ -41,5 +47,10 @@ export class OrcamentoController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.orcamentoService.remove(id);
+  }
+
+  @Delete('/remove/:id')
+  removeItems(@Param('id') id: string) {
+    return this.orcamentoService.deleteItems(id);
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Orcamento } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateOrcamentoItemDto } from './dto/create-orcamento-item.dto';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 
@@ -8,7 +9,7 @@ import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 export class OrcamentoService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreateOrcamentoDto): Promise<boolean> {
+  async create(dto: CreateOrcamentoDto): Promise<Orcamento> {
     const item = await this.prisma.orcamento.create({
       data: {
         desconto: dto.desconto,
@@ -19,14 +20,25 @@ export class OrcamentoService {
         valor: dto.valor,
         ativo: true,
         idEmpresa: dto.idEmpresa,
-        orcamentoItem: {
-          createMany: {
-            data: dto.orcamentoItem,
-          },
-        },
       },
     });
 
+    return item;
+  }
+
+  async createItem(dto: CreateOrcamentoItemDto): Promise<boolean> {
+    const item = await this.prisma.orcamentoItem.create({
+      data: dto,
+    });
+    return item !== null ? true : false;
+  }
+
+  async deleteItems(id: string): Promise<boolean> {
+    const item = await this.prisma.orcamentoItem.deleteMany({
+      where: {
+        orcamentoId: id,
+      },
+    });
     return item !== null ? true : false;
   }
 
@@ -68,14 +80,6 @@ export class OrcamentoService {
         valor: dto.valor,
         ativo: true,
         idEmpresa: dto.idEmpresa,
-        orcamentoItem: {
-          updateMany: {
-            where: {
-              orcamentoId: dto.id,
-            },
-            data: dto.orcamentoItem,
-          },
-        },
       },
     });
 

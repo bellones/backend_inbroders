@@ -1,4 +1,3 @@
-import { OrcamentoItem } from '@prisma/client';
 import { IsString } from 'class-validator';
 
 export class CreateOrcamentoDto {
@@ -16,5 +15,4 @@ export class CreateOrcamentoDto {
   margem: number;
   desconto: number;
   descontoTipo: string;
-  orcamentoItem: OrcamentoItem[];
 }
