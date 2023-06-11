@@ -13,13 +13,15 @@ export class OrcamentoService {
     const item = await this.prisma.orcamento.create({
       data: {
         desconto: dto.desconto,
-        descontoTipo: dto.descontoTipo,
+        descontoTipo: dto.descontoTipo.toString(),
         descricao: dto.descricao,
         margem: dto.margem,
         nome: dto.nome,
         valor: dto.valor,
         ativo: true,
         idEmpresa: dto.idEmpresa,
+        pessoaId: dto.pessoaId,
+        orcamentoTipoId: dto.orcamentoTipoId,
       },
     });
 
@@ -73,13 +75,15 @@ export class OrcamentoService {
       },
       data: {
         desconto: dto.desconto,
-        descontoTipo: dto.descontoTipo,
+        descontoTipo: dto.descontoTipo.toString(),
         descricao: dto.descricao,
         margem: dto.margem,
         nome: dto.nome,
         valor: dto.valor,
         ativo: true,
         idEmpresa: dto.idEmpresa,
+        pessoaId: dto.pessoaId,
+        orcamentoTipoId: dto.orcamentoTipoId,
       },
     });
 

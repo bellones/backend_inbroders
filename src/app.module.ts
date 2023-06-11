@@ -21,6 +21,10 @@ import { PessoaClassificacaoModule } from './pessoa-classificacao/pessoa-classif
 import { PessoaModule } from './pessoa/pessoa.module';
 import { OrcamentoTipoModule } from './orcamento-tipo/orcamento-tipo.module';
 import { OrcamentoModule } from './orcamento/orcamento.module';
+import { UnidadeModule } from './unidade/unidade.module';
+import { ServicoModule } from './servico/servico.module';
+import { ProdutoModule } from './produto/produto.module';
+import { ServicoModule } from './servico/servico.module';
 
 @Module({
   imports: [
@@ -45,6 +49,9 @@ import { OrcamentoModule } from './orcamento/orcamento.module';
     PessoaModule,
     OrcamentoTipoModule,
     OrcamentoModule,
+    UnidadeModule,
+    ServicoModule,
+    ProdutoModule,
   ],
   controllers: [],
   providers: [AppService],
