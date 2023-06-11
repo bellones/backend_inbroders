@@ -1,7 +1,10 @@
 export class CreateOrcamentoItemDto {
-  orcamentoId: string;
+  orcamentoCategoriaId: string;
+  produtoId: string;
   descricao: string;
+  unidadeMedidaId: string;
+  validade: string;
   quantidade: number;
-  valor: number;
-  unidade: string;
+  valorUn: number;
+  valorTotal: number;
 }

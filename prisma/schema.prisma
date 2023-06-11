@@ -368,7 +368,7 @@ model OrcamentoItem {
   descricao            String?
   unidade              UnidadeMedida?     @relation(fields: [unidadeMedidaId], references: [id])
   unidadeMedidaId      String?
-  quantidade           String
-  valorUn              String
-  valorTotal           String
+  quantidade           Decimal
+  valorUn              Decimal
+  valorTotal           Decimal
 }
