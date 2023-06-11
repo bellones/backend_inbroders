@@ -12,15 +12,18 @@ import { FinanceiroModule } from './financeiro/financeiro.module';
 import { FormaPagamentoModule } from './forma-pagamento/forma-pagamento.module';
 import { LancamentoModule } from './lancamento/lancamento.module';
 import { OcorrenciaModule } from './ocorrencia/ocorrencia.module';
-import { PermissaoModule } from './permissao/permissao.module';
-import { PrismaModule } from './prisma/prisma.module';
-import { TipoLancamentoModule } from './tipo-lancamento/tipo-lancamento.module';
-import { UserModule } from './user/user.module';
-import { PessoaTipoModule } from './pessoa-tipo/pessoa-tipo.module';
-import { PessoaClassificacaoModule } from './pessoa-classificacao/pessoa-classificacao.module';
-import { PessoaModule } from './pessoa/pessoa.module';
 import { OrcamentoTipoModule } from './orcamento-tipo/orcamento-tipo.module';
 import { OrcamentoModule } from './orcamento/orcamento.module';
+import { PermissaoModule } from './permissao/permissao.module';
+import { PessoaClassificacaoModule } from './pessoa-classificacao/pessoa-classificacao.module';
+import { PessoaTipoModule } from './pessoa-tipo/pessoa-tipo.module';
+import { PessoaModule } from './pessoa/pessoa.module';
+import { PrismaModule } from './prisma/prisma.module';
+import { ProdutoModule } from './produto/produto.module';
+import { ServicoModule } from './servico/servico.module';
+import { TipoLancamentoModule } from './tipo-lancamento/tipo-lancamento.module';
+import { UnidadeModule } from './unidade/unidade.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -45,6 +48,9 @@ import { OrcamentoModule } from './orcamento/orcamento.module';
     PessoaModule,
     OrcamentoTipoModule,
     OrcamentoModule,
+    UnidadeModule,
+    ServicoModule,
+    ProdutoModule,
   ],
   controllers: [],
   providers: [AppService],

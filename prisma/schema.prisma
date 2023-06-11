@@ -38,6 +38,9 @@ model Empresa {
   Pessoa              Pessoa[]
   OrcamentoTipo       OrcamentoTipo[]
   Orcamento           Orcamento[]
+  Servico             Servico[]
+  Produto             Produto[]
+  UnidadeMedida       UnidadeMedida[]
 }
 
 model Usuario {
@@ -122,7 +125,9 @@ model Pessoa {
   classificacaoId    String?
   empresa            Empresa          @relation(fields: [idEmpresa], references: [id])
   idEmpresa          String
-  orcamento          Orcamento[]
+  cliente            Orcamento[]      @relation("clientePessoa")
+  agencia            Orcamento[]      @relation("agenciaPessoa")
+  comissao           Orcamento[]      @relation("comissaoPessoa")
 }
 
 model ContatoTipo {
@@ -273,31 +278,97 @@ model OrcamentoTipo {
   Orcamento Orcamento[]
 }
 
+model UnidadeMedida {
+  id            String          @id @default(uuid())
+  empresa       Empresa         @relation(fields: [idEmpresa], references: [id])
+  idEmpresa     String
+  nome          String
+  ativo         Boolean         @default(true)
+  OrcamentoItem OrcamentoItem[]
+}
+
+model Servico {
+  id        String      @id @default(uuid())
+  empresa   Empresa     @relation(fields: [idEmpresa], references: [id])
+  idEmpresa String
+  nome      String
+  ativo     Boolean     @default(true)
+  Orcamento Orcamento[]
+}
+
+model Produto {
+  id            String          @id @default(uuid())
+  empresa       Empresa         @relation(fields: [idEmpresa], references: [id])
+  idEmpresa     String
+  nome          String
+  ativo         Boolean         @default(true)
+  OrcamentoItem OrcamentoItem[]
+}
+
 model Orcamento {
-  id              String          @id @default(uuid())
-  empresa         Empresa         @relation(fields: [idEmpresa], references: [id])
-  idEmpresa       String
-  OrcamentoTipo   OrcamentoTipo?  @relation(fields: [orcamentoTipoId], references: [id])
-  orcamentoTipoId String?
-  Pessoa          Pessoa?         @relation(fields: [pessoaId], references: [id])
-  pessoaId        String?
-  nome            String
-  descricao       String
-  valor           Decimal
-  margem          Decimal
-  desconto        Decimal
-  descontoTipo    String
-  data            DateTime        @default(now())
-  orcamentoItem   OrcamentoItem[]
-  ativo           Boolean         @default(true)
+  id                 Int                  @id @default(autoincrement())
+  empresa            Empresa              @relation(fields: [idEmpresa], references: [id])
+  idEmpresa          String
+  OrcamentoTipo      OrcamentoTipo?       @relation(fields: [orcamentoTipoId], references: [id])
+  orcamentoTipoId    String?
+  cliente            Pessoa?              @relation("clientePessoa", fields: [clientId], references: [id])
+  clientId           String?
+  contatoCliente     String?
+  comissionado       Pessoa?              @relation("comissaoPessoa", fields: [comissionadoId], references: [id])
+  comissionadoId     String?
+  agencia            Pessoa?              @relation("agenciaPessoa", fields: [agenciaId], references: [id])
+  agenciaId          String?
+  contatoAgencia     String?
+  servico            Servico?             @relation(fields: [servicoId], references: [id])
+  servicoId          String?
+  tipoTaxaProdutora  String?
+  taxaProdutora      Decimal?
+  tipoImposto        String?
+  imposto            Decimal?
+  bv                 Decimal?
+  comissao           Decimal?
+  desconto           Decimal?
+  acrescimo          Decimal?
+  data               DateTime
+  dataCriacao        DateTime             @default(now())
+  titulo             String?
+  status             String
+  descricao          String
+  condicaoPagamento  String?
+  tipoVeiculacao     String?
+  duracaoVeiculacao  String?
+  nomePeca           String?
+  duracao            String?
+  tipoFormato        String?
+  midiaVeiculos      String?
+  pracaVeiculacao    String?
+  periodo            String?
+  diaria             String?
+  validade           String?
+  copias             String?
+  produtores         String?
+  OrcamentoCategoria OrcamentoCategoria[]
+}
+
+model OrcamentoCategoria {
+  id            String          @id @default(uuid())
+  Orcamento     Orcamento?      @relation(fields: [orcamentoId], references: [id])
+  orcamentoId   Int?
+  OrcamentoItem OrcamentoItem[]
+  descricao     String
+  valor         Decimal
 }
 
 model OrcamentoItem {
-  id          String     @id @default(uuid())
-  Orcamento   Orcamento? @relation(fields: [orcamentoId], references: [id])
-  orcamentoId String?
-  descricao   String
-  quantidade  Decimal
-  valor       Decimal
-  unidade     String
+  id                   String             @id @default(uuid())
+  orcamentoCategoria   OrcamentoCategoria @relation(fields: [orcamentoCategoriaId], references: [id])
+  orcamentoCategoriaId String
+  produto              Produto            @relation(fields: [produtoId], references: [id])
+  produtoId            String
+  descricao            String?
+  unidade              UnidadeMedida?     @relation(fields: [unidadeMedidaId], references: [id])
+  unidadeMedidaId      String?
+  quantidade           Decimal
+  valorUn              Decimal
+  valorTotal           Decimal
 }
