@@ -9,7 +9,7 @@ export class ProdutoService {
   constructor(private prisma: PrismaService) {}
 
   async create(dto: CreateProdutoDto): Promise<boolean> {
-    const item = await this.prisma.servico.create({
+    const item = await this.prisma.produto.create({
       data: {
         nome: dto.nome,
         ativo: dto.ativo,
@@ -21,7 +21,7 @@ export class ProdutoService {
   }
 
   async findAll(idEmpresa: string): Promise<Produto[]> {
-    return await this.prisma.servico.findMany({
+    return await this.prisma.produto.findMany({
       where: {
         idEmpresa: idEmpresa,
         ativo: true,
@@ -30,7 +30,7 @@ export class ProdutoService {
   }
 
   async findOne(id: string): Promise<Produto> {
-    return await this.prisma.servico.findFirst({
+    return await this.prisma.produto.findFirst({
       where: {
         id: id,
       },
@@ -38,7 +38,7 @@ export class ProdutoService {
   }
 
   async update(id: string, dto: UpdateProdutoDto): Promise<boolean> {
-    const item = await this.prisma.servico.update({
+    const item = await this.prisma.produto.update({
       where: {
         id: id,
       },
@@ -51,7 +51,7 @@ export class ProdutoService {
   }
 
   async remove(id: string): Promise<boolean> {
-    const item = await this.prisma.servico.update({
+    const item = await this.prisma.produto.update({
       where: {
         id: id,
       },
