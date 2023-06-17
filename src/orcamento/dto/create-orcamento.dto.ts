@@ -3,8 +3,6 @@ import { IsString } from 'class-validator';
 export class CreateOrcamentoDto {
   @IsString()
   idEmpresa: string;
-  @IsString()
-  orcamentoTipoId: string;
   clientId: string;
   contatoCliente: string;
   comissionadoId: string;
