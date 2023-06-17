@@ -14,7 +14,6 @@ export class OrcamentoService {
     const item = await this.prisma.orcamento.create({
       data: {
         idEmpresa: dto.idEmpresa,
-        orcamentoTipoId: dto.orcamentoTipoId,
         clientId: dto.clientId,
         contatoCliente: dto.contatoCliente,
         comissionadoId: dto.comissionadoId,
@@ -81,7 +80,6 @@ export class OrcamentoService {
       },
       data: {
         idEmpresa: dto.idEmpresa,
-        orcamentoTipoId: dto.orcamentoTipoId,
         clientId: dto.clientId,
         contatoCliente: dto.contatoCliente,
         comissionadoId: dto.comissionadoId,
@@ -128,7 +126,6 @@ export class OrcamentoService {
         cliente: true,
         comissionado: true,
         OrcamentoCategoria: true,
-        OrcamentoTipo: true,
         servico: true,
       },
     });

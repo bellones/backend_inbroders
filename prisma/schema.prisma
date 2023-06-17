@@ -271,11 +271,10 @@ model Financeiro {
 }
 
 model OrcamentoTipo {
-  id        String      @id @default(uuid())
-  empresa   Empresa     @relation(fields: [idEmpresa], references: [id])
+  id        String  @id @default(uuid())
+  empresa   Empresa @relation(fields: [idEmpresa], references: [id])
   idEmpresa String
   nome      String
-  Orcamento Orcamento[]
 }
 
 model UnidadeMedida {
@@ -309,8 +308,6 @@ model Orcamento {
   id                 Int                  @id @default(autoincrement())
   empresa            Empresa              @relation(fields: [idEmpresa], references: [id])
   idEmpresa          String
-  OrcamentoTipo      OrcamentoTipo?       @relation(fields: [orcamentoTipoId], references: [id])
-  orcamentoTipoId    String?
   cliente            Pessoa?              @relation("clientePessoa", fields: [clientId], references: [id])
   clientId           String?
   contatoCliente     String?
