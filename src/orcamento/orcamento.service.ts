@@ -154,6 +154,7 @@ export class OrcamentoService {
       where: {
         classificacaoId: cliente.id,
         idEmpresa: id,
+        ativo: true,
       },
     });
   }
@@ -167,6 +168,7 @@ export class OrcamentoService {
     return await this.prisma.pessoa.findMany({
       where: {
         classificacaoId: agencia.id,
+        ativo: true,
       },
     });
   }
