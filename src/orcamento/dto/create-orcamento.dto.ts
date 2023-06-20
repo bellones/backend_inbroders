@@ -14,6 +14,7 @@ export class CreateOrcamentoDto {
   tipoImposto: string;
   imposto: number;
   bv: number;
+  comissaoTipo: string;
   comissao: number;
   desconto: number;
   acrescimo: number;

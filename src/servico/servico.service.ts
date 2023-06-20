@@ -8,7 +8,7 @@ import { UpdateServicoDto } from './dto/update-servico.dto';
 export class ServicoService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreateServicoDto): Promise<boolean> {
+  async create(dto: CreateServicoDto): Promise<Servico> {
     const item = await this.prisma.servico.create({
       data: {
         nome: dto.nome,
@@ -17,7 +17,7 @@ export class ServicoService {
       },
     });
 
-    return item !== null ? true : false;
+    return item;
   }
 
   async findAll(idEmpresa: string): Promise<Servico[]> {

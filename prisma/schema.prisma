@@ -323,6 +323,7 @@ model Orcamento {
   tipoImposto        String?
   imposto            Decimal?
   bv                 Decimal?
+  tipoComisao        String?
   comissao           Decimal?
   desconto           Decimal?
   acrescimo          Decimal?

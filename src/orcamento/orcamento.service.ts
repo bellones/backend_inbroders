@@ -25,6 +25,7 @@ export class OrcamentoService {
         tipoImposto: dto.tipoImposto,
         imposto: dto.imposto,
         bv: dto.bv,
+        tipoComisao: dto.comissaoTipo,
         comissao: dto.comissao,
         desconto: dto.desconto,
         acrescimo: dto.acrescimo,
@@ -92,6 +93,7 @@ export class OrcamentoService {
         imposto: dto.imposto,
         bv: dto.bv,
         comissao: dto.comissao,
+        tipoComisao: dto.comissaoTipo,
         desconto: dto.desconto,
         acrescimo: dto.acrescimo,
         data: dto.data,
@@ -154,6 +156,7 @@ export class OrcamentoService {
       where: {
         classificacaoId: cliente.id,
         idEmpresa: id,
+        ativo: true,
       },
     });
   }
@@ -167,6 +170,7 @@ export class OrcamentoService {
     return await this.prisma.pessoa.findMany({
       where: {
         classificacaoId: agencia.id,
+        ativo: true,
       },
     });
   }
