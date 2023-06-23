@@ -8,7 +8,9 @@ import {
   Post,
 } from '@nestjs/common';
 import { CreateOrcamentoCategoriaDto } from './dto/create-orcamento-categoria.dto';
+import { CreateOrcamentoentregavelDto } from './dto/create-orcamento-entregavel.dto';
 import { CreateOrcamentoItemDto } from './dto/create-orcamento-item.dto';
+import { CreateOrcamentoMidiasDto } from './dto/create-orcamento-midias.dto';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 import { OrcamentoService } from './orcamento.service';
@@ -30,6 +32,15 @@ export class OrcamentoController {
   @Post('/itens')
   createOrcamentoItens(@Body() dto: CreateOrcamentoItemDto) {
     return this.orcamentoService.createOrcamentoItens(dto);
+  }
+
+  @Post('/midias')
+  createOrcamentoMidias(@Body() dto: CreateOrcamentoMidiasDto) {
+    return this.orcamentoService.createMidias(dto);
+  }
+  @Post('/entregavel')
+  createOrcamentoEntregavel(@Body() dto: CreateOrcamentoentregavelDto) {
+    return this.orcamentoService.createEntregaveis(dto);
   }
 
   @Get('/list/:id')
@@ -74,5 +85,14 @@ export class OrcamentoController {
   @Delete('/itens/:id')
   removeItens(@Param('id') id: string) {
     return this.orcamentoService.removeItens(id);
+  }
+
+  @Delete('/midias/:id')
+  removeMidias(@Param('id') id: number) {
+    return this.orcamentoService.removeMidias(id);
+  }
+  @Delete('/entregavel/:id')
+  removeEntregavel(@Param('id') id: number) {
+    return this.orcamentoService.removeEntregaveis(id);
   }
 }

@@ -7,4 +7,5 @@ export class CreateProdutoDto {
   nome: string;
   @IsBoolean()
   ativo: boolean;
+  diasPgto: string;
 }

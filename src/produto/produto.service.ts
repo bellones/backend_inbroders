@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Produto } from '@prisma/client';
+import { Produto, ProdutoUnidade } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateProdutoUnidadeDto } from './dto/create-produto-itens.dto';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 
@@ -8,15 +9,28 @@ import { UpdateProdutoDto } from './dto/update-produto.dto';
 export class ProdutoService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreateProdutoDto): Promise<boolean> {
+  async create(dto: CreateProdutoDto): Promise<string> {
     const item = await this.prisma.produto.create({
       data: {
         nome: dto.nome,
         ativo: dto.ativo,
         idEmpresa: dto.idEmpresa,
+        diasPgto: dto.diasPgto,
       },
     });
 
+    return item.id;
+  }
+  async createItens(dto: CreateProdutoUnidadeDto): Promise<boolean> {
+    const item = await this.prisma.produtoUnidade.create({
+      data: {
+        valorMax: dto.valorMax,
+        valorMin: dto.valorMin,
+        idEmpresa: dto.idEmpresa,
+        produtoId: dto.idProduto,
+        unidadeMedidaId: dto.unidadeMedidaId,
+      },
+    });
     return item !== null ? true : false;
   }
 
@@ -25,6 +39,17 @@ export class ProdutoService {
       where: {
         idEmpresa: idEmpresa,
         ativo: true,
+      },
+      include: {
+        ProdutoUnidade: true,
+      },
+    });
+  }
+
+  async findItens(idProduto: string): Promise<ProdutoUnidade[]> {
+    return this.prisma.produtoUnidade.findMany({
+      where: {
+        produtoId: idProduto,
       },
     });
   }
@@ -44,6 +69,7 @@ export class ProdutoService {
       },
       data: {
         nome: dto.nome,
+        diasPgto: dto.diasPgto,
       },
     });
 
@@ -60,6 +86,14 @@ export class ProdutoService {
       },
     });
 
+    return item !== null ? true : false;
+  }
+  async removeItens(id: string): Promise<boolean> {
+    const item = await this.prisma.produtoUnidade.deleteMany({
+      where: {
+        produtoId: id,
+      },
+    });
     return item !== null ? true : false;
   }
 }
