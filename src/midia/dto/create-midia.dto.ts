@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator';
 
-export class CreateOrcamentoTipoDto {
+export class CreateMidiaDto {
   @IsString()
   idEmpresa: string;
   @IsString()

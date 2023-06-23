@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { Orcamento, OrcamentoItem, Pessoa } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateOrcamentoCategoriaDto } from './dto/create-orcamento-categoria.dto';
+import { CreateOrcamentoentregavelDto } from './dto/create-orcamento-entregavel.dto';
 import { CreateOrcamentoItemDto } from './dto/create-orcamento-item.dto';
+import { CreateOrcamentoMidiasDto } from './dto/create-orcamento-midias.dto';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 
@@ -14,44 +16,34 @@ export class OrcamentoService {
     const item = await this.prisma.orcamento.create({
       data: {
         idEmpresa: dto.idEmpresa,
-        clientId: dto.clientId,
-        contatoCliente: dto.contatoCliente,
-        comissionadoId: dto.comissionadoId,
-        agenciaId: dto.agenciaId,
-        contatoAgencia: dto.contatoAgencia,
-        servicoId: dto.servicoId,
-        tipoTaxaProdutora: dto.tipoTaxaProdutora,
-        taxaProdutora: dto.taxaProdutora,
-        tipoImposto: dto.tipoImposto,
-        imposto: dto.imposto,
-        bv: dto.bv,
-        tipoComisao: dto.comissaoTipo,
-        comissao: dto.comissao,
-        desconto: dto.desconto,
         acrescimo: dto.acrescimo,
+        comissao: dto.comissao,
+        contatoAgencia: dto.contatoAgencia,
+        contatoAgenciaEmail: dto.contatoAgenciaEmail,
+        contatoAgenciaTelefone: dto.contatoAgenciaTelefone,
+        contatoCliente: dto.contatoCliente,
+        contatoClienteEmail: dto.contatoClienteEmail,
+        contatoClienteTelefone: dto.contatoClienteTelefone,
         data: dto.data,
-        titulo: dto.titulo,
+        diarias: dto.diarias,
+        nome: dto.nome,
+        notas: dto.notas,
+        periodoVeiculacao: dto.periodoVeiculacao,
+        showAgencia: dto.showAgencia,
         status: dto.status,
-        descricao: dto.descricao,
-        condicaoPagamento: dto.condicaoPagamento,
-        tipoVeiculacao: dto.tipoVeiculacao,
-        duracaoVeiculacao: dto.duracaoVeiculacao,
-        nomePeca: dto.nomePeca,
-        duracao: dto.duracao,
-        tipoFormato: dto.tipoFormato,
-        midiaVeiculos: dto.midiaVeiculos,
-        pracaVeiculacao: dto.pracaVeiculacao,
-        periodo: dto.periodo,
-        diaria: dto.diaria,
         validade: dto.validade,
-        copias: dto.copias,
-        produtores: dto.produtores,
+        versao: dto.versao,
+        agenciaId: dto.agenciaId,
+        clientId: dto.clientId,
+        empresaSaiadaId: dto.empresaSaiadaId,
+        condicaoPagamentoId: dto.condicaoPagamentoId,
+        modeloNegocioId: dto.modeloNegocioId,
+        usuarioId: dto.usuarioId,
       },
     });
 
     return item.id;
   }
-
   async createCategory(dto: CreateOrcamentoCategoriaDto): Promise<boolean> {
     const item = await this.prisma.orcamentoCategoria.create({
       data: dto,
@@ -74,6 +66,25 @@ export class OrcamentoService {
 
     return item !== null ? true : false;
   }
+  async createMidias(dto: CreateOrcamentoMidiasDto): Promise<boolean> {
+    const item = await this.prisma.orcamentoMidias.create({
+      data: {
+        midiasId: dto.midiasId,
+        orcamentoId: dto.orcamentoId,
+      },
+    });
+    return item !== null ? true : false;
+  }
+  async createEntregaveis(dto: CreateOrcamentoentregavelDto): Promise<boolean> {
+    const item = await this.prisma.entregavelItens.create({
+      data: {
+        entregavelId: dto.entregavelId,
+        orcamentoId: dto.orcamentoId,
+        quantidade: dto.quantidade,
+      },
+    });
+    return item !== null ? true : false;
+  }
   async update(id: number, dto: UpdateOrcamentoDto): Promise<boolean> {
     const item = await this.prisma.orcamento.update({
       where: {
@@ -81,38 +92,29 @@ export class OrcamentoService {
       },
       data: {
         idEmpresa: dto.idEmpresa,
-        clientId: dto.clientId,
-        contatoCliente: dto.contatoCliente,
-        comissionadoId: dto.comissionadoId,
-        agenciaId: dto.agenciaId,
-        contatoAgencia: dto.contatoAgencia,
-        servicoId: dto.servicoId,
-        tipoTaxaProdutora: dto.tipoTaxaProdutora,
-        taxaProdutora: dto.taxaProdutora,
-        tipoImposto: dto.tipoImposto,
-        imposto: dto.imposto,
-        bv: dto.bv,
-        comissao: dto.comissao,
-        tipoComisao: dto.comissaoTipo,
-        desconto: dto.desconto,
         acrescimo: dto.acrescimo,
+        comissao: dto.comissao,
+        contatoAgencia: dto.contatoAgencia,
+        contatoAgenciaEmail: dto.contatoAgenciaEmail,
+        contatoAgenciaTelefone: dto.contatoAgenciaTelefone,
+        contatoCliente: dto.contatoCliente,
+        contatoClienteEmail: dto.contatoClienteEmail,
+        contatoClienteTelefone: dto.contatoClienteTelefone,
         data: dto.data,
-        titulo: dto.titulo,
+        diarias: dto.diarias,
+        nome: dto.nome,
+        notas: dto.notas,
+        periodoVeiculacao: dto.periodoVeiculacao,
+        showAgencia: dto.showAgencia,
         status: dto.status,
-        descricao: dto.descricao,
-        condicaoPagamento: dto.condicaoPagamento,
-        tipoVeiculacao: dto.tipoVeiculacao,
-        duracaoVeiculacao: dto.duracaoVeiculacao,
-        nomePeca: dto.nomePeca,
-        duracao: dto.duracao,
-        tipoFormato: dto.tipoFormato,
-        midiaVeiculos: dto.midiaVeiculos,
-        pracaVeiculacao: dto.pracaVeiculacao,
-        periodo: dto.periodo,
-        diaria: dto.diaria,
         validade: dto.validade,
-        copias: dto.copias,
-        produtores: dto.produtores,
+        versao: dto.versao,
+        agenciaId: dto.agenciaId,
+        clientId: dto.clientId,
+        empresaSaiadaId: dto.empresaSaiadaId,
+        condicaoPagamentoId: dto.condicaoPagamentoId,
+        modeloNegocioId: dto.modeloNegocioId,
+        usuarioId: dto.usuarioId,
       },
     });
 
@@ -126,9 +128,13 @@ export class OrcamentoService {
       include: {
         agencia: true,
         cliente: true,
-        comissionado: true,
         OrcamentoCategoria: true,
-        servico: true,
+        condicaoPagamento: true,
+        empresaSaida: true,
+        EntregavelItens: true,
+        modeloNegocio: true,
+        OrcamentoMidias: true,
+        Usuario: true,
       },
     });
   }
@@ -174,7 +180,6 @@ export class OrcamentoService {
       },
     });
   }
-
   async remove(id: number): Promise<boolean> {
     const item = await this.prisma.orcamento.delete({
       where: {
@@ -195,6 +200,22 @@ export class OrcamentoService {
     const item = await this.prisma.orcamentoItem.deleteMany({
       where: {
         orcamentoCategoriaId: id,
+      },
+    });
+    return item !== null ? true : false;
+  }
+  async removeEntregaveis(id: number): Promise<boolean> {
+    const item = await this.prisma.entregavelItens.deleteMany({
+      where: {
+        orcamentoId: id,
+      },
+    });
+    return item !== null ? true : false;
+  }
+  async removeMidias(id: number): Promise<boolean> {
+    const item = await this.prisma.orcamentoMidias.deleteMany({
+      where: {
+        orcamentoId: id,
       },
     });
     return item !== null ? true : false;

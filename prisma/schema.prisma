@@ -36,11 +36,14 @@ model Empresa {
   Tipo                Tipo[]
   Classificacao       Classificacao[]
   Pessoa              Pessoa[]
-  OrcamentoTipo       OrcamentoTipo[]
-  Orcamento           Orcamento[]
-  Servico             Servico[]
   Produto             Produto[]
   UnidadeMedida       UnidadeMedida[]
+  ProdutoUnidade      ProdutoUnidade[]
+  ModeloNegocio       ModeloNegocio[]
+  Orcamento           Orcamento[]
+  Midias              Midias[]
+  Entregavel          Entregavel[]
+  CondicaoPagamento   CondicaoPagamento[]
 }
 
 model Usuario {
@@ -52,6 +55,7 @@ model Usuario {
   idEmpresa String
   ativo     Boolean     @default(true)
   Permissao Permissao[]
+  Orcamento Orcamento[]
 }
 
 model MatrizFilial {
@@ -125,9 +129,9 @@ model Pessoa {
   classificacaoId    String?
   empresa            Empresa          @relation(fields: [idEmpresa], references: [id])
   idEmpresa          String
+  empresaSaida       Orcamento[]      @relation("empresaSaida")
   cliente            Orcamento[]      @relation("clientePessoa")
   agencia            Orcamento[]      @relation("agenciaPessoa")
-  comissao           Orcamento[]      @relation("comissaoPessoa")
 }
 
 model ContatoTipo {
@@ -270,82 +274,122 @@ model Financeiro {
   dataPagamento         String
 }
 
-model OrcamentoTipo {
-  id        String  @id @default(uuid())
-  empresa   Empresa @relation(fields: [idEmpresa], references: [id])
-  idEmpresa String
-  nome      String
-}
-
 model UnidadeMedida {
-  id            String          @id @default(uuid())
-  empresa       Empresa         @relation(fields: [idEmpresa], references: [id])
-  idEmpresa     String
-  nome          String
-  ativo         Boolean         @default(true)
-  OrcamentoItem OrcamentoItem[]
+  id             String           @id @default(uuid())
+  empresa        Empresa          @relation(fields: [idEmpresa], references: [id])
+  idEmpresa      String
+  nome           String
+  ativo          Boolean          @default(true)
+  ProdutoUnidade ProdutoUnidade[]
+  OrcamentoItem  OrcamentoItem[]
 }
 
-model Servico {
+model Produto {
+  id             String           @id @default(uuid())
+  empresa        Empresa          @relation(fields: [idEmpresa], references: [id])
+  idEmpresa      String
+  nome           String
+  diasPgto       String
+  ativo          Boolean          @default(true)
+  ProdutoUnidade ProdutoUnidade[]
+  OrcamentoItem  OrcamentoItem[]
+}
+
+model ProdutoUnidade {
+  id              String        @id @default(uuid())
+  empresa         Empresa       @relation(fields: [idEmpresa], references: [id])
+  idEmpresa       String
+  unidade         UnidadeMedida @relation(fields: [unidadeMedidaId], references: [id])
+  unidadeMedidaId String
+  produto         Produto       @relation(fields: [produtoId], references: [id])
+  produtoId       String
+  valorMin        Decimal
+  valorMax        Decimal
+}
+
+model ModeloNegocio {
+  id              String      @id @default(uuid())
+  empresa         Empresa     @relation(fields: [idEmpresa], references: [id])
+  idEmpresa       String
+  nome            String
+  dataCriacao     DateTime    @default(now())
+  validade        DateTime
+  descricao       String
+  metaFaturamento Decimal
+  metaLucro       Decimal
+  custoFixo       Decimal
+  custoVenda      Decimal
+  imposto         Decimal
+  desconto        Decimal
+  Orcamento       Orcamento[]
+}
+
+model CondicaoPagamento {
   id        String      @id @default(uuid())
   empresa   Empresa     @relation(fields: [idEmpresa], references: [id])
   idEmpresa String
   nome      String
-  ativo     Boolean     @default(true)
+  condicao  String
+  variacao  Decimal
+  divisor   Decimal
   Orcamento Orcamento[]
 }
 
-model Produto {
-  id            String          @id @default(uuid())
-  empresa       Empresa         @relation(fields: [idEmpresa], references: [id])
-  idEmpresa     String
-  nome          String
-  ativo         Boolean         @default(true)
-  OrcamentoItem OrcamentoItem[]
+model Midias {
+  id              String            @id @default(uuid())
+  empresa         Empresa           @relation(fields: [idEmpresa], references: [id])
+  idEmpresa       String
+  nome            String
+  ativo           Boolean           @default(true)
+  OrcamentoMidias OrcamentoMidias[]
+}
+
+model Entregavel {
+  id              String            @id @default(uuid())
+  empresa         Empresa           @relation(fields: [idEmpresa], references: [id])
+  idEmpresa       String
+  nome            String
+  ativo           Boolean           @default(true)
+  EntregavelItens EntregavelItens[]
 }
 
 model Orcamento {
-  id                 Int                  @id @default(autoincrement())
-  empresa            Empresa              @relation(fields: [idEmpresa], references: [id])
-  idEmpresa          String
-  cliente            Pessoa?              @relation("clientePessoa", fields: [clientId], references: [id])
-  clientId           String?
-  contatoCliente     String?
-  comissionado       Pessoa?              @relation("comissaoPessoa", fields: [comissionadoId], references: [id])
-  comissionadoId     String?
-  agencia            Pessoa?              @relation("agenciaPessoa", fields: [agenciaId], references: [id])
-  agenciaId          String?
-  contatoAgencia     String?
-  servico            Servico?             @relation(fields: [servicoId], references: [id])
-  servicoId          String?
-  tipoTaxaProdutora  String?
-  taxaProdutora      Decimal?
-  tipoImposto        String?
-  imposto            Decimal?
-  bv                 Decimal?
-  tipoComisao        String?
-  comissao           Decimal?
-  desconto           Decimal?
-  acrescimo          Decimal?
-  data               DateTime
-  dataCriacao        DateTime             @default(now())
-  titulo             String?
-  status             String
-  descricao          String
-  condicaoPagamento  String?
-  tipoVeiculacao     String?
-  duracaoVeiculacao  String?
-  nomePeca           String?
-  duracao            String?
-  tipoFormato        String?
-  midiaVeiculos      String?
-  pracaVeiculacao    String?
-  periodo            String?
-  diaria             String?
-  validade           String?
-  copias             String?
-  produtores         String?
-  OrcamentoCategoria OrcamentoCategoria[]
+  id                     Int                  @id @default(autoincrement())
+  empresa                Empresa              @relation(fields: [idEmpresa], references: [id])
+  idEmpresa              String
+  versao                 Int
+  dataCriacao            DateTime             @default(now())
+  data                   DateTime
+  empresaSaida           Pessoa?              @relation("empresaSaida", fields: [empresaSaiadaId], references: [id])
+  empresaSaiadaId        String?
+  cliente                Pessoa?              @relation("clientePessoa", fields: [clientId], references: [id])
+  clientId               String?
+  nome                   String
+  status                 String
+  notas                  String
+  contatoCliente         String
+  contatoClienteTelefone String
+  contatoClienteEmail    String
+  agencia                Pessoa?              @relation("agenciaPessoa", fields: [agenciaId], references: [id])
+  agenciaId              String?
+  showAgencia            Boolean
+  contatoAgencia         String
+  contatoAgenciaTelefone String
+  contatoAgenciaEmail    String
+  condicaoPagamento      CondicaoPagamento    @relation(fields: [condicaoPagamentoId], references: [id])
+  condicaoPagamentoId    String
+  diarias                String
+  validade               DateTime
+  periodoVeiculacao      String
+  OrcamentoMidias        OrcamentoMidias[]
+  EntregavelItens        EntregavelItens[]
+  Usuario                Usuario?             @relation(fields: [usuarioId], references: [id])
+  usuarioId              String?
+  modeloNegocio          ModeloNegocio?       @relation(fields: [modeloNegocioId], references: [id])
+  modeloNegocioId        String?
+  OrcamentoCategoria     OrcamentoCategoria[]
+  acrescimo              Decimal
+  comissao               Decimal
 }
 
 model OrcamentoCategoria {
@@ -369,4 +413,21 @@ model OrcamentoItem {
   quantidade           Decimal
   valorUn              Decimal
   valorTotal           Decimal
+}
+
+model OrcamentoMidias {
+  id          String     @id @default(uuid())
+  orcamento   Orcamento? @relation(fields: [orcamentoId], references: [id])
+  orcamentoId Int?
+  midias      Midias     @relation(fields: [midiasId], references: [id])
+  midiasId    String
+}
+
+model EntregavelItens {
+  id           String     @id @default(uuid())
+  entregavel   Entregavel @relation(fields: [entregavelId], references: [id])
+  entregavelId String
+  Orcamento    Orcamento  @relation(fields: [orcamentoId], references: [id])
+  orcamentoId  Int
+  quantidade   Int
 }
