@@ -15,7 +15,6 @@ export class ProdutoService {
         nome: dto.nome,
         ativo: dto.ativo,
         idEmpresa: dto.idEmpresa,
-        diasPgto: dto.diasPgto,
       },
     });
 
@@ -26,9 +25,9 @@ export class ProdutoService {
       data: {
         valorMax: dto.valorMax,
         valorMin: dto.valorMin,
-        idEmpresa: dto.idEmpresa,
         produtoId: dto.idProduto,
         unidadeMedidaId: dto.unidadeMedidaId,
+        diasPgto: dto.diasPgto,
       },
     });
     return item !== null ? true : false;
@@ -69,7 +68,6 @@ export class ProdutoService {
       },
       data: {
         nome: dto.nome,
-        diasPgto: dto.diasPgto,
       },
     });
 

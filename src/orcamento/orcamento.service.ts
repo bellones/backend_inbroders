@@ -164,6 +164,9 @@ export class OrcamentoService {
         idEmpresa: id,
         ativo: true,
       },
+      include: {
+        Contato: true,
+      },
     });
   }
   async findAgency(id: string): Promise<Pessoa[]> {
@@ -177,6 +180,9 @@ export class OrcamentoService {
       where: {
         classificacaoId: agencia.id,
         ativo: true,
+      },
+      include: {
+        Contato: true,
       },
     });
   }
