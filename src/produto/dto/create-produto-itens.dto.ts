@@ -1,9 +1,6 @@
 import { IsString } from 'class-validator';
 
 export class CreateProdutoUnidadeDto {
-  @IsString()
-  idEmpresa: string;
-  @IsString()
   nome: string;
   @IsString()
   idProduto: string;
@@ -11,4 +8,6 @@ export class CreateProdutoUnidadeDto {
   valorMax: number;
   @IsString()
   unidadeMedidaId: string;
+  diasPgto: string;
+  descricao: string;
 }

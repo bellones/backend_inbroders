@@ -289,7 +289,6 @@ model Produto {
   empresa        Empresa          @relation(fields: [idEmpresa], references: [id])
   idEmpresa      String
   nome           String
-  diasPgto       String
   ativo          Boolean          @default(true)
   ProdutoUnidade ProdutoUnidade[]
   OrcamentoItem  OrcamentoItem[]
@@ -297,14 +296,15 @@ model Produto {
 
 model ProdutoUnidade {
   id              String        @id @default(uuid())
-  empresa         Empresa       @relation(fields: [idEmpresa], references: [id])
-  idEmpresa       String
   unidade         UnidadeMedida @relation(fields: [unidadeMedidaId], references: [id])
   unidadeMedidaId String
   produto         Produto       @relation(fields: [produtoId], references: [id])
+  diasPgto        String
   produtoId       String
   valorMin        Decimal
   valorMax        Decimal
+  Empresa         Empresa?      @relation(fields: [empresaId], references: [id])
+  empresaId       String?
 }
 
 model ModeloNegocio {
