@@ -28,6 +28,7 @@ export class ProdutoService {
         produtoId: dto.idProduto,
         unidadeMedidaId: dto.unidadeMedidaId,
         diasPgto: dto.diasPgto,
+        principal: dto.principal,
       },
     });
     return item !== null ? true : false;
