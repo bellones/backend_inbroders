@@ -186,6 +186,20 @@ export class OrcamentoService {
       },
     });
   }
+  async findFilial(id: string): Promise<Pessoa[]> {
+    const agencia = await this.prisma.classificacao.findFirst({
+      where: {
+        nome: 'Filial',
+        idEmpresa: id,
+      },
+    });
+    return await this.prisma.pessoa.findMany({
+      where: {
+        classificacaoId: agencia.id,
+        ativo: true,
+      },
+    });
+  }
   async remove(id: number): Promise<boolean> {
     const item = await this.prisma.orcamento.delete({
       where: {

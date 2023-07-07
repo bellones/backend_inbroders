@@ -57,6 +57,11 @@ export class OrcamentoController {
     return this.orcamentoService.findClients(id);
   }
 
+  @Get('/filial/:id')
+  findFilial(@Param('id') id: string) {
+    return this.orcamentoService.findFilial(id);
+  }
+
   @Get('/agency/:id')
   findAgency(@Param('id') id: string) {
     return this.orcamentoService.findAgency(id);

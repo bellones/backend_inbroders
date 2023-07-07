@@ -38,7 +38,6 @@ model Empresa {
   Pessoa              Pessoa[]
   Produto             Produto[]
   UnidadeMedida       UnidadeMedida[]
-  ProdutoUnidade      ProdutoUnidade[]
   ModeloNegocio       ModeloNegocio[]
   Orcamento           Orcamento[]
   Midias              Midias[]
@@ -303,8 +302,7 @@ model ProdutoUnidade {
   produtoId       String
   valorMin        Decimal
   valorMax        Decimal
-  Empresa         Empresa?      @relation(fields: [empresaId], references: [id])
-  empresaId       String?
+  principal       Boolean       @default(false)
 }
 
 model ModeloNegocio {

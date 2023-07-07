@@ -19,7 +19,7 @@ export class ModeloNegocioService {
         descricao: dto.descricao,
         imposto: dto.imposto,
         metaFaturamento: dto.metaFaturamento,
-        metaLucro: dto.metaFaturamento,
+        metaLucro: dto.metaLucro,
         validade: dto.validade,
       },
     });
@@ -57,7 +57,7 @@ export class ModeloNegocioService {
         descricao: dto.descricao,
         imposto: dto.imposto,
         metaFaturamento: dto.metaFaturamento,
-        metaLucro: dto.metaFaturamento,
+        metaLucro: dto.metaLucro,
         validade: dto.validade,
       },
     });

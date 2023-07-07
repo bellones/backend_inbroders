@@ -10,4 +10,5 @@ export class CreateProdutoUnidadeDto {
   unidadeMedidaId: string;
   diasPgto: string;
   descricao: string;
+  principal: boolean;
 }
