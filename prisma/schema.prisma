@@ -131,25 +131,28 @@ model Pessoa {
   empresaSaida       Orcamento[]      @relation("empresaSaida")
   cliente            Orcamento[]      @relation("clientePessoa")
   agencia            Orcamento[]      @relation("agenciaPessoa")
+  pessoaId           String?
+  Filial             Pessoa?          @relation("Filial", fields: [pessoaId], references: [id])
+  Pessoa             Pessoa[]         @relation("Filial")
 }
 
 model ContatoTipo {
-  id        String    @id @default(uuid())
+  id        String  @id @default(uuid())
   nome      String
-  empresa   Empresa   @relation(fields: [idEmpresa], references: [id])
+  empresa   Empresa @relation(fields: [idEmpresa], references: [id])
   idEmpresa String
-  Contato   Contato[]
 }
 
 model Contato {
-  id            String       @id @default(uuid())
-  pessoa        Pessoa       @relation(fields: [idPessoa], references: [id])
-  idPessoa      String
-  titulo        String
-  descricao     String
-  ativo         Boolean?     @default(true)
-  ContatoTipo   ContatoTipo? @relation(fields: [contatoTipoId], references: [id])
-  contatoTipoId String?
+  id        String   @id @default(uuid())
+  pessoa    Pessoa   @relation(fields: [idPessoa], references: [id])
+  idPessoa  String
+  nome      String   @default("")
+  cargo     String   @default("")
+  telefone  String   @default("")
+  email     String   @default("")
+  principal Boolean  @default(false)
+  ativo     Boolean? @default(true)
 }
 
 model EnderecoPessoa {

@@ -20,6 +20,7 @@ export class PessoaService {
         nomeFantasia: dto.nomeFantasia,
         razaoSocial: dto.razaoSocial,
         idEmpresa: dto.idEmpresa,
+        pessoaId: dto.pessoaId,
       },
     });
     return item;

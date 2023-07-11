@@ -3,11 +3,10 @@ import { IsString } from 'class-validator';
 export class CreateContatoDto {
   @IsString()
   idPessoa: string;
-  @IsString()
-  idTipo: string;
-  @IsString()
-  descricao: string;
-  @IsString()
-  titulo: string;
+  nome: string;
+  cargo: string;
+  telefone: string;
+  email: string;
+  principal: boolean;
   ativo: boolean;
 }

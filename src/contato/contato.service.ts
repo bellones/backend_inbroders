@@ -26,37 +26,37 @@ export class ContatoService {
     return contato;
   }
   async createContato(dto: CreateContatoDto): Promise<boolean> {
-    let response;
-    const newEnd = await this.prisma.contato.create({
+    const item = await this.prisma.contato.create({
       data: {
-        descricao: dto.descricao,
-        idPessoa: dto.idPessoa,
         ativo: true,
-        titulo: dto.titulo,
-        contatoTipoId: dto.idTipo,
+        cargo: dto.cargo,
+        email: dto.email,
+        idPessoa: dto.idPessoa,
+        nome: dto.nome,
+        principal: dto.principal,
+        telefone: dto.telefone,
       },
     });
-    newEnd !== null ? (response = true) : (response = false);
-    return response;
+    return item != null ? true : false;
   }
   async updateContato(dto: UpdateContatoDto): Promise<boolean> {
-    let response;
-    const update = await this.prisma.contato.update({
+    const item = await this.prisma.contato.update({
       where: {
         id: dto.id,
       },
       data: {
-        descricao: dto.descricao,
-        titulo: dto.titulo,
-        contatoTipoId: dto.idTipo,
+        cargo: dto.cargo,
+        email: dto.email,
+        idPessoa: dto.idPessoa,
+        nome: dto.nome,
+        principal: dto.principal,
+        telefone: dto.telefone,
       },
     });
-    update !== null ? (response = true) : (response = false);
-    return response;
+    return item != null ? true : false;
   }
   async deleteContato(id: string): Promise<boolean> {
-    let response;
-    const remove = await this.prisma.contato.update({
+    const item = await this.prisma.contato.update({
       where: {
         id: id,
       },
@@ -64,8 +64,6 @@ export class ContatoService {
         ativo: false,
       },
     });
-
-    remove !== null ? (response = true) : (response = false);
-    return response;
+    return item != null ? true : false;
   }
 }

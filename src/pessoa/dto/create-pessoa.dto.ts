@@ -15,4 +15,5 @@ export class CreatePessoaDto {
   inscricaoMunicipal?: string;
   inscricaoEstadual?: string;
   contribuinte?: string;
+  pessoaId?: string;
 }
