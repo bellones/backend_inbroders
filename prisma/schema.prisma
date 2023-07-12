@@ -43,6 +43,7 @@ model Empresa {
   Midias              Midias[]
   Entregavel          Entregavel[]
   CondicaoPagamento   CondicaoPagamento[]
+  NotasRodape         NotasRodape[]
 }
 
 model Usuario {
@@ -431,4 +432,12 @@ model EntregavelItens {
   Orcamento    Orcamento  @relation(fields: [orcamentoId], references: [id])
   orcamentoId  Int
   quantidade   Int
+}
+
+model NotasRodape {
+  id        String  @id @default(uuid())
+  nome      String
+  descricao String
+  empresa   Empresa @relation(fields: [idEmpresa], references: [id])
+  idEmpresa String
 }

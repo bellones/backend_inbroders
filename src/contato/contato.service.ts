@@ -25,7 +25,7 @@ export class ContatoService {
     });
     return contato;
   }
-  async createContato(dto: CreateContatoDto): Promise<boolean> {
+  async createContato(dto: CreateContatoDto): Promise<Contato> {
     const item = await this.prisma.contato.create({
       data: {
         ativo: true,
@@ -37,7 +37,7 @@ export class ContatoService {
         telefone: dto.telefone,
       },
     });
-    return item != null ? true : false;
+    return item;
   }
   async updateContato(dto: UpdateContatoDto): Promise<boolean> {
     const item = await this.prisma.contato.update({
@@ -56,12 +56,9 @@ export class ContatoService {
     return item != null ? true : false;
   }
   async deleteContato(id: string): Promise<boolean> {
-    const item = await this.prisma.contato.update({
+    const item = await this.prisma.contato.delete({
       where: {
         id: id,
-      },
-      data: {
-        ativo: false,
       },
     });
     return item != null ? true : false;

@@ -26,6 +26,7 @@ import { ProdutoModule } from './produto/produto.module';
 import { TipoLancamentoModule } from './tipo-lancamento/tipo-lancamento.module';
 import { UnidadeModule } from './unidade/unidade.module';
 import { UserModule } from './user/user.module';
+import { NotaRodapeModule } from './nota-rodape/nota-rodape.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { UserModule } from './user/user.module';
     CondicaoPagamentoModule,
     MidiaModule,
     EntregavelModule,
+    NotaRodapeModule,
   ],
   controllers: [],
   providers: [AppService],
