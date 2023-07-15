@@ -44,6 +44,7 @@ model Empresa {
   Entregavel          Entregavel[]
   CondicaoPagamento   CondicaoPagamento[]
   NotasRodape         NotasRodape[]
+  PessoaFilial        PessoaFilial[]
 }
 
 model Usuario {
@@ -132,9 +133,18 @@ model Pessoa {
   empresaSaida       Orcamento[]      @relation("empresaSaida")
   cliente            Orcamento[]      @relation("clientePessoa")
   agencia            Orcamento[]      @relation("agenciaPessoa")
-  pessoaId           String?
-  Filial             Pessoa?          @relation("Filial", fields: [pessoaId], references: [id])
-  Pessoa             Pessoa[]         @relation("Filial")
+  PessoaFilial       PessoaFilial[]   @relation("filialPessoal")
+  clienteAgencia     PessoaFilial[]   @relation("agenciaClienteFilial")
+}
+
+model PessoaFilial {
+  id             String  @id @default(uuid())
+  idFilial       String
+  filial         Pessoa? @relation("filialPessoal", fields: [idFilial], references: [id])
+  idPessoa       String
+  clienteAgencia Pessoa? @relation("agenciaClienteFilial", fields: [idPessoa], references: [id])
+  idEmpresa      String
+  empresa        Empresa @relation(fields: [idEmpresa], references: [id])
 }
 
 model ContatoTipo {
@@ -392,6 +402,8 @@ model Orcamento {
   OrcamentoCategoria     OrcamentoCategoria[]
   acrescimo              Decimal
   comissao               Decimal
+  notaRodape             NotasRodape?         @relation(fields: [notaRodapeId], references: [id])
+  notaRodapeId           String?
 }
 
 model OrcamentoCategoria {
@@ -435,9 +447,10 @@ model EntregavelItens {
 }
 
 model NotasRodape {
-  id        String  @id @default(uuid())
+  id        String      @id @default(uuid())
   nome      String
   descricao String
-  empresa   Empresa @relation(fields: [idEmpresa], references: [id])
+  empresa   Empresa     @relation(fields: [idEmpresa], references: [id])
   idEmpresa String
+  Orcamento Orcamento[]
 }

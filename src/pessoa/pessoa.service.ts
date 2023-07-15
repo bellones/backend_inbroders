@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Pessoa } from '@prisma/client';
+import { Pessoa, PessoaFilial } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreatePessoaFilialDto } from './dto/create-pessoa-filial.dto';
 import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 
@@ -20,7 +21,6 @@ export class PessoaService {
         nomeFantasia: dto.nomeFantasia,
         razaoSocial: dto.razaoSocial,
         idEmpresa: dto.idEmpresa,
-        pessoaId: dto.pessoaId,
       },
     });
     return item;
@@ -86,6 +86,35 @@ export class PessoaService {
       },
     });
 
+    return item !== null ? true : false;
+  }
+
+  async createFilialPessoa(dto: CreatePessoaFilialDto): Promise<boolean> {
+    const item = await this.prisma.pessoaFilial.create({
+      data: {
+        idEmpresa: dto.idEmpresa,
+        idFilial: dto.idFilial,
+        idPessoa: dto.idPessoa,
+      },
+    });
+
+    return item !== null ? true : false;
+  }
+
+  async listFilialPessoa(id: string): Promise<PessoaFilial[]> {
+    return await this.prisma.pessoaFilial.findMany({
+      where: {
+        idEmpresa: id,
+      },
+    });
+  }
+
+  async removeFilial(id: string): Promise<boolean> {
+    const item = await this.prisma.pessoaFilial.deleteMany({
+      where: {
+        idFilial: id,
+      },
+    });
     return item !== null ? true : false;
   }
 }
