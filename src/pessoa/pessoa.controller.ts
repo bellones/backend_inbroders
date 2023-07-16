@@ -35,6 +35,11 @@ export class PessoaController {
     return this.pessoaService.listFilialPessoa(id);
   }
 
+  @Get('/list/filial-pessoa/:id')
+  listPessoaFilial(@Param('id') id: string) {
+    return this.pessoaService.listPessoaFilial(id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.pessoaService.findOne(id);

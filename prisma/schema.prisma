@@ -390,7 +390,6 @@ model Orcamento {
   contatoAgenciaEmail    String
   condicaoPagamento      CondicaoPagamento    @relation(fields: [condicaoPagamentoId], references: [id])
   condicaoPagamentoId    String
-  diarias                String
   validade               DateTime
   periodoVeiculacao      String
   OrcamentoMidias        OrcamentoMidias[]
@@ -404,11 +403,15 @@ model Orcamento {
   comissao               Decimal
   notaRodape             NotasRodape?         @relation(fields: [notaRodapeId], references: [id])
   notaRodapeId           String?
+  notaRodateTexto        String
+  descricao              String
+  desconto               Decimal
+  total                  Decimal
 }
 
 model OrcamentoCategoria {
   id            String          @id @default(uuid())
-  Orcamento     Orcamento?      @relation(fields: [orcamentoId], references: [id])
+  Orcamento     Orcamento?      @relation(fields: [orcamentoId], references: [id], onDelete: Cascade)
   orcamentoId   Int?
   OrcamentoItem OrcamentoItem[]
   descricao     String
@@ -417,7 +420,7 @@ model OrcamentoCategoria {
 
 model OrcamentoItem {
   id                   String             @id @default(uuid())
-  orcamentoCategoria   OrcamentoCategoria @relation(fields: [orcamentoCategoriaId], references: [id])
+  orcamentoCategoria   OrcamentoCategoria @relation(fields: [orcamentoCategoriaId], references: [id], onDelete: Cascade)
   orcamentoCategoriaId String
   produto              Produto            @relation(fields: [produtoId], references: [id])
   produtoId            String
@@ -431,7 +434,7 @@ model OrcamentoItem {
 
 model OrcamentoMidias {
   id          String     @id @default(uuid())
-  orcamento   Orcamento? @relation(fields: [orcamentoId], references: [id])
+  orcamento   Orcamento? @relation(fields: [orcamentoId], references: [id], onDelete: Cascade)
   orcamentoId Int?
   midias      Midias     @relation(fields: [midiasId], references: [id])
   midiasId    String
@@ -441,7 +444,7 @@ model EntregavelItens {
   id           String     @id @default(uuid())
   entregavel   Entregavel @relation(fields: [entregavelId], references: [id])
   entregavelId String
-  Orcamento    Orcamento  @relation(fields: [orcamentoId], references: [id])
+  Orcamento    Orcamento  @relation(fields: [orcamentoId], references: [id], onDelete: Cascade)
   orcamentoId  Int
   quantidade   Int
 }

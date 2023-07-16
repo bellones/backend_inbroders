@@ -45,6 +45,11 @@ export class PessoaService {
         ativo: true,
         idEmpresa: id,
       },
+      include: {
+        PessoaFilial: true,
+        Classificacao: true,
+        tipo: true,
+      },
     });
   }
 
@@ -104,15 +109,22 @@ export class PessoaService {
   async listFilialPessoa(id: string): Promise<PessoaFilial[]> {
     return await this.prisma.pessoaFilial.findMany({
       where: {
-        idEmpresa: id,
+        idPessoa: id,
       },
     });
   }
 
+  async listPessoaFilial(id: string): Promise<PessoaFilial[]> {
+    return await this.prisma.pessoaFilial.findMany({
+      where: {
+        idFilial: id,
+      },
+    });
+  }
   async removeFilial(id: string): Promise<boolean> {
     const item = await this.prisma.pessoaFilial.deleteMany({
       where: {
-        idFilial: id,
+        idPessoa: id,
       },
     });
     return item !== null ? true : false;
