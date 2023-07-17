@@ -19,11 +19,15 @@ export class CreateOrcamentoDto {
   contatoAgenciaTelefone: string;
   contatoAgenciaEmail: string;
   condicaoPagamentoId: string;
-  diarias: string;
   validade: string;
   periodoVeiculacao: string;
   usuarioId: string;
   modeloNegocioId: string;
   acrescimo: number;
   comissao: number;
+  notaRodapeId: string;
+  notaRodapeTexto: string;
+  desconto: number;
+  total: number;
+  descricao: string;
 }

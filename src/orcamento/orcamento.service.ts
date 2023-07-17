@@ -25,7 +25,6 @@ export class OrcamentoService {
         contatoClienteEmail: dto.contatoClienteEmail,
         contatoClienteTelefone: dto.contatoClienteTelefone,
         data: dto.data,
-        diarias: dto.diarias,
         nome: dto.nome,
         notas: dto.notas,
         periodoVeiculacao: dto.periodoVeiculacao,
@@ -39,17 +38,22 @@ export class OrcamentoService {
         condicaoPagamentoId: dto.condicaoPagamentoId,
         modeloNegocioId: dto.modeloNegocioId,
         usuarioId: dto.usuarioId,
+        desconto: dto.desconto,
+        total: dto.total,
+        notaRodapeId: dto.notaRodapeId,
+        descricao: dto.descricao,
+        notaRodateTexto: dto.notaRodapeTexto,
       },
     });
 
     return item.id;
   }
-  async createCategory(dto: CreateOrcamentoCategoriaDto): Promise<boolean> {
+  async createCategory(dto: CreateOrcamentoCategoriaDto): Promise<string> {
     const item = await this.prisma.orcamentoCategoria.create({
       data: dto,
     });
 
-    return item !== null ? true : false;
+    return item.id;
   }
   async createOrcamentoItens(dto: CreateOrcamentoItemDto): Promise<boolean> {
     const item = await this.prisma.orcamentoItem.create({
@@ -88,7 +92,7 @@ export class OrcamentoService {
   async update(id: number, dto: UpdateOrcamentoDto): Promise<boolean> {
     const item = await this.prisma.orcamento.update({
       where: {
-        id: id,
+        id: Number(id),
       },
       data: {
         idEmpresa: dto.idEmpresa,
@@ -101,7 +105,6 @@ export class OrcamentoService {
         contatoClienteEmail: dto.contatoClienteEmail,
         contatoClienteTelefone: dto.contatoClienteTelefone,
         data: dto.data,
-        diarias: dto.diarias,
         nome: dto.nome,
         notas: dto.notas,
         periodoVeiculacao: dto.periodoVeiculacao,
@@ -115,6 +118,11 @@ export class OrcamentoService {
         condicaoPagamentoId: dto.condicaoPagamentoId,
         modeloNegocioId: dto.modeloNegocioId,
         usuarioId: dto.usuarioId,
+        desconto: dto.desconto,
+        total: dto.total,
+        notaRodapeId: dto.notaRodapeId,
+        descricao: dto.descricao,
+        notaRodateTexto: dto.notaRodapeTexto,
       },
     });
 
@@ -126,15 +134,28 @@ export class OrcamentoService {
         idEmpresa: id,
       },
       include: {
-        agencia: true,
-        cliente: true,
-        OrcamentoCategoria: true,
+        agencia: {
+          include: {
+            Contato: true,
+          },
+        },
+        cliente: {
+          include: {
+            Contato: true,
+          },
+        },
+        OrcamentoCategoria: {
+          include: {
+            OrcamentoItem: true,
+          },
+        },
         condicaoPagamento: true,
         empresaSaida: true,
         EntregavelItens: true,
         modeloNegocio: true,
         OrcamentoMidias: true,
         Usuario: true,
+        notaRodape: true,
       },
     });
   }
@@ -203,7 +224,7 @@ export class OrcamentoService {
   async remove(id: number): Promise<boolean> {
     const item = await this.prisma.orcamento.delete({
       where: {
-        id: id,
+        id: Number(id),
       },
     });
     return item !== null ? true : false;
@@ -211,7 +232,7 @@ export class OrcamentoService {
   async removeCategory(id: number): Promise<boolean> {
     const item = await this.prisma.orcamentoCategoria.deleteMany({
       where: {
-        orcamentoId: id,
+        orcamentoId: Number(id),
       },
     });
     return item !== null ? true : false;
@@ -227,7 +248,7 @@ export class OrcamentoService {
   async removeEntregaveis(id: number): Promise<boolean> {
     const item = await this.prisma.entregavelItens.deleteMany({
       where: {
-        orcamentoId: id,
+        orcamentoId: Number(id),
       },
     });
     return item !== null ? true : false;
@@ -235,7 +256,7 @@ export class OrcamentoService {
   async removeMidias(id: number): Promise<boolean> {
     const item = await this.prisma.orcamentoMidias.deleteMany({
       where: {
-        orcamentoId: id,
+        orcamentoId: Number(id),
       },
     });
     return item !== null ? true : false;
