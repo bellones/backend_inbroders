@@ -176,6 +176,7 @@ export class OrcamentoService {
   async findClients(id: string): Promise<Pessoa[]> {
     const cliente = await this.prisma.classificacao.findFirst({
       where: {
+        idEmpresa: id,
         nome: 'Cliente',
       },
     });
