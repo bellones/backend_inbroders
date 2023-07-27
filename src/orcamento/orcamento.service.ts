@@ -157,6 +157,9 @@ export class OrcamentoService {
         Usuario: true,
         notaRodape: true,
       },
+      orderBy: {
+        id: 'desc',
+      },
     });
   }
   async findOne(id: number): Promise<Orcamento> {

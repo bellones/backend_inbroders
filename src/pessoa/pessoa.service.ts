@@ -50,6 +50,9 @@ export class PessoaService {
         Classificacao: true,
         tipo: true,
       },
+      orderBy: {
+        id: 'desc',
+      },
     });
   }
 
