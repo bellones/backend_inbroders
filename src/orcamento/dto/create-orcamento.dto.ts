@@ -30,4 +30,7 @@ export class CreateOrcamentoDto {
   desconto: number;
   total: number;
   descricao: string;
+  tipoDesconto: string;
+  tipoAcrescimo: string;
+  tipoComissao: string;
 }

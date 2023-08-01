@@ -43,6 +43,9 @@ export class ProdutoService {
       include: {
         ProdutoUnidade: true,
       },
+      orderBy: {
+        id: 'desc',
+      },
     });
   }
 

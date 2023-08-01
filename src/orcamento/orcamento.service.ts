@@ -43,6 +43,9 @@ export class OrcamentoService {
         notaRodapeId: dto.notaRodapeId,
         descricao: dto.descricao,
         notaRodateTexto: dto.notaRodapeTexto,
+        tipoAcrescimo: dto.tipoAcrescimo,
+        tipoComissao: dto.tipoComissao,
+        tipoDesconto: dto.tipoDesconto,
       },
     });
 
@@ -123,6 +126,9 @@ export class OrcamentoService {
         notaRodapeId: dto.notaRodapeId,
         descricao: dto.descricao,
         notaRodateTexto: dto.notaRodapeTexto,
+        tipoAcrescimo: dto.tipoAcrescimo,
+        tipoComissao: dto.tipoComissao,
+        tipoDesconto: dto.tipoDesconto,
       },
     });
 
@@ -157,6 +163,9 @@ export class OrcamentoService {
         Usuario: true,
         notaRodape: true,
       },
+      orderBy: {
+        id: 'desc',
+      },
     });
   }
   async findOne(id: number): Promise<Orcamento> {
@@ -176,6 +185,7 @@ export class OrcamentoService {
   async findClients(id: string): Promise<Pessoa[]> {
     const cliente = await this.prisma.classificacao.findFirst({
       where: {
+        idEmpresa: id,
         nome: 'Cliente',
       },
     });
