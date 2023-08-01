@@ -399,12 +399,15 @@ model Orcamento {
   modeloNegocio          ModeloNegocio?       @relation(fields: [modeloNegocioId], references: [id])
   modeloNegocioId        String?
   OrcamentoCategoria     OrcamentoCategoria[]
+  tipoAcrescimo          String               @default("0")
   acrescimo              Decimal
+  tipoComissao           String               @default("0")
   comissao               Decimal
   notaRodape             NotasRodape?         @relation(fields: [notaRodapeId], references: [id])
   notaRodapeId           String?
   notaRodateTexto        String
   descricao              String
+  tipoDesconto           String               @default("0")
   desconto               Decimal
   total                  Decimal
 }

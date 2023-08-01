@@ -43,6 +43,9 @@ export class OrcamentoService {
         notaRodapeId: dto.notaRodapeId,
         descricao: dto.descricao,
         notaRodateTexto: dto.notaRodapeTexto,
+        tipoAcrescimo: dto.tipoAcrescimo,
+        tipoComissao: dto.tipoComissao,
+        tipoDesconto: dto.tipoDesconto,
       },
     });
 
@@ -123,6 +126,9 @@ export class OrcamentoService {
         notaRodapeId: dto.notaRodapeId,
         descricao: dto.descricao,
         notaRodateTexto: dto.notaRodapeTexto,
+        tipoAcrescimo: dto.tipoAcrescimo,
+        tipoComissao: dto.tipoComissao,
+        tipoDesconto: dto.tipoDesconto,
       },
     });
 
