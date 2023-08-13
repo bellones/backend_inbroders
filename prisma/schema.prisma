@@ -45,18 +45,20 @@ model Empresa {
   CondicaoPagamento   CondicaoPagamento[]
   NotasRodape         NotasRodape[]
   PessoaFilial        PessoaFilial[]
+  ModeloOrcamentoItem ModeloOrcamentoItem[]
 }
 
 model Usuario {
-  id        String      @id @default(uuid())
-  nome      String
-  email     String      @unique
-  senha     String
-  empresa   Empresa     @relation(fields: [idEmpresa], references: [id])
-  idEmpresa String
-  ativo     Boolean     @default(true)
-  Permissao Permissao[]
-  Orcamento Orcamento[]
+  id                String              @id @default(uuid())
+  nome              String
+  email             String              @unique
+  senha             String
+  empresa           Empresa             @relation(fields: [idEmpresa], references: [id])
+  idEmpresa         String
+  ativo             Boolean             @default(true)
+  Permissao         Permissao[]
+  Orcamento         Orcamento[]
+  RascunhoOrcamento RascunhoOrcamento[]
 }
 
 model MatrizFilial {
@@ -288,23 +290,25 @@ model Financeiro {
 }
 
 model UnidadeMedida {
-  id             String           @id @default(uuid())
-  empresa        Empresa          @relation(fields: [idEmpresa], references: [id])
-  idEmpresa      String
-  nome           String
-  ativo          Boolean          @default(true)
-  ProdutoUnidade ProdutoUnidade[]
-  OrcamentoItem  OrcamentoItem[]
+  id                      String                    @id @default(uuid())
+  empresa                 Empresa                   @relation(fields: [idEmpresa], references: [id])
+  idEmpresa               String
+  nome                    String
+  ativo                   Boolean                   @default(true)
+  ProdutoUnidade          ProdutoUnidade[]
+  OrcamentoItem           OrcamentoItem[]
+  ModeloOrcamentoItemList ModeloOrcamentoItemList[]
 }
 
 model Produto {
-  id             String           @id @default(uuid())
-  empresa        Empresa          @relation(fields: [idEmpresa], references: [id])
-  idEmpresa      String
-  nome           String
-  ativo          Boolean          @default(true)
-  ProdutoUnidade ProdutoUnidade[]
-  OrcamentoItem  OrcamentoItem[]
+  id                      String                    @id @default(uuid())
+  empresa                 Empresa                   @relation(fields: [idEmpresa], references: [id])
+  idEmpresa               String
+  nome                    String
+  ativo                   Boolean                   @default(true)
+  ProdutoUnidade          ProdutoUnidade[]
+  OrcamentoItem           OrcamentoItem[]
+  ModeloOrcamentoItemList ModeloOrcamentoItemList[]
 }
 
 model ProdutoUnidade {
@@ -459,4 +463,43 @@ model NotasRodape {
   empresa   Empresa     @relation(fields: [idEmpresa], references: [id])
   idEmpresa String
   Orcamento Orcamento[]
+}
+
+model ModeloOrcamentoItem {
+  id                           String                         @id @default(uuid())
+  empresa                      Empresa                        @relation(fields: [idEmpresa], references: [id])
+  idEmpresa                    String
+  nome                         String
+  ModeloOrcamentoItemCategoria ModeloOrcamentoItemCategoria[]
+}
+
+model ModeloOrcamentoItemCategoria {
+  id                      String                    @id @default(uuid())
+  descricao               String
+  valor                   Decimal
+  modeloOrcamentoItem     ModeloOrcamentoItem       @relation(fields: [modeloOrcamentoItemId], references: [id])
+  modeloOrcamentoItemId   String
+  ModeloOrcamentoItemList ModeloOrcamentoItemList[]
+}
+
+model ModeloOrcamentoItemList {
+  id                             String                       @id @default(uuid())
+  modeloOrcamentoItemCategoria   ModeloOrcamentoItemCategoria @relation(fields: [modeloOrcamentoItemCategoriaId], references: [id], onDelete: Cascade)
+  modeloOrcamentoItemCategoriaId String
+  produto                        Produto                      @relation(fields: [produtoId], references: [id])
+  produtoId                      String
+  descricao                      String?
+  unidade                        UnidadeMedida?               @relation(fields: [unidadeMedidaId], references: [id])
+  unidadeMedidaId                String?
+  quantidade                     Decimal
+  valorUn                        Decimal
+  valorTotal                     Decimal
+}
+
+model RascunhoOrcamento {
+  id        String   @id @default(uuid())
+  Usuario   Usuario? @relation(fields: [usuarioId], references: [id])
+  usuarioId String?
+  rascunho  String   @db.Text
+  data      DateTime @default(now())
 }

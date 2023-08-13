@@ -27,6 +27,8 @@ import { TipoLancamentoModule } from './tipo-lancamento/tipo-lancamento.module';
 import { UnidadeModule } from './unidade/unidade.module';
 import { UserModule } from './user/user.module';
 import { NotaRodapeModule } from './nota-rodape/nota-rodape.module';
+import { RascunhoOrcamentoModule } from './rascunho-orcamento/rascunho-orcamento.module';
+import { ModeloItensOrcamentoModule } from './modelo-itens-orcamento/modelo-itens-orcamento.module';
 
 @Module({
   imports: [
@@ -57,6 +59,8 @@ import { NotaRodapeModule } from './nota-rodape/nota-rodape.module';
     MidiaModule,
     EntregavelModule,
     NotaRodapeModule,
+    RascunhoOrcamentoModule,
+    ModeloItensOrcamentoModule,
   ],
   controllers: [],
   providers: [AppService],
