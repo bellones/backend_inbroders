@@ -497,7 +497,7 @@ model ModeloOrcamentoItemList {
 }
 
 model RascunhoOrcamento {
-  id        String   @id @default(uuid())
+  id        Int      @id @default(autoincrement())
   Usuario   Usuario? @relation(fields: [usuarioId], references: [id])
   usuarioId String?
   rascunho  String   @db.Text

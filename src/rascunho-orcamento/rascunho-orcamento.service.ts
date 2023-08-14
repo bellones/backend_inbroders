@@ -8,7 +8,7 @@ import { UpdateRascunhoOrcamentoDto } from './dto/update-rascunho-orcamento.dto'
 export class RascunhoOrcamentoService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreateRascunhoOrcamentoDto): Promise<string> {
+  async create(dto: CreateRascunhoOrcamentoDto): Promise<number> {
     const item = await this.prisma.rascunhoOrcamento.create({
       data: {
         rascunho: dto.rascunho,
@@ -30,7 +30,7 @@ export class RascunhoOrcamentoService {
     });
   }
 
-  async findOne(id: string): Promise<RascunhoOrcamento> {
+  async findOne(id: number): Promise<RascunhoOrcamento> {
     return await this.prisma.rascunhoOrcamento.findFirst({
       where: {
         id: id,
@@ -38,10 +38,10 @@ export class RascunhoOrcamentoService {
     });
   }
 
-  async update(id: string, dto: UpdateRascunhoOrcamentoDto): Promise<boolean> {
+  async update(id: number, dto: UpdateRascunhoOrcamentoDto): Promise<boolean> {
     const item = await this.prisma.rascunhoOrcamento.update({
       where: {
-        id: id,
+        id: Number(id),
       },
       data: {
         rascunho: dto.rascunho,
@@ -51,10 +51,10 @@ export class RascunhoOrcamentoService {
     return item !== null ? true : false;
   }
 
-  async remove(id: string): Promise<boolean> {
+  async remove(id: number): Promise<boolean> {
     const item = await this.prisma.rascunhoOrcamento.delete({
       where: {
-        id: id,
+        id: Number(id),
       },
     });
 
