@@ -375,6 +375,7 @@ model Orcamento {
   idEmpresa              String
   versao                 Int
   dataCriacao            DateTime             @default(now())
+  dataEdicao             DateTime             @default(now())
   data                   DateTime
   empresaSaida           Pessoa?              @relation("empresaSaida", fields: [empresaSaiadaId], references: [id])
   empresaSaiadaId        String?
@@ -382,6 +383,7 @@ model Orcamento {
   clientId               String?
   nome                   String
   status                 String
+  nomeVersao             String               @default("Versão Inicial")
   notas                  String
   contatoCliente         String
   contatoClienteTelefone String

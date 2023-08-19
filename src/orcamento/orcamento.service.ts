@@ -46,6 +46,9 @@ export class OrcamentoService {
         tipoAcrescimo: dto.tipoAcrescimo,
         tipoComissao: dto.tipoComissao,
         tipoDesconto: dto.tipoDesconto,
+        nomeVersao: dto.nomeVersao,
+        dataCriacao: Date.now().toString(),
+        dataEdicao: Date.now().toString(),
       },
     });
 
@@ -129,6 +132,8 @@ export class OrcamentoService {
         tipoAcrescimo: dto.tipoAcrescimo,
         tipoComissao: dto.tipoComissao,
         tipoDesconto: dto.tipoDesconto,
+        nomeVersao: dto.nomeVersao,
+        dataEdicao: Date.now().toString(),
       },
     });
 

@@ -5,10 +5,12 @@ export class CreateOrcamentoDto {
   idEmpresa: string;
   versao: number;
   data: string;
+  dataEdicao: string;
   empresaSaiadaId: string;
   clientId: string;
   nome: string;
   status: string;
+  nomeVersao: string;
   notas: string;
   contatoCliente: string;
   contatoClienteTelefone: string;
