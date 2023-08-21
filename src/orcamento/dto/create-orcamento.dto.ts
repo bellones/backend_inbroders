@@ -31,6 +31,7 @@ export class CreateOrcamentoDto {
   notaRodapeTexto: string;
   desconto: number;
   total: number;
+  cadastroDescricaoId: string;
   descricao: string;
   tipoDesconto: string;
   tipoAcrescimo: string;

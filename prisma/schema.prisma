@@ -46,6 +46,7 @@ model Empresa {
   NotasRodape         NotasRodape[]
   PessoaFilial        PessoaFilial[]
   ModeloOrcamentoItem ModeloOrcamentoItem[]
+  CadastroDescricao   CadastroDescricao[]
 }
 
 model Usuario {
@@ -412,10 +413,12 @@ model Orcamento {
   notaRodape             NotasRodape?         @relation(fields: [notaRodapeId], references: [id])
   notaRodapeId           String?
   notaRodateTexto        String
-  descricao              String
   tipoDesconto           String               @default("0")
   desconto               Decimal
   total                  Decimal
+  CadastroDescricao      CadastroDescricao?   @relation(fields: [cadastroDescricaoId], references: [id])
+  cadastroDescricaoId    String?
+  descricao              String
 }
 
 model OrcamentoCategoria {
@@ -504,4 +507,13 @@ model RascunhoOrcamento {
   usuarioId String?
   rascunho  String   @db.Text
   data      DateTime @default(now())
+}
+
+model CadastroDescricao {
+  id        String      @id @default(uuid())
+  nome      String
+  descricao String
+  empresa   Empresa     @relation(fields: [idEmpresa], references: [id])
+  idEmpresa String
+  Orcamento Orcamento[]
 }

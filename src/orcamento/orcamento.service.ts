@@ -47,8 +47,9 @@ export class OrcamentoService {
         tipoComissao: dto.tipoComissao,
         tipoDesconto: dto.tipoDesconto,
         nomeVersao: dto.nomeVersao,
-        dataCriacao: Date.now().toString(),
-        dataEdicao: Date.now().toString(),
+        dataCriacao: new Date(Date.now()).toISOString(),
+        dataEdicao: new Date(Date.now()).toISOString(),
+        cadastroDescricaoId: dto.cadastroDescricaoId,
       },
     });
 
@@ -133,7 +134,8 @@ export class OrcamentoService {
         tipoComissao: dto.tipoComissao,
         tipoDesconto: dto.tipoDesconto,
         nomeVersao: dto.nomeVersao,
-        dataEdicao: Date.now().toString(),
+        dataEdicao: new Date(Date.now()).toISOString(),
+        cadastroDescricaoId: dto.cadastroDescricaoId,
       },
     });
 
