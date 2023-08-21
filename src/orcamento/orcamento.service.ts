@@ -169,6 +169,7 @@ export class OrcamentoService {
         OrcamentoMidias: true,
         Usuario: true,
         notaRodape: true,
+        CadastroDescricao: true,
       },
       orderBy: {
         id: 'desc',
