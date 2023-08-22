@@ -459,6 +459,7 @@ model EntregavelItens {
   Orcamento    Orcamento  @relation(fields: [orcamentoId], references: [id], onDelete: Cascade)
   orcamentoId  Int
   quantidade   Int
+  descricao    String     @default("")
 }
 
 model NotasRodape {

@@ -92,6 +92,7 @@ export class OrcamentoService {
         entregavelId: dto.entregavelId,
         orcamentoId: dto.orcamentoId,
         quantidade: dto.quantidade,
+        descricao: dto.descricao,
       },
     });
     return item !== null ? true : false;
