@@ -46,6 +46,10 @@ export class OrcamentoService {
         tipoAcrescimo: dto.tipoAcrescimo,
         tipoComissao: dto.tipoComissao,
         tipoDesconto: dto.tipoDesconto,
+        nomeVersao: dto.nomeVersao,
+        dataCriacao: new Date(Date.now()).toISOString(),
+        dataEdicao: new Date(Date.now()).toISOString(),
+        cadastroDescricaoId: dto.cadastroDescricaoId,
       },
     });
 
@@ -88,6 +92,7 @@ export class OrcamentoService {
         entregavelId: dto.entregavelId,
         orcamentoId: dto.orcamentoId,
         quantidade: dto.quantidade,
+        descricao: dto.descricao,
       },
     });
     return item !== null ? true : false;
@@ -129,6 +134,9 @@ export class OrcamentoService {
         tipoAcrescimo: dto.tipoAcrescimo,
         tipoComissao: dto.tipoComissao,
         tipoDesconto: dto.tipoDesconto,
+        nomeVersao: dto.nomeVersao,
+        dataEdicao: new Date(Date.now()).toISOString(),
+        cadastroDescricaoId: dto.cadastroDescricaoId,
       },
     });
 
@@ -162,6 +170,7 @@ export class OrcamentoService {
         OrcamentoMidias: true,
         Usuario: true,
         notaRodape: true,
+        CadastroDescricao: true,
       },
       orderBy: {
         id: 'desc',

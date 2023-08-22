@@ -46,6 +46,7 @@ model Empresa {
   NotasRodape         NotasRodape[]
   PessoaFilial        PessoaFilial[]
   ModeloOrcamentoItem ModeloOrcamentoItem[]
+  CadastroDescricao   CadastroDescricao[]
 }
 
 model Usuario {
@@ -375,6 +376,7 @@ model Orcamento {
   idEmpresa              String
   versao                 Int
   dataCriacao            DateTime             @default(now())
+  dataEdicao             DateTime             @default(now())
   data                   DateTime
   empresaSaida           Pessoa?              @relation("empresaSaida", fields: [empresaSaiadaId], references: [id])
   empresaSaiadaId        String?
@@ -382,6 +384,7 @@ model Orcamento {
   clientId               String?
   nome                   String
   status                 String
+  nomeVersao             String               @default("Versão Inicial")
   notas                  String
   contatoCliente         String
   contatoClienteTelefone String
@@ -410,10 +413,12 @@ model Orcamento {
   notaRodape             NotasRodape?         @relation(fields: [notaRodapeId], references: [id])
   notaRodapeId           String?
   notaRodateTexto        String
-  descricao              String
   tipoDesconto           String               @default("0")
   desconto               Decimal
   total                  Decimal
+  CadastroDescricao      CadastroDescricao?   @relation(fields: [cadastroDescricaoId], references: [id])
+  cadastroDescricaoId    String?
+  descricao              String
 }
 
 model OrcamentoCategoria {
@@ -454,6 +459,7 @@ model EntregavelItens {
   Orcamento    Orcamento  @relation(fields: [orcamentoId], references: [id], onDelete: Cascade)
   orcamentoId  Int
   quantidade   Int
+  descricao    String     @default("")
 }
 
 model NotasRodape {
@@ -497,9 +503,18 @@ model ModeloOrcamentoItemList {
 }
 
 model RascunhoOrcamento {
-  id        String   @id @default(uuid())
+  id        Int      @id @default(autoincrement())
   Usuario   Usuario? @relation(fields: [usuarioId], references: [id])
   usuarioId String?
   rascunho  String   @db.Text
   data      DateTime @default(now())
+}
+
+model CadastroDescricao {
+  id        String      @id @default(uuid())
+  nome      String
+  descricao String
+  empresa   Empresa     @relation(fields: [idEmpresa], references: [id])
+  idEmpresa String
+  Orcamento Orcamento[]
 }

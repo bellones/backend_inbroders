@@ -29,6 +29,7 @@ import { UserModule } from './user/user.module';
 import { NotaRodapeModule } from './nota-rodape/nota-rodape.module';
 import { RascunhoOrcamentoModule } from './rascunho-orcamento/rascunho-orcamento.module';
 import { ModeloItensOrcamentoModule } from './modelo-itens-orcamento/modelo-itens-orcamento.module';
+import { CadastroDescricaoModule } from './cadastro-descricao/cadastro-descricao.module';
 
 @Module({
   imports: [
@@ -61,6 +62,7 @@ import { ModeloItensOrcamentoModule } from './modelo-itens-orcamento/modelo-iten
     NotaRodapeModule,
     RascunhoOrcamentoModule,
     ModeloItensOrcamentoModule,
+    CadastroDescricaoModule,
   ],
   controllers: [],
   providers: [AppService],
