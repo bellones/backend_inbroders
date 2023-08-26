@@ -313,15 +313,17 @@ model Produto {
 }
 
 model ProdutoUnidade {
-  id              String        @id @default(uuid())
-  unidade         UnidadeMedida @relation(fields: [unidadeMedidaId], references: [id])
-  unidadeMedidaId String
-  produto         Produto       @relation(fields: [produtoId], references: [id])
-  diasPgto        String
-  produtoId       String
-  valorMin        Decimal
-  valorMax        Decimal
-  principal       Boolean       @default(false)
+  id                  String             @id @default(uuid())
+  unidade             UnidadeMedida      @relation(fields: [unidadeMedidaId], references: [id])
+  unidadeMedidaId     String
+  produto             Produto            @relation(fields: [produtoId], references: [id])
+  diasPgto            String
+  produtoId           String
+  valorMin            Decimal
+  valorMax            Decimal
+  principal           Boolean            @default(false)
+  condicaoPagamentoId String?            @default("")
+  CondicaoPagamento   CondicaoPagamento? @relation(fields: [condicaoPagamentoId], references: [id])
 }
 
 model ModeloNegocio {
@@ -342,14 +344,15 @@ model ModeloNegocio {
 }
 
 model CondicaoPagamento {
-  id        String      @id @default(uuid())
-  empresa   Empresa     @relation(fields: [idEmpresa], references: [id])
-  idEmpresa String
-  nome      String
-  condicao  String
-  variacao  Decimal
-  divisor   Decimal
-  Orcamento Orcamento[]
+  id             String           @id @default(uuid())
+  empresa        Empresa          @relation(fields: [idEmpresa], references: [id])
+  idEmpresa      String
+  nome           String
+  condicao       String
+  variacao       Decimal
+  divisor        Decimal
+  Orcamento      Orcamento[]
+  ProdutoUnidade ProdutoUnidade[]
 }
 
 model Midias {

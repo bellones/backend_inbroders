@@ -29,6 +29,7 @@ export class ProdutoService {
         unidadeMedidaId: dto.unidadeMedidaId,
         diasPgto: dto.diasPgto,
         principal: dto.principal,
+        condicaoPagamentoId: dto.condicaoPagamentoId,
       },
     });
     return item !== null ? true : false;
@@ -41,7 +42,11 @@ export class ProdutoService {
         ativo: true,
       },
       include: {
-        ProdutoUnidade: true,
+        ProdutoUnidade: {
+          include: {
+            CondicaoPagamento: true,
+          },
+        },
       },
       orderBy: {
         id: 'desc',

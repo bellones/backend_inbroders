@@ -33,7 +33,7 @@ export class ContatoService {
         email: dto.email,
         idPessoa: dto.idPessoa,
         nome: dto.nome,
-        principal: dto.principal,
+        principal: Boolean(dto.principal),
         telefone: dto.telefone,
       },
     });
@@ -49,7 +49,7 @@ export class ContatoService {
         email: dto.email,
         idPessoa: dto.idPessoa,
         nome: dto.nome,
-        principal: dto.principal,
+        principal: Boolean(dto.principal),
         telefone: dto.telefone,
       },
     });

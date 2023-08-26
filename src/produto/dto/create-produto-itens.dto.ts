@@ -11,4 +11,5 @@ export class CreateProdutoUnidadeDto {
   diasPgto: string;
   descricao: string;
   principal: boolean;
+  condicaoPagamentoId: string;
 }
