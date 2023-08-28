@@ -39,7 +39,7 @@ export class ContatoService {
     });
     return item;
   }
-  async updateContato(dto: UpdateContatoDto): Promise<boolean> {
+  async updateContato(dto: UpdateContatoDto): Promise<Contato> {
     const item = await this.prisma.contato.update({
       where: {
         id: dto.id,
@@ -53,7 +53,7 @@ export class ContatoService {
         telefone: dto.telefone,
       },
     });
-    return item != null ? true : false;
+    return item;
   }
   async deleteContato(id: string): Promise<boolean> {
     const item = await this.prisma.contato.delete({
