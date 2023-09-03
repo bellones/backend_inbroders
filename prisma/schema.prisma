@@ -131,8 +131,8 @@ model Pessoa {
   Financeiro         Financeiro[]
   Classificacao      Classificacao?   @relation(fields: [classificacaoId], references: [id])
   classificacaoId    String?
-  empresa            Empresa          @relation(fields: [idEmpresa], references: [id])
-  idEmpresa          String
+  empresa            Empresa?         @relation(fields: [idEmpresa], references: [id])
+  idEmpresa          String?
   empresaSaida       Orcamento[]      @relation("empresaSaida")
   cliente            Orcamento[]      @relation("clientePessoa")
   agencia            Orcamento[]      @relation("agenciaPessoa")
@@ -395,9 +395,9 @@ model Orcamento {
   agencia                Pessoa?              @relation("agenciaPessoa", fields: [agenciaId], references: [id])
   agenciaId              String?
   showAgencia            Boolean
-  contatoAgencia         String
-  contatoAgenciaTelefone String
-  contatoAgenciaEmail    String
+  contatoAgencia         String?
+  contatoAgenciaTelefone String?
+  contatoAgenciaEmail    String?
   condicaoPagamento      CondicaoPagamento    @relation(fields: [condicaoPagamentoId], references: [id])
   condicaoPagamentoId    String
   validade               DateTime
