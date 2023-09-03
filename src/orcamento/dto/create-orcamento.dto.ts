@@ -15,11 +15,11 @@ export class CreateOrcamentoDto {
   contatoCliente: string;
   contatoClienteTelefone: string;
   contatoClienteEmail: string;
-  agenciaId: string;
+  agenciaId?: string;
   showAgencia: boolean;
-  contatoAgencia: string;
-  contatoAgenciaTelefone: string;
-  contatoAgenciaEmail: string;
+  contatoAgencia?: string;
+  contatoAgenciaTelefone?: string;
+  contatoAgenciaEmail?: string;
   condicaoPagamentoId: string;
   validade: string;
   periodoVeiculacao: string;
