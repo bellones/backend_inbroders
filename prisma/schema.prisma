@@ -47,19 +47,25 @@ model Empresa {
   PessoaFilial        PessoaFilial[]
   ModeloOrcamentoItem ModeloOrcamentoItem[]
   CadastroDescricao   CadastroDescricao[]
+  Projeto             Projeto[]
 }
 
 model Usuario {
-  id                String              @id @default(uuid())
-  nome              String
-  email             String              @unique
-  senha             String
-  empresa           Empresa             @relation(fields: [idEmpresa], references: [id])
-  idEmpresa         String
-  ativo             Boolean             @default(true)
-  Permissao         Permissao[]
-  Orcamento         Orcamento[]
-  RascunhoOrcamento RascunhoOrcamento[]
+  id                 String               @id @default(uuid())
+  nome               String
+  email              String               @unique
+  senha              String
+  empresa            Empresa              @relation(fields: [idEmpresa], references: [id])
+  idEmpresa          String
+  ativo              Boolean              @default(true)
+  Permissao          Permissao[]
+  Orcamento          Orcamento[]
+  RascunhoOrcamento  RascunhoOrcamento[]
+  Projeto            Projeto[]
+  ProjetoItem        ProjetoItem[]
+  ProjetoAprovador   ProjetoAprovador[]
+  AcompanhamentoItem AcompanhamentoItem[]
+  Apontamento        Apontamento[]
 }
 
 model MatrizFilial {
@@ -138,6 +144,7 @@ model Pessoa {
   agencia            Orcamento[]      @relation("agenciaPessoa")
   PessoaFilial       PessoaFilial[]   @relation("filialPessoal")
   clienteAgencia     PessoaFilial[]   @relation("agenciaClienteFilial")
+  ProjetoPessoa      ProjetoPessoa[]
 }
 
 model PessoaFilial {
@@ -299,6 +306,7 @@ model UnidadeMedida {
   ProdutoUnidade          ProdutoUnidade[]
   OrcamentoItem           OrcamentoItem[]
   ModeloOrcamentoItemList ModeloOrcamentoItemList[]
+  ProjetoItem             ProjetoItem[]
 }
 
 model Produto {
@@ -310,6 +318,7 @@ model Produto {
   ProdutoUnidade          ProdutoUnidade[]
   OrcamentoItem           OrcamentoItem[]
   ModeloOrcamentoItemList ModeloOrcamentoItemList[]
+  ProjetoItem             ProjetoItem[]
 }
 
 model ProdutoUnidade {
@@ -422,6 +431,7 @@ model Orcamento {
   CadastroDescricao      CadastroDescricao?   @relation(fields: [cadastroDescricaoId], references: [id])
   cadastroDescricaoId    String?
   descricao              String
+  Projeto                Projeto[]
 }
 
 model OrcamentoCategoria {
@@ -520,4 +530,165 @@ model CadastroDescricao {
   empresa   Empresa     @relation(fields: [idEmpresa], references: [id])
   idEmpresa String
   Orcamento Orcamento[]
+}
+
+model Projeto {
+  id                   Int                @id @default(autoincrement())
+  empresa              Empresa            @relation(fields: [idEmpresa], references: [id])
+  idEmpresa            String
+  Orcamento            Orcamento          @relation(fields: [orcamentoId], references: [id])
+  orcamentoId          Int
+  Usuario              Usuario            @relation(fields: [usuarioId], references: [id])
+  usuarioId            String
+  dataCriacao          DateTime           @default(now())
+  dataEdicao           DateTime           @default(now())
+  ProjetoCategoria     ProjetoCategoria[]
+  aprovado             Boolean            @default(false)
+  aprovadoCalculo      Boolean            @default(false)
+  Acompanhamento       Acompanhamento[]
+  descricao            String?
+  ProjetoAprovador     ProjetoAprovador[]
+  ProjetoPessoa        ProjetoPessoa[]
+  linkDiretor          String
+  linkPastaExecutiva   String
+  linkPastaFinalizacao String
+  resumoCronograma     String
+  linkCronograma       String
+  notasInternas        String
+  notasClienteAgencia  String
+  notasFaturamento     String
+  ProjetoContato       ProjetoContato[]
+  ProjetoArquivos      ProjetoArquivos[]
+}
+
+model ProjetoCategoria {
+  id                      String                    @id @default(uuid())
+  Projeto                 Projeto                   @relation(fields: [projetoId], references: [id])
+  projetoId               Int
+  descricao               String
+  valor                   Decimal
+  orcado                  Decimal
+  trabalhado              Decimal
+  executado               Decimal
+  ProjetoItem             ProjetoItem[]
+  aprovado                Boolean                   @default(false)
+  AcompanhamentoCategoria AcompanhamentoCategoria[]
+}
+
+model ProjetoItem {
+  id                 String           @id @default(uuid())
+  ProjetoCategoria   ProjetoCategoria @relation(fields: [projetoCategoriaId], references: [id])
+  projetoCategoriaId String
+  produto            Produto          @relation(fields: [produtoId], references: [id])
+  produtoId          String
+  descricao          String?
+  unidade            UnidadeMedida?   @relation(fields: [unidadeMedidaId], references: [id])
+  unidadeMedidaId    String?
+  quantidade         Decimal
+  valorUn            Decimal
+  valorTotal         Decimal
+  orcado             Decimal
+  trabalhado         Decimal
+  executado          Decimal
+  Usuario            Usuario?         @relation(fields: [usuarioId], references: [id])
+  usuarioId          String?
+  aprovado           Boolean          @default(false)
+}
+
+model ProjetoAprovador {
+  id        String  @id @default(uuid())
+  Projeto   Projeto @relation(fields: [projetoId], references: [id])
+  projetoId Int
+  Usuario   Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId String
+  nivel     Int
+}
+
+model ProjetoPessoa {
+  id        String  @id @default(uuid())
+  Projeto   Projeto @relation(fields: [projetoId], references: [id])
+  projetoId Int
+  Pessoa    Pessoa  @relation(fields: [pessoaId], references: [id])
+  pessoaId  String
+}
+
+model ProjetoContato {
+  id        String   @id @default(uuid())
+  Projeto   Projeto  @relation(fields: [projetoId], references: [id])
+  projetoId Int
+  nome      String   @default("")
+  cargo     String   @default("")
+  telefone  String   @default("")
+  email     String   @default("")
+  principal Boolean  @default(false)
+  ativo     Boolean? @default(true)
+}
+
+model ProjetoArquivos {
+  id        String  @id @default(uuid())
+  Projeto   Projeto @relation(fields: [projetoId], references: [id])
+  projetoId Int
+  arquivo   String
+}
+
+model Acompanhamento {
+  id                      String                    @id @default(uuid())
+  Projeto                 Projeto                   @relation(fields: [projetoId], references: [id])
+  projetoId               Int
+  horas                   Int
+  dataInicio              DateTime
+  dataFim                 DateTime
+  AcompanhamentoCategoria AcompanhamentoCategoria[]
+}
+
+model AcompanhamentoCategoria {
+  id                 String               @id @default(uuid())
+  Acompanhamento     Acompanhamento       @relation(fields: [acompanhamentoId], references: [id])
+  acompanhamentoId   String
+  ProjetoCategoria   ProjetoCategoria     @relation(fields: [projetoCategoriaId], references: [id])
+  projetoCategoriaId String
+  horas              Int
+  dataInicio         DateTime
+  dataFim            DateTime
+  AcompanhamentoItem AcompanhamentoItem[]
+}
+
+model AcompanhamentoItem {
+  id                        String                  @id @default(uuid())
+  AcompanhamentoCategoria   AcompanhamentoCategoria @relation(fields: [acompanhamentoCategoriaId], references: [id])
+  acompanhamentoCategoriaId String
+  Usuario                   Usuario                 @relation(fields: [usuarioId], references: [id])
+  usuarioId                 String
+  horas                     Int
+  dataInicio                DateTime
+  dataFim                   DateTime
+  Apontamento               Apontamento[]
+}
+
+model Apontamento {
+  id                    String                  @id @default(uuid())
+  AcompanhamentoItem    AcompanhamentoItem      @relation(fields: [acompanhamentoItemId], references: [id])
+  acompanhamentoItemId  String
+  Usuario               Usuario                 @relation(fields: [usuarioId], references: [id])
+  usuarioId             String
+  dataInicio            DateTime
+  dataFim               DateTime
+  descricao             String
+  ApontamentoComentario ApontamentoComentario[]
+  ApontamentoArquivo    ApontamentoArquivo[]
+}
+
+model ApontamentoComentario {
+  id            String      @id @default(uuid())
+  Apontamento   Apontamento @relation(fields: [apontamentoId], references: [id])
+  apontamentoId String
+  descricao     String
+  data          DateTime
+}
+
+model ApontamentoArquivo {
+  id            String      @id @default(uuid())
+  Apontamento   Apontamento @relation(fields: [apontamentoId], references: [id])
+  apontamentoId String
+  arquivo       String
 }
