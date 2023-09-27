@@ -51,21 +51,23 @@ model Empresa {
 }
 
 model Usuario {
-  id                 String               @id @default(uuid())
-  nome               String
-  email              String               @unique
-  senha              String
-  empresa            Empresa              @relation(fields: [idEmpresa], references: [id])
-  idEmpresa          String
-  ativo              Boolean              @default(true)
-  Permissao          Permissao[]
-  Orcamento          Orcamento[]
-  RascunhoOrcamento  RascunhoOrcamento[]
-  Projeto            Projeto[]
-  ProjetoItem        ProjetoItem[]
-  ProjetoAprovador   ProjetoAprovador[]
-  AcompanhamentoItem AcompanhamentoItem[]
-  Apontamento        Apontamento[]
+  id                    String                  @id @default(uuid())
+  nome                  String
+  email                 String                  @unique
+  senha                 String
+  empresa               Empresa                 @relation(fields: [idEmpresa], references: [id])
+  idEmpresa             String
+  ativo                 Boolean                 @default(true)
+  Permissao             Permissao[]
+  Orcamento             Orcamento[]
+  RascunhoOrcamento     RascunhoOrcamento[]
+  Projeto               Projeto[]
+  ProjetoItem           ProjetoItem[]
+  ProjetoAprovador      ProjetoAprovador[]
+  AcompanhamentoItem    AcompanhamentoItem[]
+  Apontamento           Apontamento[]
+  ApontamentoComentario ApontamentoComentario[]
+  ApontamentoArquivo    ApontamentoArquivo[]
 }
 
 model MatrizFilial {
@@ -684,6 +686,8 @@ model ApontamentoComentario {
   apontamentoId String
   descricao     String
   data          DateTime
+  Usuario       Usuario     @relation(fields: [usuarioId], references: [id])
+  usuarioId     String
 }
 
 model ApontamentoArquivo {
@@ -691,4 +695,6 @@ model ApontamentoArquivo {
   Apontamento   Apontamento @relation(fields: [apontamentoId], references: [id])
   apontamentoId String
   arquivo       String
+  Usuario       Usuario     @relation(fields: [usuarioId], references: [id])
+  usuarioId     String
 }
