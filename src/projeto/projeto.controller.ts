@@ -59,10 +59,19 @@ export class ProjetoController {
   findAll(@Param('id') id: string) {
     return this.projetoService.findAll(id);
   }
+  @Get('/orcamento/aprovado/:id')
+  findAprovado(@Param('id') id: string) {
+    return this.projetoService.findAprovado(id);
+  }
 
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.projetoService.findOne(id);
+  }
+
+  @Get('/contato/:id')
+  findContato(@Param('id') id: string) {
+    return this.projetoService.findContato(id);
   }
 
   @Patch(':id')
@@ -70,6 +79,13 @@ export class ProjetoController {
     return this.projetoService.update(id, updateProjetoDto);
   }
 
+  @Patch('/orcamento/status/:id/:status')
+  updateStatusOrcamento(
+    @Param('id') id: number,
+    @Param('status') status: string,
+  ) {
+    return this.projetoService.updateStatusOrcamento(id, status);
+  }
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.projetoService.remove(id);

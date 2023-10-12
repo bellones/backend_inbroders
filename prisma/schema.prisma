@@ -434,6 +434,7 @@ model Orcamento {
   cadastroDescricaoId    String?
   descricao              String
   Projeto                Projeto[]
+  ProjetoAprovacao       ProjetoAprovacao[]
 }
 
 model OrcamentoCategoria {
@@ -532,6 +533,18 @@ model CadastroDescricao {
   empresa   Empresa     @relation(fields: [idEmpresa], references: [id])
   idEmpresa String
   Orcamento Orcamento[]
+}
+
+model ProjetoAprovacao {
+  id                String    @id @default(uuid())
+  Orcamento         Orcamento @relation(fields: [orcamentoId], references: [id])
+  orcamentoId       Int
+  cabecalhoAprovado Boolean   @default(true)
+  obsCabecalho      String
+  itensAprovado     Boolean   @default(true)
+  obsItens          String
+  calculoAprovado   Boolean   @default(true)
+  obsCalculo        String
 }
 
 model Projeto {

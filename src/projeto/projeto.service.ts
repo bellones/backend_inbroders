@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Projeto } from '@prisma/client';
+import { Contato, Orcamento, Projeto } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ProjetoAprovadorDto } from './dto/create-projeto-aprovador.dto';
 import { ProjetoArquivoDto } from './dto/create-projeto-arquivo.dto';
@@ -94,6 +94,18 @@ export class ProjetoService {
     });
   }
 
+  async updateStatusOrcamento(id: number, status: string): Promise<boolean> {
+    const item = await this.prisma.orcamento.update({
+      where: {
+        id: id,
+      },
+      data: {
+        status: status,
+      },
+    });
+    return item != null ? true : false;
+  }
+
   async update(id: number, dto: UpdateProjetoDto): Promise<Projeto> {
     const item = await this.prisma.projeto.update({
       where: {
@@ -106,6 +118,51 @@ export class ProjetoService {
 
   async remove(id: number): Promise<Projeto> {
     return await this.prisma.projeto.delete({
+      where: {
+        id: id,
+      },
+    });
+  }
+
+  async findAprovado(id: string): Promise<Orcamento[]> {
+    return await this.prisma.orcamento.findMany({
+      where: {
+        idEmpresa: id,
+        status: '3',
+      },
+      include: {
+        agencia: {
+          include: {
+            Contato: true,
+          },
+        },
+        cliente: {
+          include: {
+            Contato: true,
+          },
+        },
+        OrcamentoCategoria: {
+          include: {
+            OrcamentoItem: true,
+          },
+        },
+        condicaoPagamento: true,
+        empresaSaida: true,
+        EntregavelItens: true,
+        modeloNegocio: true,
+        OrcamentoMidias: true,
+        Usuario: true,
+        notaRodape: true,
+        CadastroDescricao: true,
+      },
+      orderBy: {
+        id: 'desc',
+      },
+    });
+  }
+
+  async findContato(id: string): Promise<Contato> {
+    return await this.prisma.contato.findFirst({
       where: {
         id: id,
       },
