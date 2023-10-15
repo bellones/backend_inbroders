@@ -54,6 +54,7 @@ model Usuario {
   id                    String                  @id @default(uuid())
   nome                  String
   email                 String                  @unique
+  telefone              String                  @default("81 98240 0972")
   senha                 String
   empresa               Empresa                 @relation(fields: [idEmpresa], references: [id])
   idEmpresa             String
