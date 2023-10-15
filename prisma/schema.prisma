@@ -637,6 +637,7 @@ model ProjetoContato {
   cargo     String   @default("")
   telefone  String   @default("")
   email     String   @default("")
+  tipo      String   @default("")
   principal Boolean  @default(false)
   ativo     Boolean? @default(true)
 }

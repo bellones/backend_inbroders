@@ -3,6 +3,7 @@ export class ProjetoContatoDto {
   nome: string;
   cargo: string;
   telefone: string;
+  tipo: string;
   email: string;
   principal: boolean;
   ativo: boolean;
