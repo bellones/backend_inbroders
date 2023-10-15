@@ -10,6 +10,7 @@ import {
 import { ProjetoAprovadorDto } from './dto/create-projeto-aprovador.dto';
 import { ProjetoArquivoDto } from './dto/create-projeto-arquivo.dto';
 import { ProjetoCategoriaDto } from './dto/create-projeto-categoria.dto';
+import { ProjetoCidadeDto } from './dto/create-projeto-cidade.dto';
 import { ProjetoContatoDto } from './dto/create-projeto-contato.dto';
 import { ProjetoItemDto } from './dto/create-projeto-item.dto';
 import { ProjetoPessoDto } from './dto/create-projeto-pessoa.dto';
@@ -55,13 +56,18 @@ export class ProjetoController {
     return this.projetoService.createProjetoArquivo(dto);
   }
 
+  @Post('/cidade')
+  createCidade(@Body() dto: ProjetoCidadeDto) {
+    return this.projetoService.createCity(dto);
+  }
+
   @Get('/list/:id')
   findAll(@Param('id') id: string) {
     return this.projetoService.findAll(id);
   }
-  @Get('/orcamento/aprovado/:id')
-  findAprovado(@Param('id') id: string) {
-    return this.projetoService.findAprovado(id);
+  @Get('/orcamento/aprovado/:id/:status')
+  findAprovado(@Param('id') id: string, @Param('status') status: string) {
+    return this.projetoService.findAprovado(id, status);
   }
 
   @Get(':id')
@@ -89,5 +95,33 @@ export class ProjetoController {
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.projetoService.remove(id);
+  }
+  @Delete('/categoria/:id')
+  removeCategoria(@Param('id') id: number) {
+    return this.projetoService.removeCategoria(id);
+  }
+  @Delete('/item/:id')
+  removeItem(@Param('id') id: string) {
+    return this.projetoService.removeItem(id);
+  }
+  @Delete('/aprovador/:id')
+  removeAprovador(@Param('id') id: number) {
+    return this.projetoService.removeAprovador(id);
+  }
+  @Delete('/aprovador/:id')
+  removePessoa(@Param('id') id: number) {
+    return this.projetoService.removePessoa(id);
+  }
+  @Delete('/contato/:id')
+  removeContato(@Param('id') id: number) {
+    return this.projetoService.removeContato(id);
+  }
+  @Delete('/arquivo/:id')
+  removeArquivo(@Param('id') id: number) {
+    return this.projetoService.removeArquivo(id);
+  }
+  @Delete('/cidade/:id')
+  removeCidade(@Param('id') id: number) {
+    return this.projetoService.removeCidade(id);
   }
 }

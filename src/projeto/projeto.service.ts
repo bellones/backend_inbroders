@@ -4,6 +4,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { ProjetoAprovadorDto } from './dto/create-projeto-aprovador.dto';
 import { ProjetoArquivoDto } from './dto/create-projeto-arquivo.dto';
 import { ProjetoCategoriaDto } from './dto/create-projeto-categoria.dto';
+import { ProjetoCidadeDto } from './dto/create-projeto-cidade.dto';
 import { ProjetoContatoDto } from './dto/create-projeto-contato.dto';
 import { ProjetoItemDto } from './dto/create-projeto-item.dto';
 import { ProjetoPessoDto } from './dto/create-projeto-pessoa.dto';
@@ -31,6 +32,12 @@ export class ProjetoService {
       data: dto,
     });
     return item !== null ? true : false;
+  }
+  async createCity(dto: ProjetoCidadeDto): Promise<boolean> {
+    const item = this.prisma.projetoCidade.create({
+      data: dto,
+    });
+    return item != null ? true : false;
   }
 
   async createAprovador(dto: ProjetoAprovadorDto): Promise<boolean> {
@@ -82,6 +89,7 @@ export class ProjetoService {
         ProjetoContato: true,
         ProjetoArquivos: true,
         ProjetoPessoa: true,
+        ProjetoCiddade: true,
       },
     });
   }
@@ -97,7 +105,7 @@ export class ProjetoService {
   async updateStatusOrcamento(id: number, status: string): Promise<boolean> {
     const item = await this.prisma.orcamento.update({
       where: {
-        id: id,
+        id: Number(id),
       },
       data: {
         status: status,
@@ -124,11 +132,74 @@ export class ProjetoService {
     });
   }
 
-  async findAprovado(id: string): Promise<Orcamento[]> {
+  async removeCategoria(id: number): Promise<boolean> {
+    const item = await this.prisma.projetoCategoria.deleteMany({
+      where: {
+        projetoId: id,
+      },
+    });
+    return item != null ? true : false;
+  }
+
+  async removeItem(id: string): Promise<boolean> {
+    const item = await this.prisma.projetoItem.deleteMany({
+      where: {
+        projetoCategoriaId: id,
+      },
+    });
+    return item != null ? true : false;
+  }
+
+  async removeAprovador(id: number): Promise<boolean> {
+    const item = await this.prisma.projetoAprovador.deleteMany({
+      where: {
+        projetoId: id,
+      },
+    });
+    return item != null ? true : false;
+  }
+
+  async removePessoa(id: number): Promise<boolean> {
+    const item = await this.prisma.projetoPessoa.deleteMany({
+      where: {
+        projetoId: id,
+      },
+    });
+    return item != null ? true : false;
+  }
+
+  async removeContato(id: number): Promise<boolean> {
+    const item = await this.prisma.projetoContato.deleteMany({
+      where: {
+        projetoId: id,
+      },
+    });
+    return item != null ? true : false;
+  }
+
+  async removeCidade(id: number): Promise<boolean> {
+    const item = await this.prisma.projetoCidade.deleteMany({
+      where: {
+        projetoId: id,
+      },
+    });
+    return item != null ? true : false;
+  }
+
+  async removeArquivo(id: number): Promise<boolean> {
+    const item = await this.prisma.projetoArquivos.deleteMany({
+      where: {
+        projetoId: id,
+      },
+    });
+    return item != null ? true : false;
+  }
+
+  async findAprovado(id: string, status: string): Promise<Orcamento[]> {
     return await this.prisma.orcamento.findMany({
       where: {
         idEmpresa: id,
-        status: '3',
+        status: status,
       },
       include: {
         agencia: {

@@ -574,6 +574,7 @@ model Projeto {
   notasFaturamento     String
   ProjetoContato       ProjetoContato[]
   ProjetoArquivos      ProjetoArquivos[]
+  ProjetoCiddade       ProjetoCidade[]
 }
 
 model ProjetoCategoria {
@@ -644,6 +645,15 @@ model ProjetoArquivos {
   Projeto   Projeto @relation(fields: [projetoId], references: [id])
   projetoId Int
   arquivo   String
+}
+
+model ProjetoCidade {
+  id        String  @id @default(uuid())
+  Projeto   Projeto @relation(fields: [projetoId], references: [id])
+  projetoId Int
+  cidade    String
+  estado    String
+  diarias   Int
 }
 
 model Acompanhamento {
