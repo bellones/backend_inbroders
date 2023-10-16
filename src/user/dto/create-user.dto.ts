@@ -7,6 +7,8 @@ export class CreateUserDTO {
   @IsString()
   senha: string;
   @IsString()
+  telefone: string;
+  @IsString()
   idempresa: string;
   @IsBoolean()
   ativo: boolean;

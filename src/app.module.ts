@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
+import { AcompanhamentoModule } from './acompanhamento/acompanhamento.module';
 import { AppService } from './app.service';
+import { CadastroDescricaoModule } from './cadastro-descricao/cadastro-descricao.module';
 import { CategoriaLancamentoModule } from './categoria-lancamento/categoria-lancamento.module';
 import { CondicaoPagamentoModule } from './condicao-pagamento/condicao-pagamento.module';
 import { ContaTipoModule } from './conta-tipo/conta-tipo.module';
@@ -14,7 +16,9 @@ import { FinanceiroModule } from './financeiro/financeiro.module';
 import { FormaPagamentoModule } from './forma-pagamento/forma-pagamento.module';
 import { LancamentoModule } from './lancamento/lancamento.module';
 import { MidiaModule } from './midia/midia.module';
+import { ModeloItensOrcamentoModule } from './modelo-itens-orcamento/modelo-itens-orcamento.module';
 import { ModeloNegocioModule } from './modelo-negocio/modelo-negocio.module';
+import { NotaRodapeModule } from './nota-rodape/nota-rodape.module';
 import { OcorrenciaModule } from './ocorrencia/ocorrencia.module';
 import { OrcamentoModule } from './orcamento/orcamento.module';
 import { PermissaoModule } from './permissao/permissao.module';
@@ -23,13 +27,11 @@ import { PessoaTipoModule } from './pessoa-tipo/pessoa-tipo.module';
 import { PessoaModule } from './pessoa/pessoa.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ProdutoModule } from './produto/produto.module';
+import { ProjetoModule } from './projeto/projeto.module';
+import { RascunhoOrcamentoModule } from './rascunho-orcamento/rascunho-orcamento.module';
 import { TipoLancamentoModule } from './tipo-lancamento/tipo-lancamento.module';
 import { UnidadeModule } from './unidade/unidade.module';
 import { UserModule } from './user/user.module';
-import { NotaRodapeModule } from './nota-rodape/nota-rodape.module';
-import { RascunhoOrcamentoModule } from './rascunho-orcamento/rascunho-orcamento.module';
-import { ModeloItensOrcamentoModule } from './modelo-itens-orcamento/modelo-itens-orcamento.module';
-import { CadastroDescricaoModule } from './cadastro-descricao/cadastro-descricao.module';
 
 @Module({
   imports: [
@@ -63,6 +65,8 @@ import { CadastroDescricaoModule } from './cadastro-descricao/cadastro-descricao
     RascunhoOrcamentoModule,
     ModeloItensOrcamentoModule,
     CadastroDescricaoModule,
+    AcompanhamentoModule,
+    ProjetoModule,
   ],
   controllers: [],
   providers: [AppService],
