@@ -6,4 +6,6 @@ export class ProjetoCategoriaDto {
   trabalhado: number;
   executado: number;
   aprovado: boolean;
+  metaReducao: number;
+  travado: boolean;
 }

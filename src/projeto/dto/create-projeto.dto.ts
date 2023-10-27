@@ -15,4 +15,6 @@ export class CreateProjetoDto {
   notasInternas: string;
   notasClienteAgencia: string;
   notasFaturamento: string;
+  status: string;
+  metaEconomia: number;
 }

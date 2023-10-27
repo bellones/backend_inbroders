@@ -65,6 +65,11 @@ export class ProjetoController {
   findAll(@Param('id') id: string) {
     return this.projetoService.findAll(id);
   }
+  @Get('/conciliacao/:id')
+  findFinanceOrder(@Param('id') id: number) {
+    return this.projetoService.findFinanceOrder(id);
+  }
+
   @Get('/orcamento/aprovado/:id/:status')
   findAprovado(@Param('id') id: string, @Param('status') status: string) {
     return this.projetoService.findAprovado(id, status);

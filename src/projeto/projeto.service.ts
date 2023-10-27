@@ -144,7 +144,7 @@ export class ProjetoService {
   async remove(id: number): Promise<Projeto> {
     return await this.prisma.projeto.delete({
       where: {
-        id: id,
+        id: Number(id),
       },
     });
   }
@@ -152,7 +152,7 @@ export class ProjetoService {
   async removeCategoria(id: number): Promise<boolean> {
     const item = await this.prisma.projetoCategoria.deleteMany({
       where: {
-        projetoId: id,
+        projetoId: Number(id),
       },
     });
     return item != null ? true : false;
@@ -170,7 +170,7 @@ export class ProjetoService {
   async removeAprovador(id: number): Promise<boolean> {
     const item = await this.prisma.projetoAprovador.deleteMany({
       where: {
-        projetoId: id,
+        projetoId: Number(id),
       },
     });
     return item != null ? true : false;
@@ -179,7 +179,7 @@ export class ProjetoService {
   async removePessoa(id: number): Promise<boolean> {
     const item = await this.prisma.projetoPessoa.deleteMany({
       where: {
-        projetoId: id,
+        projetoId: Number(id),
       },
     });
     return item != null ? true : false;
@@ -188,7 +188,7 @@ export class ProjetoService {
   async removeContato(id: number): Promise<boolean> {
     const item = await this.prisma.projetoContato.deleteMany({
       where: {
-        projetoId: id,
+        projetoId: Number(id),
       },
     });
     return item != null ? true : false;
@@ -197,7 +197,7 @@ export class ProjetoService {
   async removeCidade(id: number): Promise<boolean> {
     const item = await this.prisma.projetoCidade.deleteMany({
       where: {
-        projetoId: id,
+        projetoId: Number(id),
       },
     });
     return item != null ? true : false;
@@ -206,7 +206,7 @@ export class ProjetoService {
   async removeArquivo(id: number): Promise<boolean> {
     const item = await this.prisma.projetoArquivos.deleteMany({
       where: {
-        projetoId: id,
+        projetoId: Number(id),
       },
     });
     return item != null ? true : false;
@@ -255,5 +255,14 @@ export class ProjetoService {
         id: id,
       },
     });
+  }
+
+  async findFinanceOrder(id: number): Promise<Projeto> {
+    const item = await this.prisma.projeto.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+    return item;
   }
 }

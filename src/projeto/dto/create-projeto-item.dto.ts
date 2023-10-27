@@ -11,4 +11,6 @@ export class ProjetoItemDto {
   executado: number;
   usuarioId: string;
   aprovado: boolean;
+  metaReducao: number;
+  travado: boolean;
 }

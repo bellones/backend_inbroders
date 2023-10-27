@@ -577,6 +577,8 @@ model Projeto {
   ProjetoContato       ProjetoContato[]
   ProjetoArquivos      ProjetoArquivos[]
   ProjetoCiddade       ProjetoCidade[]
+  status               String             @default("0")
+  metaEconomia         Decimal            @default(0)
 }
 
 model ProjetoCategoria {
@@ -591,6 +593,8 @@ model ProjetoCategoria {
   ProjetoItem             ProjetoItem[]
   aprovado                Boolean                   @default(false)
   AcompanhamentoCategoria AcompanhamentoCategoria[]
+  metaReducao             Decimal
+  travado                 Boolean
 }
 
 model ProjetoItem {
@@ -611,6 +615,8 @@ model ProjetoItem {
   Usuario            Usuario?         @relation(fields: [usuarioId], references: [id])
   usuarioId          String?
   aprovado           Boolean          @default(false)
+  metaReducao        Decimal
+  travado            Boolean
 }
 
 model ProjetoAprovador {
