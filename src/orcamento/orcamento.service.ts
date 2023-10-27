@@ -50,6 +50,7 @@ export class OrcamentoService {
         dataCriacao: new Date(Date.now()).toISOString(),
         dataEdicao: new Date(Date.now()).toISOString(),
         cadastroDescricaoId: dto.cadastroDescricaoId,
+        carta: dto.carta,
       },
     });
 
@@ -137,6 +138,7 @@ export class OrcamentoService {
         nomeVersao: dto.nomeVersao,
         dataEdicao: new Date(Date.now()).toISOString(),
         cadastroDescricaoId: dto.cadastroDescricaoId,
+        carta: dto.carta,
       },
     });
 

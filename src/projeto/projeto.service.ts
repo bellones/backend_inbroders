@@ -17,7 +17,24 @@ export class ProjetoService {
 
   async create(dto: CreateProjetoDto): Promise<Projeto> {
     const item = await this.prisma.projeto.create({
-      data: dto,
+      data: {
+        linkCronograma: dto.linkCronograma,
+        linkDiretor: dto.linkDiretor,
+        linkPastaExecutiva: dto.linkPastaExecutiva,
+        linkPastaFinalizacao: dto.linkPastaFinalizacao,
+        notasClienteAgencia: dto.notasClienteAgencia,
+        notasFaturamento: dto.notasFaturamento,
+        notasInternas: dto.notasInternas,
+        resumoCronograma: dto.resumoCronograma,
+        aprovado: true,
+        aprovadoCalculo: true,
+        dataCriacao: new Date(Date.now()).toISOString(),
+        dataEdicao: new Date(Date.now()).toISOString(),
+        descricao: dto.descricao,
+        orcamentoId: dto.orcamentoId,
+        usuarioId: dto.usuarioId,
+        idEmpresa: dto.idEmpresa,
+      },
     });
     return item;
   }

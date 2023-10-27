@@ -413,6 +413,7 @@ model Orcamento {
   condicaoPagamento      CondicaoPagamento    @relation(fields: [condicaoPagamentoId], references: [id])
   condicaoPagamentoId    String
   validade               DateTime
+  carta                  String               @default("")
   periodoVeiculacao      String
   OrcamentoMidias        OrcamentoMidias[]
   EntregavelItens        EntregavelItens[]
@@ -550,11 +551,11 @@ model ProjetoAprovacao {
 
 model Projeto {
   id                   Int                @id @default(autoincrement())
-  empresa              Empresa            @relation(fields: [idEmpresa], references: [id])
+  empresa              Empresa?           @relation(fields: [idEmpresa], references: [id])
   idEmpresa            String
-  Orcamento            Orcamento          @relation(fields: [orcamentoId], references: [id])
+  Orcamento            Orcamento?         @relation(fields: [orcamentoId], references: [id])
   orcamentoId          Int
-  Usuario              Usuario            @relation(fields: [usuarioId], references: [id])
+  Usuario              Usuario?           @relation(fields: [usuarioId], references: [id])
   usuarioId            String
   dataCriacao          DateTime           @default(now())
   dataEdicao           DateTime           @default(now())
