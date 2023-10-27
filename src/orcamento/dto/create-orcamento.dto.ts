@@ -36,4 +36,5 @@ export class CreateOrcamentoDto {
   tipoDesconto: string;
   tipoAcrescimo: string;
   tipoComissao: string;
+  carta: string;
 }
