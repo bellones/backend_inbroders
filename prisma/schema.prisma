@@ -579,11 +579,19 @@ model Projeto {
   ProjetoCiddade       ProjetoCidade[]
   status               String             @default("0")
   metaEconomia         Decimal            @default(0)
+  reducaoGloblal       Decimal            @default(0)
+  valorReduzido        String             @default("0")
+  limiteManejo         String             @default("0")
+  valorManejo          String             @default("0")
+  taxaEconomia         String             @default("0")
+  valorEconomia        String             @default("0")
+  percentualProdutor   String             @default("0")
+  retornoProdutor      String             @default("0")
 }
 
 model ProjetoCategoria {
   id                      String                    @id @default(uuid())
-  Projeto                 Projeto                   @relation(fields: [projetoId], references: [id])
+  Projeto                 Projeto                   @relation(fields: [projetoId], references: [id], onDelete: Cascade)
   projetoId               Int
   descricao               String
   valor                   Decimal
@@ -595,11 +603,15 @@ model ProjetoCategoria {
   AcompanhamentoCategoria AcompanhamentoCategoria[]
   metaReducao             Decimal
   travado                 Boolean
+  porcentagemManejo       String
+  valorManejo             String
+  porcentagemReducao      String
+  valorReducao            String
 }
 
 model ProjetoItem {
   id                 String           @id @default(uuid())
-  ProjetoCategoria   ProjetoCategoria @relation(fields: [projetoCategoriaId], references: [id])
+  ProjetoCategoria   ProjetoCategoria @relation(fields: [projetoCategoriaId], references: [id], onDelete: Cascade)
   projetoCategoriaId String
   produto            Produto          @relation(fields: [produtoId], references: [id])
   produtoId          String
@@ -617,6 +629,10 @@ model ProjetoItem {
   aprovado           Boolean          @default(false)
   metaReducao        Decimal
   travado            Boolean
+  porcentagemManejo  String
+  valorManejo        String
+  porcentagemReducao String
+  valorReducao       String
 }
 
 model ProjetoAprovador {

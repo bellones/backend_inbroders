@@ -8,4 +8,8 @@ export class ProjetoCategoriaDto {
   aprovado: boolean;
   metaReducao: number;
   travado: boolean;
+  porcentagemManejo: string;
+  valorManejo: string;
+  porcentagemReducao: string;
+  valorReducao: string;
 }

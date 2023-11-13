@@ -107,6 +107,7 @@ export class ProjetoService {
         ProjetoArquivos: true,
         ProjetoPessoa: true,
         ProjetoCiddade: true,
+        Orcamento: true,
       },
     });
   }
@@ -257,10 +258,56 @@ export class ProjetoService {
     });
   }
 
-  async findFinanceOrder(id: number): Promise<Projeto> {
-    const item = await this.prisma.projeto.findUnique({
+  async findStatus(id: string, status: string): Promise<Projeto[]> {
+    const item = await this.prisma.projeto.findMany({
       where: {
-        id: Number(id),
+        idEmpresa: id,
+        status: status,
+      },
+      include: {
+        ProjetoCategoria: {
+          include: {
+            ProjetoItem: {
+              include: {
+                produto: true,
+                unidade: true,
+                Usuario: true,
+              },
+            },
+          },
+        },
+        ProjetoAprovador: true,
+        ProjetoContato: true,
+        ProjetoArquivos: true,
+        ProjetoPessoa: true,
+        ProjetoCiddade: true,
+        Orcamento: {
+          include: {
+            agencia: {
+              include: {
+                Contato: true,
+              },
+            },
+            cliente: {
+              include: {
+                Contato: true,
+              },
+            },
+            OrcamentoCategoria: {
+              include: {
+                OrcamentoItem: true,
+              },
+            },
+            condicaoPagamento: true,
+            empresaSaida: true,
+            EntregavelItens: true,
+            modeloNegocio: true,
+            OrcamentoMidias: true,
+            Usuario: true,
+            notaRodape: true,
+            CadastroDescricao: true,
+          },
+        },
       },
     });
     return item;
