@@ -15,4 +15,14 @@ export class CreateProjetoDto {
   notasInternas: string;
   notasClienteAgencia: string;
   notasFaturamento: string;
+  status: string;
+  metaEconomia: number;
+  reducaoGloblal: number;
+  valorReduzido: string;
+  limiteManejo: string;
+  valorManejo: string;
+  taxaEconomia: string;
+  valorEconomia: string;
+  percentualProdutor: string;
+  retornoProdutor: string;
 }

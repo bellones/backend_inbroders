@@ -107,6 +107,7 @@ export class ProjetoService {
         ProjetoArquivos: true,
         ProjetoPessoa: true,
         ProjetoCiddade: true,
+        Orcamento: true,
       },
     });
   }
@@ -144,7 +145,7 @@ export class ProjetoService {
   async remove(id: number): Promise<Projeto> {
     return await this.prisma.projeto.delete({
       where: {
-        id: id,
+        id: Number(id),
       },
     });
   }
@@ -152,7 +153,7 @@ export class ProjetoService {
   async removeCategoria(id: number): Promise<boolean> {
     const item = await this.prisma.projetoCategoria.deleteMany({
       where: {
-        projetoId: id,
+        projetoId: Number(id),
       },
     });
     return item != null ? true : false;
@@ -170,7 +171,7 @@ export class ProjetoService {
   async removeAprovador(id: number): Promise<boolean> {
     const item = await this.prisma.projetoAprovador.deleteMany({
       where: {
-        projetoId: id,
+        projetoId: Number(id),
       },
     });
     return item != null ? true : false;
@@ -179,7 +180,7 @@ export class ProjetoService {
   async removePessoa(id: number): Promise<boolean> {
     const item = await this.prisma.projetoPessoa.deleteMany({
       where: {
-        projetoId: id,
+        projetoId: Number(id),
       },
     });
     return item != null ? true : false;
@@ -188,7 +189,7 @@ export class ProjetoService {
   async removeContato(id: number): Promise<boolean> {
     const item = await this.prisma.projetoContato.deleteMany({
       where: {
-        projetoId: id,
+        projetoId: Number(id),
       },
     });
     return item != null ? true : false;
@@ -197,7 +198,7 @@ export class ProjetoService {
   async removeCidade(id: number): Promise<boolean> {
     const item = await this.prisma.projetoCidade.deleteMany({
       where: {
-        projetoId: id,
+        projetoId: Number(id),
       },
     });
     return item != null ? true : false;
@@ -206,7 +207,7 @@ export class ProjetoService {
   async removeArquivo(id: number): Promise<boolean> {
     const item = await this.prisma.projetoArquivos.deleteMany({
       where: {
-        projetoId: id,
+        projetoId: Number(id),
       },
     });
     return item != null ? true : false;
@@ -255,5 +256,60 @@ export class ProjetoService {
         id: id,
       },
     });
+  }
+
+  async findStatus(id: string, status: string): Promise<Projeto[]> {
+    const item = await this.prisma.projeto.findMany({
+      where: {
+        idEmpresa: id,
+        status: status,
+      },
+      include: {
+        ProjetoCategoria: {
+          include: {
+            ProjetoItem: {
+              include: {
+                produto: true,
+                unidade: true,
+                Usuario: true,
+              },
+            },
+          },
+        },
+        ProjetoAprovador: true,
+        ProjetoContato: true,
+        ProjetoArquivos: true,
+        ProjetoPessoa: true,
+        ProjetoCiddade: true,
+        Orcamento: {
+          include: {
+            agencia: {
+              include: {
+                Contato: true,
+              },
+            },
+            cliente: {
+              include: {
+                Contato: true,
+              },
+            },
+            OrcamentoCategoria: {
+              include: {
+                OrcamentoItem: true,
+              },
+            },
+            condicaoPagamento: true,
+            empresaSaida: true,
+            EntregavelItens: true,
+            modeloNegocio: true,
+            OrcamentoMidias: true,
+            Usuario: true,
+            notaRodape: true,
+            CadastroDescricao: true,
+          },
+        },
+      },
+    });
+    return item;
   }
 }
