@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Contato, Orcamento, Projeto } from '@prisma/client';
+import { Contato, Orcamento, Projeto, ProjetoOS } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ProjetoAprovadorDto } from './dto/create-projeto-aprovador.dto';
 import { ProjetoArquivoDto } from './dto/create-projeto-arquivo.dto';
@@ -7,6 +7,7 @@ import { ProjetoCategoriaDto } from './dto/create-projeto-categoria.dto';
 import { ProjetoCidadeDto } from './dto/create-projeto-cidade.dto';
 import { ProjetoContatoDto } from './dto/create-projeto-contato.dto';
 import { ProjetoItemDto } from './dto/create-projeto-item.dto';
+import { ProjetoOsDto } from './dto/create-projeto-os.dto';
 import { ProjetoPessoDto } from './dto/create-projeto-pessoa.dto';
 import { CreateProjetoDto } from './dto/create-projeto.dto';
 import { UpdateProjetoDto } from './dto/update-projeto.dto';
@@ -107,7 +108,33 @@ export class ProjetoService {
         ProjetoArquivos: true,
         ProjetoPessoa: true,
         ProjetoCiddade: true,
-        Orcamento: true,
+        Orcamento: {
+          include: {
+            agencia: {
+              include: {
+                Contato: true,
+              },
+            },
+            cliente: {
+              include: {
+                Contato: true,
+              },
+            },
+            OrcamentoCategoria: {
+              include: {
+                OrcamentoItem: true,
+              },
+            },
+            condicaoPagamento: true,
+            empresaSaida: true,
+            EntregavelItens: true,
+            modeloNegocio: true,
+            OrcamentoMidias: true,
+            Usuario: true,
+            notaRodape: true,
+            CadastroDescricao: true,
+          },
+        },
       },
     });
   }
@@ -281,6 +308,7 @@ export class ProjetoService {
         ProjetoArquivos: true,
         ProjetoPessoa: true,
         ProjetoCiddade: true,
+
         Orcamento: {
           include: {
             agencia: {
@@ -311,5 +339,103 @@ export class ProjetoService {
       },
     });
     return item;
+  }
+
+  async findDif(id: string, status: string): Promise<Projeto[]> {
+    const item = await this.prisma.projeto.findMany({
+      where: {
+        idEmpresa: id,
+        status: {
+          not: status,
+        },
+      },
+      include: {
+        ProjetoCategoria: {
+          include: {
+            ProjetoItem: {
+              include: {
+                produto: true,
+                unidade: true,
+                Usuario: true,
+              },
+            },
+          },
+        },
+        ProjetoAprovador: true,
+        ProjetoContato: true,
+        ProjetoArquivos: true,
+        ProjetoPessoa: true,
+        ProjetoCiddade: true,
+
+        Orcamento: {
+          include: {
+            agencia: {
+              include: {
+                Contato: true,
+              },
+            },
+            cliente: {
+              include: {
+                Contato: true,
+              },
+            },
+            OrcamentoCategoria: {
+              include: {
+                OrcamentoItem: true,
+              },
+            },
+            condicaoPagamento: true,
+            empresaSaida: true,
+            EntregavelItens: true,
+            modeloNegocio: true,
+            OrcamentoMidias: true,
+            Usuario: true,
+            notaRodape: true,
+            CadastroDescricao: true,
+          },
+        },
+      },
+    });
+    return item;
+  }
+
+  async createProjetoOs(dto: ProjetoOsDto): Promise<boolean> {
+    const item = this.prisma.projetoOS.create({
+      data: dto,
+    });
+
+    return item != null ? true : false;
+  }
+
+  async deleteProjectOs(id: string): Promise<boolean> {
+    const item = this.prisma.projetoOS.delete({
+      where: {
+        id: id,
+      },
+    });
+    return item != null;
+  }
+
+  async getOs(id: number): Promise<ProjetoOS[]> {
+    return this.prisma.projetoOS.findMany({
+      where: {
+        projetoItem: {
+          ProjetoCategoria: {
+            projetoId: id,
+          },
+        },
+      },
+      include: {
+        formaPagamento: true,
+        AcompanhamentoItem: true,
+        fornecedor: true,
+        projetoItem: {
+          include: {
+            produto: true,
+            unidade: true,
+          },
+        },
+      },
+    });
   }
 }

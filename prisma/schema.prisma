@@ -148,6 +148,7 @@ model Pessoa {
   PessoaFilial       PessoaFilial[]   @relation("filialPessoal")
   clienteAgencia     PessoaFilial[]   @relation("agenciaClienteFilial")
   ProjetoPessoa      ProjetoPessoa[]
+  ProjetoOS          ProjetoOS[]
 }
 
 model PessoaFilial {
@@ -259,6 +260,7 @@ model FormaPagamento {
   idEmpresa  String
   nome       String
   Financeiro Financeiro[]
+  ProjetoOS  ProjetoOS[]
 }
 
 model Ocorrencia {
@@ -633,6 +635,7 @@ model ProjetoItem {
   valorManejo        String
   porcentagemReducao String
   valorReducao       String
+  ProjetoOS          ProjetoOS[]
 }
 
 model ProjetoAprovador {
@@ -707,6 +710,8 @@ model AcompanhamentoItem {
   id                        String                  @id @default(uuid())
   AcompanhamentoCategoria   AcompanhamentoCategoria @relation(fields: [acompanhamentoCategoriaId], references: [id])
   acompanhamentoCategoriaId String
+  projetoOS                 ProjetoOS               @relation(fields: [projetoOSId], references: [id])
+  projetoOSId               String
   Usuario                   Usuario                 @relation(fields: [usuarioId], references: [id])
   usuarioId                 String
   horas                     Int
@@ -745,4 +750,22 @@ model ApontamentoArquivo {
   arquivo       String
   Usuario       Usuario     @relation(fields: [usuarioId], references: [id])
   usuarioId     String
+}
+
+model ProjetoOS {
+  id                 String               @id @default(uuid())
+  osNum              Int
+  projetoItem        ProjetoItem          @relation(fields: [projetoItemId], references: [id])
+  projetoItemId      String
+  fornecedor         Pessoa?              @relation(fields: [pessoaId], references: [id])
+  pessoaId           String?
+  qtdTrab            Int
+  valorTrab          Decimal
+  formaPagamento     FormaPagamento       @relation(fields: [formaPagamentoId], references: [id])
+  formaPagamentoId   String
+  totalTrab          Decimal
+  totalExec          Decimal
+  saldo              Decimal
+  totalPago          Decimal
+  AcompanhamentoItem AcompanhamentoItem[]
 }
