@@ -13,6 +13,7 @@ import { ProjetoCategoriaDto } from './dto/create-projeto-categoria.dto';
 import { ProjetoCidadeDto } from './dto/create-projeto-cidade.dto';
 import { ProjetoContatoDto } from './dto/create-projeto-contato.dto';
 import { ProjetoItemDto } from './dto/create-projeto-item.dto';
+import { ProjetoOsDto } from './dto/create-projeto-os.dto';
 import { ProjetoPessoDto } from './dto/create-projeto-pessoa.dto';
 import { CreateProjetoDto } from './dto/create-projeto.dto';
 import { UpdateProjetoDto } from './dto/update-projeto.dto';
@@ -61,6 +62,11 @@ export class ProjetoController {
     return this.projetoService.createCity(dto);
   }
 
+  @Post('/OS')
+  createOS(@Body() dto: ProjetoOsDto) {
+    return this.projetoService.createProjetoOs(dto);
+  }
+
   @Get('/list/:id')
   findAll(@Param('id') id: string) {
     return this.projetoService.findAll(id);
@@ -68,6 +74,11 @@ export class ProjetoController {
   @Get('/conciliacao/:id/:status')
   findStatus(@Param('id') id: string, @Param('status') status: string) {
     return this.projetoService.findStatus(id, status);
+  }
+
+  @Get('/administrativo/:id/:status')
+  findDif(@Param('id') id: string, @Param('status') status: string) {
+    return this.projetoService.findDif(id, status);
   }
 
   @Get('/orcamento/aprovado/:id/:status')
@@ -83,6 +94,11 @@ export class ProjetoController {
   @Get('/contato/:id')
   findContato(@Param('id') id: string) {
     return this.projetoService.findContato(id);
+  }
+
+  @Get('/OS/list/:id')
+  finOS(@Param('id') id: number) {
+    return this.projetoService.getOs(id);
   }
 
   @Patch(':id')
@@ -128,5 +144,10 @@ export class ProjetoController {
   @Delete('/cidade/:id')
   removeCidade(@Param('id') id: number) {
     return this.projetoService.removeCidade(id);
+  }
+
+  @Delete('/cidade/:id')
+  removeProjetoOS(@Param('id') id: string) {
+    return this.projetoService.deleteProjectOs(id);
   }
 }
