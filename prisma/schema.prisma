@@ -610,6 +610,7 @@ model ProjetoCategoria {
   valorManejo             String
   porcentagemReducao      String
   valorReducao            String
+  ProjetoOS               ProjetoOS[]
 }
 
 model ProjetoItem {
@@ -756,6 +757,8 @@ model ApontamentoArquivo {
 model ProjetoOS {
   id                 String               @id @default(uuid())
   osNum              Int
+  ProjetoCategoria   ProjetoCategoria     @relation(fields: [projetoCategoriaId], references: [id], onDelete: Cascade)
+  projetoCategoriaId String
   projetoItem        ProjetoItem          @relation(fields: [projetoItemId], references: [id])
   projetoItemId      String
   fornecedor         Pessoa?              @relation(fields: [pessoaId], references: [id])
