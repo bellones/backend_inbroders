@@ -97,8 +97,13 @@ export class ProjetoController {
   }
 
   @Get('/OS/list/:id')
-  finOS(@Param('id') id: number) {
+  findOS(@Param('id') id: number) {
     return this.projetoService.getOs(id);
+  }
+
+  @Get('/fornecedor/list/:id')
+  findFornecedor(@Param('id') id: string) {
+    return this.projetoService.findFornecedor(id);
   }
 
   @Patch(':id')

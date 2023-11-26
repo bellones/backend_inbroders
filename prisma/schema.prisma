@@ -312,6 +312,7 @@ model UnidadeMedida {
   OrcamentoItem           OrcamentoItem[]
   ModeloOrcamentoItemList ModeloOrcamentoItemList[]
   ProjetoItem             ProjetoItem[]
+  ProjetoOS               ProjetoOS[]
 }
 
 model Produto {
@@ -759,13 +760,24 @@ model ProjetoOS {
   projetoItemId      String
   fornecedor         Pessoa?              @relation(fields: [pessoaId], references: [id])
   pessoaId           String?
-  qtdTrab            Int
-  valorTrab          Decimal
   formaPagamento     FormaPagamento       @relation(fields: [formaPagamentoId], references: [id])
+  unidade            UnidadeMedida        @relation(fields: [unidadeMedidaId], references: [id])
+  unidadeMedidaId    String
   formaPagamentoId   String
-  totalTrab          Decimal
-  totalExec          Decimal
+  dataCriacao        DateTime             @default(now())
+  status             String
+  comercialQtd       Int
+  comercialValorUN   Decimal
+  comercialTotal     Decimal
+  trabalhoQtd        Int
+  trabalhoValorUN    Decimal
+  trabalhoTotal      Decimal
+  producaoQtd        Int
+  producaoValorUn    Decimal
+  producaoTotal      Decimal
+  executado          Decimal
+  pago               Decimal
   saldo              Decimal
-  totalPago          Decimal
+  tipo               String
   AcompanhamentoItem AcompanhamentoItem[]
 }
