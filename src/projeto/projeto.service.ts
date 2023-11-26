@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Contato, Orcamento, Projeto, ProjetoOS } from '@prisma/client';
+import { Contato, Orcamento, Pessoa, Projeto, ProjetoOS } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ProjetoAprovadorDto } from './dto/create-projeto-aprovador.dto';
 import { ProjetoArquivoDto } from './dto/create-projeto-arquivo.dto';
@@ -435,6 +435,25 @@ export class ProjetoService {
             unidade: true,
           },
         },
+      },
+    });
+  }
+
+  async findFornecedor(id: string): Promise<Pessoa[]> {
+    const cliente = await this.prisma.classificacao.findFirst({
+      where: {
+        idEmpresa: id,
+        nome: 'Fornecedor',
+      },
+    });
+    return await this.prisma.pessoa.findMany({
+      where: {
+        classificacaoId: cliente.id,
+        idEmpresa: id,
+        ativo: true,
+      },
+      include: {
+        Contato: true,
       },
     });
   }

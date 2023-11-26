@@ -2,11 +2,20 @@ export class ProjetoOsDto {
   osNum: number;
   projetoItemId: string;
   pessoaId: string;
-  qtdTrab: number;
-  valorTrab: number;
   formaPagamentoId: string;
-  totalTrab: number;
-  totalExec: number;
+  unidadeMedidaId: string;
+  status: string;
+  comercialQtd: number;
+  comercialValorUN: number;
+  comercialTotal: number;
+  trabalhoQtd: number;
+  trabalhoValorUN: number;
+  trabalhoTotal: number;
+  producaoQtd: number;
+  producaoValorUn: number;
+  producaoTotal: number;
+  executado: number;
+  pago: number;
   saldo: number;
-  totalPago: number;
+  tipo: string;
 }
