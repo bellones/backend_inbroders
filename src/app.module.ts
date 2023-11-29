@@ -1,13 +1,17 @@
 import { Module } from '@nestjs/common';
 import { AcompanhamentoModule } from './acompanhamento/acompanhamento.module';
 import { AppService } from './app.service';
+import { ArquivoModule } from './arquivo/arquivo.module';
 import { CadastroDescricaoModule } from './cadastro-descricao/cadastro-descricao.module';
 import { CategoriaLancamentoModule } from './categoria-lancamento/categoria-lancamento.module';
+import { CentroCustoModule } from './centro-custo/centro-custo.module';
 import { CondicaoPagamentoModule } from './condicao-pagamento/condicao-pagamento.module';
 import { ContaTipoModule } from './conta-tipo/conta-tipo.module';
 import { ContaModule } from './conta/conta.module';
+import { ContasPagarModule } from './contas-pagar/contas-pagar.module';
 import { ContatoTipoModule } from './contato-tipo/contato-tipo.module';
 import { ContatoModule } from './contato/contato.module';
+import { DepartamentoModule } from './departamento/departamento.module';
 import { EmpresaModule } from './empresa/empresa.module';
 import { EnderecoModule } from './endereco/endereco.module';
 import { EntregavelModule } from './entregavel/entregavel.module';
@@ -67,6 +71,10 @@ import { UserModule } from './user/user.module';
     CadastroDescricaoModule,
     AcompanhamentoModule,
     ProjetoModule,
+    DepartamentoModule,
+    CentroCustoModule,
+    ContasPagarModule,
+    ArquivoModule,
   ],
   controllers: [],
   providers: [AppService],
