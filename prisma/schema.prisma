@@ -50,6 +50,7 @@ model Empresa {
   Projeto             Projeto[]
   ContasPagar         ContasPagar[]
   Departamento        Departamento[]
+  CentroCusto         CentroCusto[]
 }
 
 model Usuario {
@@ -803,6 +804,8 @@ model Departamento {
 model CentroCusto {
   id             String        @id @default(uuid())
   nome           String
+  empresa        Empresa       @relation(fields: [idEmpresa], references: [id])
+  idEmpresa      String
   departamento   Departamento  @relation(fields: [departamentoId], references: [id], onDelete: Cascade)
   ContasPagar    ContasPagar[]
   departamentoId String

@@ -19,7 +19,7 @@ export class CentroCustoService {
   async findAll(id: string): Promise<CentroCusto[]> {
     return await this.prisma.centroCusto.findMany({
       where: {
-        id: id,
+        idEmpresa: id,
       },
       include: {
         departamento: true,
