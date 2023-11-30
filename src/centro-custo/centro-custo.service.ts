@@ -21,6 +21,9 @@ export class CentroCustoService {
       where: {
         id: id,
       },
+      include: {
+        departamento: true,
+      },
     });
   }
 
