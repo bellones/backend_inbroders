@@ -8,6 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { ContasPagarService } from './contas-pagar.service';
+import { CreateContasPagarArquivoDto } from './dto/create-contas-pagar-arquivo.dto';
 import { CreateContasPagarDto } from './dto/create-contas-pagar.dto';
 import { UpdateContasPagarDto } from './dto/update-contas-pagar.dto';
 
@@ -18,6 +19,11 @@ export class ContasPagarController {
   @Post()
   create(@Body() createContasPagarDto: CreateContasPagarDto) {
     return this.contasPagarService.create(createContasPagarDto);
+  }
+
+  @Post()
+  createArquivo(@Body() dto: CreateContasPagarArquivoDto) {
+    return this.contasPagarService.createArquivo(dto);
   }
 
   @Get('/list/:id')
@@ -41,5 +47,10 @@ export class ContasPagarController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.contasPagarService.remove(id);
+  }
+
+  @Delete(':id')
+  removeArquivo(@Param('id') id: string) {
+    return this.contasPagarService.removeArquivo(id);
   }
 }

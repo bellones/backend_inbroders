@@ -30,6 +30,9 @@ export class ContasPagarService {
       where: {
         idEmpresa: id,
       },
+      include: {
+        ContasPagarArquivo: true,
+      },
     });
   }
 
