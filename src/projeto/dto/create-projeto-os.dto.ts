@@ -1,6 +1,7 @@
 export class ProjetoOsDto {
   osNum: number;
   projetoItemId: string;
+  projetoCategoriaId: string;
   pessoaId: string;
   formaPagamentoId: string;
   unidadeMedidaId: string;
