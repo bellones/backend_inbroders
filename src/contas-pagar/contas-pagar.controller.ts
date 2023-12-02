@@ -21,7 +21,7 @@ export class ContasPagarController {
     return this.contasPagarService.create(createContasPagarDto);
   }
 
-  @Post()
+  @Post('/arquivo/create')
   createArquivo(@Body() dto: CreateContasPagarArquivoDto) {
     return this.contasPagarService.createArquivo(dto);
   }
@@ -49,7 +49,7 @@ export class ContasPagarController {
     return this.contasPagarService.remove(id);
   }
 
-  @Delete(':id')
+  @Delete('/arquivo/:id')
   removeArquivo(@Param('id') id: string) {
     return this.contasPagarService.removeArquivo(id);
   }
