@@ -32,6 +32,13 @@ export class ContasPagarService {
       },
       include: {
         ContasPagarArquivo: true,
+        categoriaFinanceira: true,
+        centroCusto: true,
+        empresa: true,
+        formaPagamento: true,
+        ocorrencia: true,
+        pessoa: true,
+        usuario: true,
       },
     });
   }
