@@ -261,22 +261,20 @@ model Lancamento {
 }
 
 model FormaPagamento {
-  id          String        @id @default(uuid())
-  empresa     Empresa       @relation(fields: [idEmpresa], references: [id])
-  idEmpresa   String
-  nome        String
-  Financeiro  Financeiro[]
-  ProjetoOS   ProjetoOS[]
-  ContasPagar ContasPagar[]
+  id         String       @id @default(uuid())
+  empresa    Empresa      @relation(fields: [idEmpresa], references: [id])
+  idEmpresa  String
+  nome       String
+  Financeiro Financeiro[]
+  ProjetoOS  ProjetoOS[]
 }
 
 model Ocorrencia {
-  id          String        @id @default(uuid())
-  empresa     Empresa       @relation(fields: [idEmpresa], references: [id])
-  idEmpresa   String
-  nome        String
-  Financeiro  Financeiro[]
-  ContasPagar ContasPagar[]
+  id         String       @id @default(uuid())
+  empresa    Empresa      @relation(fields: [idEmpresa], references: [id])
+  idEmpresa  String
+  nome       String
+  Financeiro Financeiro[]
 }
 
 model FinanceiroCategoria {
@@ -376,6 +374,7 @@ model CondicaoPagamento {
   divisor        Decimal
   Orcamento      Orcamento[]
   ProdutoUnidade ProdutoUnidade[]
+  ContasPagar    ContasPagar[]
 }
 
 model Midias {
@@ -806,14 +805,14 @@ model CentroCusto {
   nome           String
   empresa        Empresa       @relation(fields: [idEmpresa], references: [id])
   idEmpresa      String
-  departamento   Departamento  @relation(fields: [departamentoId], references: [id], onDelete: Cascade)
+  departamento   Departamento  @relation(fields: [departamentoId], references: [id])
   ContasPagar    ContasPagar[]
   departamentoId String
 }
 
 model ContasPagar {
   id                    String               @id @default(uuid())
-  empresa               Empresa              @relation(fields: [idEmpresa], references: [id])
+  empresa               Empresa?             @relation(fields: [idEmpresa], references: [id])
   idEmpresa             String
   centroCusto           CentroCusto          @relation(fields: [centroCustoId], references: [id])
   centroCustoId         String
@@ -826,17 +825,15 @@ model ContasPagar {
   numDocumento          String
   competencia           DateTime
   historico             String
-  formaPagamento        FormaPagamento       @relation(fields: [formaPagamentoId], references: [id])
-  formaPagamentoId      String
-  categoriaFinanceira   CategoriaLancamento  @relation(fields: [categoriaLancamentoId], references: [id])
-  categoriaLancamentoId String
-  ocorrencia            Ocorrencia           @relation(fields: [ocorrenciaId], references: [id])
-  ocorrenciaId          String
+  CategoriaLancamento   CategoriaLancamento  @relation(fields: [categoriaLancamentoId], references: [id])
   parcelaVencimento     Int
   parcela               Int
   ContasPagarArquivo    ContasPagarArquivo[]
-  usuario               Usuario              @relation(fields: [usuarioId], references: [id])
+  usuario               Usuario?             @relation(fields: [usuarioId], references: [id])
   usuarioId             String
+  categoriaLancamentoId String
+  CondicaoPagamento     CondicaoPagamento    @relation(fields: [condicaoPagamentoId], references: [id])
+  condicaoPagamentoId   String
 }
 
 model ContasPagarArquivo {

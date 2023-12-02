@@ -12,17 +12,19 @@ export class ContasPagarService {
   async create(
     createContasPagarDto: CreateContasPagarDto,
   ): Promise<ContasPagar> {
-    return await this.prisma.contasPagar.create({
+    const item = await this.prisma.contasPagar.create({
       data: createContasPagarDto,
     });
+    return item;
   }
 
   async createArquivo(
     dto: CreateContasPagarArquivoDto,
   ): Promise<ContasPagarArquivo> {
-    return await this.prisma.contasPagarArquivo.create({
+    const item = await this.prisma.contasPagarArquivo.create({
       data: dto,
     });
+    return item;
   }
 
   async findAll(id: string): Promise<ContasPagar[]> {
@@ -32,11 +34,10 @@ export class ContasPagarService {
       },
       include: {
         ContasPagarArquivo: true,
-        categoriaFinanceira: true,
+        CategoriaLancamento: true,
         centroCusto: true,
         empresa: true,
-        formaPagamento: true,
-        ocorrencia: true,
+        CondicaoPagamento: true,
         pessoa: true,
         usuario: true,
       },
@@ -44,31 +45,34 @@ export class ContasPagarService {
   }
 
   async findOne(id: string) {
-    return await this.prisma.contasPagar.findFirst({
+    const item = await this.prisma.contasPagar.findFirst({
       where: {
         id: id,
       },
     });
+    return item;
   }
 
   async update(
     id: string,
     updateContasPagarDto: UpdateContasPagarDto,
   ): Promise<ContasPagar> {
-    return await this.prisma.contasPagar.update({
+    const item = await this.prisma.contasPagar.update({
       data: updateContasPagarDto,
       where: {
         id: id,
       },
     });
+    return item;
   }
 
   async remove(id: string): Promise<ContasPagar> {
-    return await this.prisma.contasPagar.delete({
+    const item = await this.prisma.contasPagar.delete({
       where: {
         id: id,
       },
     });
+    return item;
   }
 
   async removeArquivo(id: string): Promise<boolean> {
