@@ -51,6 +51,7 @@ model Empresa {
   ContasPagar         ContasPagar[]
   Departamento        Departamento[]
   CentroCusto         CentroCusto[]
+  NovoProduto         NovoProduto[]
 }
 
 model Usuario {
@@ -126,34 +127,35 @@ model Classificacao {
 }
 
 model Pessoa {
-  id                 String           @id @default(uuid())
-  tipo               Tipo             @relation(fields: [idTipo], references: [id])
-  idTipo             String
-  nome               String
-  documento          String?
-  razaoSocial        String?
-  nomeFantasia       String?
-  inscricaoMunicipal String?
-  inscricaoEstadual  String?
-  ativo              Boolean?         @default(true)
-  dataCadastro       DateTime?        @default(now())
-  contribuinte       String
-  Contato            Contato[]
-  EnderecoPessoa     EnderecoPessoa[]
-  Lancamento         Lancamento[]
-  Financeiro         Financeiro[]
-  Classificacao      Classificacao?   @relation(fields: [classificacaoId], references: [id])
-  classificacaoId    String?
-  empresa            Empresa?         @relation(fields: [idEmpresa], references: [id])
-  idEmpresa          String?
-  empresaSaida       Orcamento[]      @relation("empresaSaida")
-  cliente            Orcamento[]      @relation("clientePessoa")
-  agencia            Orcamento[]      @relation("agenciaPessoa")
-  PessoaFilial       PessoaFilial[]   @relation("filialPessoal")
-  clienteAgencia     PessoaFilial[]   @relation("agenciaClienteFilial")
-  ProjetoPessoa      ProjetoPessoa[]
-  ProjetoOS          ProjetoOS[]
-  ContasPagar        ContasPagar[]
+  id                    String                  @id @default(uuid())
+  tipo                  Tipo                    @relation(fields: [idTipo], references: [id])
+  idTipo                String
+  nome                  String
+  documento             String?
+  razaoSocial           String?
+  nomeFantasia          String?
+  inscricaoMunicipal    String?
+  inscricaoEstadual     String?
+  ativo                 Boolean?                @default(true)
+  dataCadastro          DateTime?               @default(now())
+  contribuinte          String
+  Contato               Contato[]
+  EnderecoPessoa        EnderecoPessoa[]
+  Lancamento            Lancamento[]
+  Financeiro            Financeiro[]
+  Classificacao         Classificacao?          @relation(fields: [classificacaoId], references: [id])
+  classificacaoId       String?
+  empresa               Empresa?                @relation(fields: [idEmpresa], references: [id])
+  idEmpresa             String?
+  empresaSaida          Orcamento[]             @relation("empresaSaida")
+  cliente               Orcamento[]             @relation("clientePessoa")
+  agencia               Orcamento[]             @relation("agenciaPessoa")
+  PessoaFilial          PessoaFilial[]          @relation("filialPessoal")
+  clienteAgencia        PessoaFilial[]          @relation("agenciaClienteFilial")
+  ProjetoPessoa         ProjetoPessoa[]
+  ProjetoOS             ProjetoOS[]
+  ContasPagar           ContasPagar[]
+  NovoProdutoFornecedor NovoProdutoFornecedor[]
 }
 
 model PessoaFilial {
@@ -231,13 +233,12 @@ model TipoLancamento {
 }
 
 model CategoriaLancamento {
-  id          String        @id @default(uuid())
-  empresa     Empresa       @relation(fields: [idEmpresa], references: [id])
-  idEmpresa   String
-  nome        String
-  ativo       Boolean?      @default(true)
-  Lancamento  Lancamento[]
-  ContasPagar ContasPagar[]
+  id         String       @id @default(uuid())
+  empresa    Empresa      @relation(fields: [idEmpresa], references: [id])
+  idEmpresa  String
+  nome       String
+  ativo      Boolean?     @default(true)
+  Lancamento Lancamento[]
 }
 
 model Lancamento {
@@ -261,22 +262,20 @@ model Lancamento {
 }
 
 model FormaPagamento {
-  id          String        @id @default(uuid())
-  empresa     Empresa       @relation(fields: [idEmpresa], references: [id])
-  idEmpresa   String
-  nome        String
-  Financeiro  Financeiro[]
-  ProjetoOS   ProjetoOS[]
-  ContasPagar ContasPagar[]
+  id         String       @id @default(uuid())
+  empresa    Empresa      @relation(fields: [idEmpresa], references: [id])
+  idEmpresa  String
+  nome       String
+  Financeiro Financeiro[]
+  ProjetoOS  ProjetoOS[]
 }
 
 model Ocorrencia {
-  id          String        @id @default(uuid())
-  empresa     Empresa       @relation(fields: [idEmpresa], references: [id])
-  idEmpresa   String
-  nome        String
-  Financeiro  Financeiro[]
-  ContasPagar ContasPagar[]
+  id         String       @id @default(uuid())
+  empresa    Empresa      @relation(fields: [idEmpresa], references: [id])
+  idEmpresa  String
+  nome       String
+  Financeiro Financeiro[]
 }
 
 model FinanceiroCategoria {
@@ -321,6 +320,7 @@ model UnidadeMedida {
   ModeloOrcamentoItemList ModeloOrcamentoItemList[]
   ProjetoItem             ProjetoItem[]
   ProjetoOS               ProjetoOS[]
+  NovoProduto             NovoProduto[]
 }
 
 model Produto {
@@ -376,6 +376,7 @@ model CondicaoPagamento {
   divisor        Decimal
   Orcamento      Orcamento[]
   ProdutoUnidade ProdutoUnidade[]
+  ContasPagar    ContasPagar[]
 }
 
 model Midias {
@@ -806,14 +807,14 @@ model CentroCusto {
   nome           String
   empresa        Empresa       @relation(fields: [idEmpresa], references: [id])
   idEmpresa      String
-  departamento   Departamento  @relation(fields: [departamentoId], references: [id], onDelete: Cascade)
+  departamento   Departamento  @relation(fields: [departamentoId], references: [id])
   ContasPagar    ContasPagar[]
   departamentoId String
 }
 
 model ContasPagar {
   id                    String               @id @default(uuid())
-  empresa               Empresa              @relation(fields: [idEmpresa], references: [id])
+  empresa               Empresa?             @relation(fields: [idEmpresa], references: [id])
   idEmpresa             String
   centroCusto           CentroCusto          @relation(fields: [centroCustoId], references: [id])
   centroCustoId         String
@@ -826,17 +827,14 @@ model ContasPagar {
   numDocumento          String
   competencia           DateTime
   historico             String
-  formaPagamento        FormaPagamento       @relation(fields: [formaPagamentoId], references: [id])
-  formaPagamentoId      String
-  categoriaFinanceira   CategoriaLancamento  @relation(fields: [categoriaLancamentoId], references: [id])
   categoriaLancamentoId String
-  ocorrencia            Ocorrencia           @relation(fields: [ocorrenciaId], references: [id])
-  ocorrenciaId          String
   parcelaVencimento     Int
   parcela               Int
   ContasPagarArquivo    ContasPagarArquivo[]
-  usuario               Usuario              @relation(fields: [usuarioId], references: [id])
+  usuario               Usuario?             @relation(fields: [usuarioId], references: [id])
   usuarioId             String
+  CondicaoPagamento     CondicaoPagamento    @relation(fields: [condicaoPagamentoId], references: [id])
+  condicaoPagamentoId   String
 }
 
 model ContasPagarArquivo {
@@ -854,4 +852,34 @@ model Arquivo {
   fileName           String
   url                String
   ContasPagarArquivo ContasPagarArquivo[]
+}
+
+model NovoProduto {
+  id                    String                  @id @default(uuid())
+  empresa               Empresa                 @relation(fields: [idEmpresa], references: [id])
+  idEmpresa             String
+  nome                  String
+  sku                   String
+  formato               String
+  tipo                  String
+  precoVenda            Decimal
+  ativo                 Boolean                 @default(true)
+  unidade               UnidadeMedida           @relation(fields: [unidadeMedidaId], references: [id])
+  unidadeMedidaId       String
+  condicao              String
+  modelo                String
+  marca                 String
+  dataValidade          String
+  depreciacao           String
+  ncm                   String
+  numSerie              String
+  NovoProdutoFornecedor NovoProdutoFornecedor[]
+}
+
+model NovoProdutoFornecedor {
+  id            String      @id @default(uuid())
+  pessoa        Pessoa      @relation(fields: [pessoaId], references: [id])
+  pessoaId      String
+  novoProduto   NovoProduto @relation(fields: [novoProdutoId], references: [id])
+  novoProdutoId String
 }

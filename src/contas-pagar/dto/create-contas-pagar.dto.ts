@@ -9,7 +9,7 @@ export class CreateContasPagarDto {
   numDocumento: string;
   competencia: Date;
   historico: string;
-  formaPagamentoId: string;
+  condicaoPagamentoId: string;
   categoriaLancamentoId: string;
   ocorrenciaId: string;
   parcelaVencimento: number;
