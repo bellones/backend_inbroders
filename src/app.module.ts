@@ -36,6 +36,7 @@ import { RascunhoOrcamentoModule } from './rascunho-orcamento/rascunho-orcamento
 import { TipoLancamentoModule } from './tipo-lancamento/tipo-lancamento.module';
 import { UnidadeModule } from './unidade/unidade.module';
 import { UserModule } from './user/user.module';
+import { NovoProdutoModule } from './novo-produto/novo-produto.module';
 
 @Module({
   imports: [
@@ -75,6 +76,7 @@ import { UserModule } from './user/user.module';
     CentroCustoModule,
     ContasPagarModule,
     ArquivoModule,
+    NovoProdutoModule,
   ],
   controllers: [],
   providers: [AppService],

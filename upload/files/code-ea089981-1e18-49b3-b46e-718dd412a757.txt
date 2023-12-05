@@ -1,0 +1,48 @@
+// Automatic FlutterFlow imports
+import '/backend/backend.dart';
+import '/backend/schema/structs/index.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/index.dart'; // Imports other custom widgets
+import '/flutter_flow/custom_functions.dart'; // Imports custom functions
+import 'package:flutter/material.dart';
+// Begin custom widget code
+// DO NOT REMOVE OR MODIFY THE CODE ABOVE!
+
+import 'package:flutterflow_widgets/flutterflow_widgets.dart';
+
+class MyCalendar extends StatefulWidget {
+  const MyCalendar({
+    Key? key,
+    this.width,
+    this.height,
+    this.documents,
+    required this.onTap,
+  }) : super(key: key);
+
+  final double? width;
+  final double? height;
+  final List<JobsRecord>? documents;
+  final Future<dynamic> Function() onTap;
+
+  @override
+  MyCalendarState createState() => MyCalendarState();
+}
+
+class MyCalendarState extends State<MyCalendar> {
+  @override
+  Widget build(BuildContext context) {
+    return CustomCalendar(
+      locale: 'pt_BR',
+      events: Map.fromEntries(
+          widget.documents!.map((e) => MapEntry(e.jobStartTime!, {
+                'reference': e.reference.id,
+                'customerId': e.customerId?.id,
+              }))),
+      onDaySelected: (events) {
+        FFAppState().events = events ?? [];
+        widget.onTap();
+      },
+    );
+  }
+}

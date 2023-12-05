@@ -33,8 +33,11 @@ export class ContasPagarService {
         idEmpresa: id,
       },
       include: {
-        ContasPagarArquivo: true,
-        CategoriaLancamento: true,
+        ContasPagarArquivo: {
+          include: {
+            arquivo: true,
+          },
+        },
         centroCusto: true,
         empresa: true,
         CondicaoPagamento: true,
