@@ -21,7 +21,7 @@ export class NovoProdutoController {
     return this.novoProdutoService.create(createNovoProdutoDto);
   }
 
-  @Post()
+  @Post('/fornecedor/')
   createFornecedor(@Body() dto: CreateNovoProdutoFornecedorDto) {
     return this.novoProdutoService.createFornecedor(dto);
   }
