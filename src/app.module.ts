@@ -37,6 +37,8 @@ import { TipoLancamentoModule } from './tipo-lancamento/tipo-lancamento.module';
 import { UnidadeModule } from './unidade/unidade.module';
 import { UserModule } from './user/user.module';
 import { NovoProdutoModule } from './novo-produto/novo-produto.module';
+import { PedidoCompraModule } from './—no-spec/pedido-compra/pedido-compra.module';
+import { PedidoCompraModule } from './pedido-compra/pedido-compra.module';
 
 @Module({
   imports: [
@@ -77,6 +79,7 @@ import { NovoProdutoModule } from './novo-produto/novo-produto.module';
     ContasPagarModule,
     ArquivoModule,
     NovoProdutoModule,
+    PedidoCompraModule,
   ],
   controllers: [],
   providers: [AppService],

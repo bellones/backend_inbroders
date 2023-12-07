@@ -52,6 +52,7 @@ model Empresa {
   Departamento        Departamento[]
   CentroCusto         CentroCusto[]
   NovoProduto         NovoProduto[]
+  PedidoCompra        PedidoCompra[]
 }
 
 model Usuario {
@@ -74,6 +75,8 @@ model Usuario {
   ApontamentoComentario ApontamentoComentario[]
   ApontamentoArquivo    ApontamentoArquivo[]
   ContasPagar           ContasPagar[]
+  PedidoCompra          PedidoCompra[]
+  responsavel           PedidoCompra[]          @relation("responsavelCompra")
 }
 
 model MatrizFilial {
@@ -156,6 +159,8 @@ model Pessoa {
   ProjetoOS             ProjetoOS[]
   ContasPagar           ContasPagar[]
   NovoProdutoFornecedor NovoProdutoFornecedor[]
+  PedidoCompra          PedidoCompra[]
+  empresaSaidaCompra    PedidoCompra[]          @relation("empresaSaidaCompra")
 }
 
 model PessoaFilial {
@@ -321,6 +326,7 @@ model UnidadeMedida {
   ProjetoItem             ProjetoItem[]
   ProjetoOS               ProjetoOS[]
   NovoProduto             NovoProduto[]
+  PedidoCompraItens       PedidoCompraItens[]
 }
 
 model Produto {
@@ -377,6 +383,7 @@ model CondicaoPagamento {
   Orcamento      Orcamento[]
   ProdutoUnidade ProdutoUnidade[]
   ContasPagar    ContasPagar[]
+  PedidoCompra   PedidoCompra[]
 }
 
 model Midias {
@@ -874,6 +881,7 @@ model NovoProduto {
   ncm                   String
   numSerie              String
   NovoProdutoFornecedor NovoProdutoFornecedor[]
+  PedidoCompraItens     PedidoCompraItens[]
 }
 
 model NovoProdutoFornecedor {
@@ -882,4 +890,49 @@ model NovoProdutoFornecedor {
   pessoaId      String
   novoProduto   NovoProduto @relation(fields: [novoProdutoId], references: [id])
   novoProdutoId String
+}
+
+model PedidoCompra {
+  id                    String              @id @default(uuid())
+  empresa               Empresa             @relation(fields: [idEmpresa], references: [id])
+  idEmpresa             String
+  usuario               Usuario?            @relation(fields: [usuarioId], references: [id])
+  usuarioId             String
+  CondicaoPagamento     CondicaoPagamento   @relation(fields: [condicaoPagamentoId], references: [id])
+  condicaoPagamentoId   String
+  pessoa                Pessoa              @relation(fields: [pessoaId], references: [id])
+  pessoaId              String
+  responsavel           Usuario             @relation(name: "responsavelCompra", fields: [responsavelId], references: [id])
+  empresaSaida          Pessoa?             @relation("empresaSaidaCompra", fields: [empresaSaiadaId], references: [id])
+  empresaSaiadaId       String?
+  responsavelId         String
+  icms                  Decimal
+  ipi                   Decimal
+  valor                 Decimal
+  valorPedido           Decimal
+  desconto              Decimal
+  frete                 Decimal
+  ordem                 Int                 @default(autoincrement())
+  categoriaLancamentoId String
+  dataCompra            DateTime            @default(now())
+  dataPrevista          DateTime
+  observacao            String
+  PedidoCompraItens     PedidoCompraItens[]
+}
+
+model PedidoCompraItens {
+  id              String        @id @default(uuid())
+  pedidoCompra    PedidoCompra  @relation(fields: [pedidoCompraId], references: [id])
+  pedidoCompraId  String
+  novoProduto     NovoProduto   @relation(fields: [novoProdutoId], references: [id])
+  novoProdutoId   String
+  unidade         UnidadeMedida @relation(fields: [unidadeMedidaId], references: [id])
+  unidadeMedidaId String
+  produtoNome     String
+  unidadeNome     String
+  quantidade      Int
+  valorUn         Decimal
+  percentualIpi   String
+  valorIpi        Decimal
+  valorTotal      Decimal
 }
