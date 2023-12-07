@@ -28,6 +28,10 @@ export class NovoProdutoService {
       where: {
         idEmpresa: id,
       },
+      include: {
+        NovoProdutoFornecedor: true,
+        unidade: true,
+      },
     });
     return item;
   }
