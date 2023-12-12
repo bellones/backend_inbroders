@@ -23,6 +23,7 @@ import { MidiaModule } from './midia/midia.module';
 import { ModeloItensOrcamentoModule } from './modelo-itens-orcamento/modelo-itens-orcamento.module';
 import { ModeloNegocioModule } from './modelo-negocio/modelo-negocio.module';
 import { NotaRodapeModule } from './nota-rodape/nota-rodape.module';
+import { NovoProdutoModule } from './novo-produto/novo-produto.module';
 import { OcorrenciaModule } from './ocorrencia/ocorrencia.module';
 import { OrcamentoModule } from './orcamento/orcamento.module';
 import { PermissaoModule } from './permissao/permissao.module';
@@ -36,8 +37,7 @@ import { RascunhoOrcamentoModule } from './rascunho-orcamento/rascunho-orcamento
 import { TipoLancamentoModule } from './tipo-lancamento/tipo-lancamento.module';
 import { UnidadeModule } from './unidade/unidade.module';
 import { UserModule } from './user/user.module';
-import { NovoProdutoModule } from './novo-produto/novo-produto.module';
-import { PedidoCompraModule } from './—no-spec/pedido-compra/pedido-compra.module';
+
 import { PedidoCompraModule } from './pedido-compra/pedido-compra.module';
 
 @Module({

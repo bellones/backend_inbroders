@@ -160,7 +160,6 @@ model Pessoa {
   ContasPagar           ContasPagar[]
   NovoProdutoFornecedor NovoProdutoFornecedor[]
   PedidoCompra          PedidoCompra[]
-  empresaSaidaCompra    PedidoCompra[]          @relation("empresaSaidaCompra")
 }
 
 model PessoaFilial {
@@ -903,8 +902,6 @@ model PedidoCompra {
   pessoa                Pessoa              @relation(fields: [pessoaId], references: [id])
   pessoaId              String
   responsavel           Usuario             @relation(name: "responsavelCompra", fields: [responsavelId], references: [id])
-  empresaSaida          Pessoa?             @relation("empresaSaidaCompra", fields: [empresaSaiadaId], references: [id])
-  empresaSaiadaId       String?
   responsavelId         String
   icms                  Decimal
   ipi                   Decimal

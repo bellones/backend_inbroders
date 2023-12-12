@@ -29,7 +29,6 @@ export class PedidoCompraService {
       },
       include: {
         CondicaoPagamento: true,
-        empresaSaida: true,
         responsavel: true,
         pessoa: true,
         PedidoCompraItens: {
