@@ -458,12 +458,13 @@ model Orcamento {
 }
 
 model OrcamentoCategoria {
-  id            String          @id @default(uuid())
-  Orcamento     Orcamento?      @relation(fields: [orcamentoId], references: [id], onDelete: Cascade)
-  orcamentoId   Int?
-  OrcamentoItem OrcamentoItem[]
-  descricao     String
-  valor         Decimal
+  id               String             @id @default(uuid())
+  Orcamento        Orcamento?         @relation(fields: [orcamentoId], references: [id], onDelete: Cascade)
+  orcamentoId      Int?
+  OrcamentoItem    OrcamentoItem[]
+  descricao        String
+  valor            Decimal
+  OrcamentoProduto OrcamentoProduto[]
 }
 
 model OrcamentoItem {
@@ -475,6 +476,18 @@ model OrcamentoItem {
   descricao            String?
   unidade              UnidadeMedida?     @relation(fields: [unidadeMedidaId], references: [id])
   unidadeMedidaId      String?
+  quantidade           Decimal
+  valorUn              Decimal
+  valorTotal           Decimal
+}
+
+model OrcamentoProduto {
+  id                   String             @id @default(uuid())
+  orcamentoCategoria   OrcamentoCategoria @relation(fields: [orcamentoCategoriaId], references: [id], onDelete: Cascade)
+  orcamentoCategoriaId String
+  NovoProduto          NovoProduto        @relation(fields: [novoProdutoId], references: [id])
+  novoProdutoId        String
+  descricao            String?
   quantidade           Decimal
   valorUn              Decimal
   valorTotal           Decimal
@@ -881,6 +894,7 @@ model NovoProduto {
   numSerie              String
   NovoProdutoFornecedor NovoProdutoFornecedor[]
   PedidoCompraItens     PedidoCompraItens[]
+  OrcamentoProduto      OrcamentoProduto[]
 }
 
 model NovoProdutoFornecedor {
