@@ -1,8 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { Orcamento, OrcamentoItem, Pessoa } from '@prisma/client';
+import {
+  Orcamento,
+  OrcamentoItem,
+  OrcamentoProduto,
+  Pessoa,
+} from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateOrcamentoCategoriaDto } from './dto/create-orcamento-categoria.dto';
 import { CreateOrcamentoentregavelDto } from './dto/create-orcamento-entregavel.dto';
+import { CreateOrcamentoItemProdutoDto } from './dto/create-orcamento-item-produto.dto';
 import { CreateOrcamentoItemDto } from './dto/create-orcamento-item.dto';
 import { CreateOrcamentoMidiasDto } from './dto/create-orcamento-midias.dto';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
@@ -74,6 +80,16 @@ export class OrcamentoService {
         produtoId: dto.produtoId,
         unidadeMedidaId: dto.unidadeMedidaId,
       },
+    });
+
+    return item !== null ? true : false;
+  }
+
+  async createOrcamentoProdutoItens(
+    dto: CreateOrcamentoItemProdutoDto,
+  ): Promise<boolean> {
+    const item = await this.prisma.orcamentoProduto.create({
+      data: dto,
     });
 
     return item !== null ? true : false;
@@ -163,6 +179,7 @@ export class OrcamentoService {
         OrcamentoCategoria: {
           include: {
             OrcamentoItem: true,
+            OrcamentoProduto: true,
           },
         },
         condicaoPagamento: true,
@@ -211,7 +228,13 @@ export class OrcamentoService {
       },
     });
   }
-
+  async findProducts(id: string): Promise<OrcamentoProduto[]> {
+    return await this.prisma.orcamentoProduto.findMany({
+      where: {
+        orcamentoCategoriaId: id,
+      },
+    });
+  }
   async findAgency(id: string): Promise<Pessoa[]> {
     const agencia = await this.prisma.classificacao.findFirst({
       where: {
@@ -279,6 +302,14 @@ export class OrcamentoService {
     const item = await this.prisma.orcamentoMidias.deleteMany({
       where: {
         orcamentoId: Number(id),
+      },
+    });
+    return item !== null ? true : false;
+  }
+  async removeProdutoItens(id: string): Promise<boolean> {
+    const item = await this.prisma.orcamentoProduto.deleteMany({
+      where: {
+        orcamentoCategoriaId: id,
       },
     });
     return item !== null ? true : false;

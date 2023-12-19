@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { CreateOrcamentoCategoriaDto } from './dto/create-orcamento-categoria.dto';
 import { CreateOrcamentoentregavelDto } from './dto/create-orcamento-entregavel.dto';
+import { CreateOrcamentoItemProdutoDto } from './dto/create-orcamento-item-produto.dto';
 import { CreateOrcamentoItemDto } from './dto/create-orcamento-item.dto';
 import { CreateOrcamentoMidiasDto } from './dto/create-orcamento-midias.dto';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
@@ -34,6 +35,11 @@ export class OrcamentoController {
     return this.orcamentoService.createOrcamentoItens(dto);
   }
 
+  @Post('/produtos')
+  createOrcamentoProdutoItens(@Body() dto: CreateOrcamentoItemProdutoDto) {
+    return this.orcamentoService.createOrcamentoProdutoItens(dto);
+  }
+
   @Post('/midias')
   createOrcamentoMidias(@Body() dto: CreateOrcamentoMidiasDto) {
     return this.orcamentoService.createMidias(dto);
@@ -52,6 +58,10 @@ export class OrcamentoController {
     return this.orcamentoService.findItens(id);
   }
 
+  @Get('/produtos/:id')
+  findProducts(@Param('id') id: string) {
+    return this.orcamentoService.findProducts(id);
+  }
   @Get('/clients/:id')
   findClients(@Param('id') id: string) {
     return this.orcamentoService.findClients(id);
@@ -99,5 +109,9 @@ export class OrcamentoController {
   @Delete('/entregavel/:id')
   removeEntregavel(@Param('id') id: number) {
     return this.orcamentoService.removeEntregaveis(id);
+  }
+  @Delete('/produtos/:id')
+  removeProdutoItens(@Param('id') id: string) {
+    return this.orcamentoService.removeProdutoItens(id);
   }
 }

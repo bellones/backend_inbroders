@@ -29,7 +29,6 @@ export class PedidoCompraService {
       },
       include: {
         CondicaoPagamento: true,
-        empresaSaida: true,
         responsavel: true,
         pessoa: true,
         PedidoCompraItens: {
@@ -64,7 +63,12 @@ export class PedidoCompraService {
   }
 
   async remove(id: string): Promise<boolean> {
-    const item = await this.prisma.pedidoCompraItens.delete({
+    const itens = await this.prisma.pedidoCompraItens.deleteMany({
+      where: {
+        pedidoCompraId: id,
+      },
+    });
+    const item = await this.prisma.pedidoCompra.delete({
       where: {
         id: id,
       },
@@ -72,7 +76,7 @@ export class PedidoCompraService {
     return item != null ? true : false;
   }
   async removeItem(id: string): Promise<boolean> {
-    const item = await this.prisma.novoProdutoFornecedor.delete({
+    const item = await this.prisma.pedidoCompraItens.delete({
       where: {
         id: id,
       },
