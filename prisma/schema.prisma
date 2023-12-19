@@ -532,7 +532,7 @@ model ModeloOrcamentoItemCategoria {
   id                             String                           @id @default(uuid())
   descricao                      String
   valor                          Decimal
-  modeloOrcamentoItem            ModeloOrcamentoItem              @relation(fields: [modeloOrcamentoItemId], references: [id])
+  modeloOrcamentoItem            ModeloOrcamentoItem              @relation(fields: [modeloOrcamentoItemId], references: [id], onDelete: Cascade)
   modeloOrcamentoItemId          String
   ModeloOrcamentoItemList        ModeloOrcamentoItemList[]
   ModeloOrcamentoItemProdutoList ModeloOrcamentoItemProdutoList[]

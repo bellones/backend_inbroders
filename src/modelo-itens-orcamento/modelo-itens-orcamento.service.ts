@@ -84,7 +84,11 @@ export class ModeloItensOrcamentoService {
         ModeloOrcamentoItemCategoria: {
           include: {
             ModeloOrcamentoItemList: true,
-            ModeloOrcamentoItemProdutoList: true,
+            ModeloOrcamentoItemProdutoList: {
+              include: {
+                NovoProduto: true,
+              },
+            },
           },
         },
       },
