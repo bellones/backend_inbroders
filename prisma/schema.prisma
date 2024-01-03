@@ -652,6 +652,7 @@ model ProjetoCategoria {
   porcentagemReducao      String
   valorReducao            String
   ProjetoOS               ProjetoOS[]
+  ProjetoProduto          ProjetoProduto[]
 }
 
 model ProjetoItem {
@@ -679,6 +680,18 @@ model ProjetoItem {
   porcentagemReducao String
   valorReducao       String
   ProjetoOS          ProjetoOS[]
+}
+
+model ProjetoProduto {
+  id                 String           @id @default(uuid())
+  ProjetoCategoria   ProjetoCategoria @relation(fields: [projetoCategoriaId], references: [id], onDelete: Cascade)
+  projetoCategoriaId String
+  NovoProduto        NovoProduto      @relation(fields: [novoProdutoId], references: [id])
+  novoProdutoId      String
+  descricao          String?
+  quantidade         Decimal
+  valorUn            Decimal
+  valorTotal         Decimal
 }
 
 model ProjetoAprovador {
@@ -909,6 +922,7 @@ model NovoProduto {
   PedidoCompraItens              PedidoCompraItens[]
   OrcamentoProduto               OrcamentoProduto[]
   ModeloOrcamentoItemProdutoList ModeloOrcamentoItemProdutoList[]
+  ProjetoProduto                 ProjetoProduto[]
 }
 
 model NovoProdutoFornecedor {

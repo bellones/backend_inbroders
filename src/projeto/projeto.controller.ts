@@ -15,6 +15,7 @@ import { ProjetoContatoDto } from './dto/create-projeto-contato.dto';
 import { ProjetoItemDto } from './dto/create-projeto-item.dto';
 import { ProjetoOsDto } from './dto/create-projeto-os.dto';
 import { ProjetoPessoDto } from './dto/create-projeto-pessoa.dto';
+import { ProjetoProdutoDto } from './dto/create-projeto-produto.dto';
 import { CreateProjetoDto } from './dto/create-projeto.dto';
 import { UpdateProjetoDto } from './dto/update-projeto.dto';
 import { ProjetoService } from './projeto.service';
@@ -35,6 +36,11 @@ export class ProjetoController {
   @Post('/item')
   createItem(@Body() dto: ProjetoItemDto) {
     return this.projetoService.createItem(dto);
+  }
+
+  @Post('/produto')
+  createProduto(@Body() dto: ProjetoProdutoDto) {
+    return this.projetoService.createProdutoItem(dto);
   }
 
   @Post('/aprovador')
@@ -130,6 +136,10 @@ export class ProjetoController {
   removeItem(@Param('id') id: string) {
     return this.projetoService.removeItem(id);
   }
+  @Delete('/item/:id')
+  removeProduto(@Param('id') id: string) {
+    return this.projetoService.removeProduto(id);
+  }
   @Delete('/aprovador/:id')
   removeAprovador(@Param('id') id: number) {
     return this.projetoService.removeAprovador(id);
@@ -151,7 +161,7 @@ export class ProjetoController {
     return this.projetoService.removeCidade(id);
   }
 
-  @Delete('/cidade/:id')
+  @Delete('/os/:id')
   removeProjetoOS(@Param('id') id: string) {
     return this.projetoService.deleteProjectOs(id);
   }

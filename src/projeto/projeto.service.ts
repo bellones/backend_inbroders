@@ -9,6 +9,7 @@ import { ProjetoContatoDto } from './dto/create-projeto-contato.dto';
 import { ProjetoItemDto } from './dto/create-projeto-item.dto';
 import { ProjetoOsDto } from './dto/create-projeto-os.dto';
 import { ProjetoPessoDto } from './dto/create-projeto-pessoa.dto';
+import { ProjetoProdutoDto } from './dto/create-projeto-produto.dto';
 import { CreateProjetoDto } from './dto/create-projeto.dto';
 import { UpdateProjetoDto } from './dto/update-projeto.dto';
 
@@ -51,6 +52,14 @@ export class ProjetoService {
     });
     return item !== null ? true : false;
   }
+
+  async createProdutoItem(dto: ProjetoProdutoDto): Promise<boolean> {
+    const item = await this.prisma.projetoProduto.create({
+      data: dto,
+    });
+    return item !== null ? true : false;
+  }
+
   async createCity(dto: ProjetoCidadeDto): Promise<boolean> {
     const item = this.prisma.projetoCidade.create({
       data: dto,
@@ -200,6 +209,15 @@ export class ProjetoService {
     return item != null ? true : false;
   }
 
+  async removeProduto(id: string): Promise<boolean> {
+    const item = await this.prisma.projetoProduto.deleteMany({
+      where: {
+        projetoCategoriaId: id,
+      },
+    });
+    return item != null ? true : false;
+  }
+
   async removeAprovador(id: number): Promise<boolean> {
     const item = await this.prisma.projetoAprovador.deleteMany({
       where: {
@@ -265,6 +283,11 @@ export class ProjetoService {
         OrcamentoCategoria: {
           include: {
             OrcamentoItem: true,
+            OrcamentoProduto: {
+              include: {
+                NovoProduto: true,
+              },
+            },
           },
         },
         condicaoPagamento: true,
