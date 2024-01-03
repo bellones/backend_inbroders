@@ -179,7 +179,11 @@ export class OrcamentoService {
         OrcamentoCategoria: {
           include: {
             OrcamentoItem: true,
-            OrcamentoProduto: true,
+            OrcamentoProduto: {
+              include: {
+                NovoProduto: true,
+              },
+            },
           },
         },
         condicaoPagamento: true,

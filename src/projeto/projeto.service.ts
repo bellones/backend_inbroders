@@ -123,6 +123,11 @@ export class ProjetoService {
             OrcamentoCategoria: {
               include: {
                 OrcamentoItem: true,
+                OrcamentoProduto: {
+                  include: {
+                    NovoProduto: true,
+                  },
+                },
               },
             },
             condicaoPagamento: true,
