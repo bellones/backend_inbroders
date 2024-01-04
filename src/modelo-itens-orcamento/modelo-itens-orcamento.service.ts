@@ -3,6 +3,7 @@ import { ModeloOrcamentoItem } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateModeloItensOrcamentoCategoria } from './dto/create-modelo-itens-orcamento-categoria.dto';
 import { CreateModeloItensOrcamentoList } from './dto/create-modelo-itens-orcamento-list.dto';
+import { CreateModeloItensOrcamentoProdutoDto } from './dto/create-modelo-itens-orcamento-produto.dto';
 import { CreateModeloItensOrcamentoDto } from './dto/create-modelo-itens-orcamento.dto';
 import { UpdateModeloItensOrcamentoDto } from './dto/update-modelo-itens-orcamento.dto';
 
@@ -64,6 +65,16 @@ export class ModeloItensOrcamentoService {
 
     return item !== null ? true : false;
   }
+
+  async createProduto(
+    dto: CreateModeloItensOrcamentoProdutoDto,
+  ): Promise<boolean> {
+    const item = await this.prisma.modeloOrcamentoItemProdutoList.create({
+      data: dto,
+    });
+
+    return item !== null ? true : false;
+  }
   async findAll(id: string): Promise<ModeloOrcamentoItem[]> {
     return await this.prisma.modeloOrcamentoItem.findMany({
       where: {
@@ -73,6 +84,11 @@ export class ModeloItensOrcamentoService {
         ModeloOrcamentoItemCategoria: {
           include: {
             ModeloOrcamentoItemList: true,
+            ModeloOrcamentoItemProdutoList: {
+              include: {
+                NovoProduto: true,
+              },
+            },
           },
         },
       },
@@ -99,6 +115,15 @@ export class ModeloItensOrcamentoService {
   }
   async removeItens(id: string): Promise<boolean> {
     const item = await this.prisma.modeloOrcamentoItemList.deleteMany({
+      where: {
+        modeloOrcamentoItemCategoriaId: id,
+      },
+    });
+    return item !== null ? true : false;
+  }
+
+  async removeProdutos(id: string): Promise<boolean> {
+    const item = await this.prisma.modeloOrcamentoItemProdutoList.deleteMany({
       where: {
         modeloOrcamentoItemCategoriaId: id,
       },

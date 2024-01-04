@@ -529,12 +529,13 @@ model ModeloOrcamentoItem {
 }
 
 model ModeloOrcamentoItemCategoria {
-  id                      String                    @id @default(uuid())
-  descricao               String
-  valor                   Decimal
-  modeloOrcamentoItem     ModeloOrcamentoItem       @relation(fields: [modeloOrcamentoItemId], references: [id])
-  modeloOrcamentoItemId   String
-  ModeloOrcamentoItemList ModeloOrcamentoItemList[]
+  id                             String                           @id @default(uuid())
+  descricao                      String
+  valor                          Decimal
+  modeloOrcamentoItem            ModeloOrcamentoItem              @relation(fields: [modeloOrcamentoItemId], references: [id], onDelete: Cascade)
+  modeloOrcamentoItemId          String
+  ModeloOrcamentoItemList        ModeloOrcamentoItemList[]
+  ModeloOrcamentoItemProdutoList ModeloOrcamentoItemProdutoList[]
 }
 
 model ModeloOrcamentoItemList {
@@ -546,6 +547,18 @@ model ModeloOrcamentoItemList {
   descricao                      String?
   unidade                        UnidadeMedida?               @relation(fields: [unidadeMedidaId], references: [id])
   unidadeMedidaId                String?
+  quantidade                     Decimal
+  valorUn                        Decimal
+  valorTotal                     Decimal
+}
+
+model ModeloOrcamentoItemProdutoList {
+  id                             String                       @id @default(uuid())
+  modeloOrcamentoItemCategoria   ModeloOrcamentoItemCategoria @relation(fields: [modeloOrcamentoItemCategoriaId], references: [id], onDelete: Cascade)
+  modeloOrcamentoItemCategoriaId String
+  NovoProduto                    NovoProduto                  @relation(fields: [novoProdutoId], references: [id])
+  novoProdutoId                  String
+  descricao                      String?
   quantidade                     Decimal
   valorUn                        Decimal
   valorTotal                     Decimal
@@ -639,6 +652,7 @@ model ProjetoCategoria {
   porcentagemReducao      String
   valorReducao            String
   ProjetoOS               ProjetoOS[]
+  ProjetoProduto          ProjetoProduto[]
 }
 
 model ProjetoItem {
@@ -666,6 +680,18 @@ model ProjetoItem {
   porcentagemReducao String
   valorReducao       String
   ProjetoOS          ProjetoOS[]
+}
+
+model ProjetoProduto {
+  id                 String           @id @default(uuid())
+  ProjetoCategoria   ProjetoCategoria @relation(fields: [projetoCategoriaId], references: [id], onDelete: Cascade)
+  projetoCategoriaId String
+  NovoProduto        NovoProduto      @relation(fields: [novoProdutoId], references: [id])
+  novoProdutoId      String
+  descricao          String?
+  quantidade         Decimal
+  valorUn            Decimal
+  valorTotal         Decimal
 }
 
 model ProjetoAprovador {
@@ -874,27 +900,29 @@ model Arquivo {
 }
 
 model NovoProduto {
-  id                    String                  @id @default(uuid())
-  empresa               Empresa                 @relation(fields: [idEmpresa], references: [id])
-  idEmpresa             String
-  nome                  String
-  sku                   String
-  formato               String
-  tipo                  String
-  precoVenda            Decimal
-  ativo                 Boolean                 @default(true)
-  unidade               UnidadeMedida           @relation(fields: [unidadeMedidaId], references: [id])
-  unidadeMedidaId       String
-  condicao              String
-  modelo                String
-  marca                 String
-  dataValidade          String
-  depreciacao           String
-  ncm                   String
-  numSerie              String
-  NovoProdutoFornecedor NovoProdutoFornecedor[]
-  PedidoCompraItens     PedidoCompraItens[]
-  OrcamentoProduto      OrcamentoProduto[]
+  id                             String                           @id @default(uuid())
+  empresa                        Empresa                          @relation(fields: [idEmpresa], references: [id])
+  idEmpresa                      String
+  nome                           String
+  sku                            String
+  formato                        String
+  tipo                           String
+  precoVenda                     Decimal
+  ativo                          Boolean                          @default(true)
+  unidade                        UnidadeMedida                    @relation(fields: [unidadeMedidaId], references: [id])
+  unidadeMedidaId                String
+  condicao                       String
+  modelo                         String
+  marca                          String
+  dataValidade                   String
+  depreciacao                    String
+  ncm                            String
+  numSerie                       String
+  NovoProdutoFornecedor          NovoProdutoFornecedor[]
+  PedidoCompraItens              PedidoCompraItens[]
+  OrcamentoProduto               OrcamentoProduto[]
+  ModeloOrcamentoItemProdutoList ModeloOrcamentoItemProdutoList[]
+  ProjetoProduto                 ProjetoProduto[]
 }
 
 model NovoProdutoFornecedor {

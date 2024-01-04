@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { CreateModeloItensOrcamentoCategoria } from './dto/create-modelo-itens-orcamento-categoria.dto';
 import { CreateModeloItensOrcamentoList } from './dto/create-modelo-itens-orcamento-list.dto';
+import { CreateModeloItensOrcamentoProdutoDto } from './dto/create-modelo-itens-orcamento-produto.dto';
 import { CreateModeloItensOrcamentoDto } from './dto/create-modelo-itens-orcamento.dto';
 import { UpdateModeloItensOrcamentoDto } from './dto/update-modelo-itens-orcamento.dto';
 import { ModeloItensOrcamentoService } from './modelo-itens-orcamento.service';
@@ -33,6 +34,10 @@ export class ModeloItensOrcamentoController {
   createOrcamentoItens(@Body() dto: CreateModeloItensOrcamentoList) {
     return this.modeloItensOrcamentoService.createOrcamentoItens(dto);
   }
+  @Post('/produtos')
+  createProduto(@Body() dto: CreateModeloItensOrcamentoProdutoDto) {
+    return this.modeloItensOrcamentoService.createProduto(dto);
+  }
 
   @Get('/list/:id')
   findAll(@Param('id') id: string) {
@@ -56,5 +61,10 @@ export class ModeloItensOrcamentoController {
   @Delete('/itens/:id')
   removeItens(@Param('id') id: string) {
     return this.modeloItensOrcamentoService.removeItens(id);
+  }
+
+  @Delete('/produtos/:id')
+  removeProduto(@Param('id') id: string) {
+    return this.modeloItensOrcamentoService.removeProdutos(id);
   }
 }
