@@ -10,13 +10,7 @@ export class CondicaoPagamentoService {
 
   async create(dto: CreateCondicaoPagamentoDto): Promise<boolean> {
     const item = await this.prisma.condicaoPagamento.create({
-      data: {
-        nome: dto.nome,
-        idEmpresa: dto.idEmpresa,
-        condicao: dto.condicao,
-        divisor: dto.divisor,
-        variacao: dto.variacao,
-      },
+      data: dto,
     });
 
     return item !== null ? true : false;
@@ -43,13 +37,7 @@ export class CondicaoPagamentoService {
       where: {
         id: id,
       },
-      data: {
-        nome: dto.nome,
-        idEmpresa: dto.idEmpresa,
-        condicao: dto.condicao,
-        divisor: dto.divisor,
-        variacao: dto.variacao,
-      },
+      data: dto,
     });
 
     return item !== null ? true : false;

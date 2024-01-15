@@ -376,9 +376,10 @@ model CondicaoPagamento {
   empresa        Empresa          @relation(fields: [idEmpresa], references: [id])
   idEmpresa      String
   nome           String
-  condicao       String
-  variacao       Decimal
-  divisor        Decimal
+  parcelas       Decimal          @default(1)
+  baixaPrimeira  Boolean          @default(false)
+  entrada        Boolean          @default(false)
+  diaFixo        Decimal          @default(1)
   Orcamento      Orcamento[]
   ProdutoUnidade ProdutoUnidade[]
   ContasPagar    ContasPagar[]
@@ -886,7 +887,7 @@ model ContasPagarArquivo {
   id            String      @id @default(uuid())
   contasPagar   ContasPagar @relation(fields: [contasPagarId], references: [id], onDelete: Cascade)
   contasPagarId String
-  arquivo       Arquivo     @relation(fields: [arquivoId], references: [id])
+  arquivo       Arquivo     @relation(fields: [arquivoId], references: [id], onDelete: Cascade)
   arquivoId     String
 }
 

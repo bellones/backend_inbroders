@@ -6,7 +6,8 @@ export class CreateCondicaoPagamentoDto {
   @IsString()
   nome: string;
   @IsString()
-  condicao: string;
-  variacao: number;
-  divisor: number;
+  parcelas: number;
+  baixaPrimeira: boolean;
+  entrada: boolean;
+  diaFixo: number;
 }

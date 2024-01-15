@@ -8,11 +8,12 @@ export class ArquivoService {
   constructor(private prisma: PrismaService) {}
 
   async getFile(id: string): Promise<Arquivo> {
-    return await this.prisma.arquivo.findFirst({
+    const item = await this.prisma.arquivo.findFirst({
       where: {
         id: id,
       },
     });
+    return item;
   }
 
   async salvarVariosDados(files: Express.Multer.File[]): Promise<Arquivo[]> {
