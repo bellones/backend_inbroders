@@ -11,48 +11,49 @@ datasource db {
 }
 
 model Empresa {
-  id                  String                @id @default(uuid())
-  razaoSocial         String
-  nomeFantasia        String?
-  inscricaoMunicipal  String?
-  inscricaoEstadual   String?
-  cnpj                String
-  dataCadastro        DateTime?             @default(now())
-  dataAtualizado      DateTime?
-  ativo               Boolean               @default(true)
-  matriz              Boolean               @default(false)
-  Usuario             Usuario[]
-  EnderecoEmpresa     EnderecoEmpresa[]
-  ContaFixa           Conta[]
-  TipoLancamento      TipoLancamento[]
-  CategoriaLancamento CategoriaLancamento[]
-  Lancamento          Lancamento[]
-  Financeiro          Financeiro[]
-  FormaPagamento      FormaPagamento[]
-  Ocorrencia          Ocorrencia[]
-  FinanceiroCategoria FinanceiroCategoria[]
-  TipoConta           TipoConta[]
-  ContatoTipo         ContatoTipo[]
-  Tipo                Tipo[]
-  Classificacao       Classificacao[]
-  Pessoa              Pessoa[]
-  Produto             Produto[]
-  UnidadeMedida       UnidadeMedida[]
-  ModeloNegocio       ModeloNegocio[]
-  Orcamento           Orcamento[]
-  Midias              Midias[]
-  Entregavel          Entregavel[]
-  CondicaoPagamento   CondicaoPagamento[]
-  NotasRodape         NotasRodape[]
-  PessoaFilial        PessoaFilial[]
-  ModeloOrcamentoItem ModeloOrcamentoItem[]
-  CadastroDescricao   CadastroDescricao[]
-  Projeto             Projeto[]
-  ContasPagar         ContasPagar[]
-  Departamento        Departamento[]
-  CentroCusto         CentroCusto[]
-  NovoProduto         NovoProduto[]
-  PedidoCompra        PedidoCompra[]
+  id                     String                   @id @default(uuid())
+  razaoSocial            String
+  nomeFantasia           String?
+  inscricaoMunicipal     String?
+  inscricaoEstadual      String?
+  cnpj                   String
+  dataCadastro           DateTime?                @default(now())
+  dataAtualizado         DateTime?
+  ativo                  Boolean                  @default(true)
+  matriz                 Boolean                  @default(false)
+  Usuario                Usuario[]
+  EnderecoEmpresa        EnderecoEmpresa[]
+  ContaFixa              Conta[]
+  TipoLancamento         TipoLancamento[]
+  CategoriaLancamento    CategoriaLancamento[]
+  Lancamento             Lancamento[]
+  Financeiro             Financeiro[]
+  FormaPagamento         FormaPagamento[]
+  Ocorrencia             Ocorrencia[]
+  FinanceiroCategoria    FinanceiroCategoria[]
+  TipoConta              TipoConta[]
+  ContatoTipo            ContatoTipo[]
+  Tipo                   Tipo[]
+  Classificacao          Classificacao[]
+  Pessoa                 Pessoa[]
+  Produto                Produto[]
+  UnidadeMedida          UnidadeMedida[]
+  ModeloNegocio          ModeloNegocio[]
+  Orcamento              Orcamento[]
+  Midias                 Midias[]
+  Entregavel             Entregavel[]
+  CondicaoPagamento      CondicaoPagamento[]
+  NotasRodape            NotasRodape[]
+  PessoaFilial           PessoaFilial[]
+  ModeloOrcamentoItem    ModeloOrcamentoItem[]
+  CadastroDescricao      CadastroDescricao[]
+  Projeto                Projeto[]
+  ContasPagar            ContasPagar[]
+  Departamento           Departamento[]
+  CentroCusto            CentroCusto[]
+  NovoProduto            NovoProduto[]
+  PedidoCompra           PedidoCompra[]
+  SubCategoriaLancamento SubCategoriaLancamento[]
 }
 
 model Usuario {
@@ -237,32 +238,49 @@ model TipoLancamento {
 }
 
 model CategoriaLancamento {
-  id         String       @id @default(uuid())
-  empresa    Empresa      @relation(fields: [idEmpresa], references: [id])
-  idEmpresa  String
-  nome       String
-  ativo      Boolean?     @default(true)
+  id        String   @id @default(uuid())
+  empresa   Empresa  @relation(fields: [idEmpresa], references: [id])
+  idEmpresa String
+  nome      String
+  ativo     Boolean? @default(true)
+
   Lancamento Lancamento[]
 }
 
+model SubCategoriaLancamento {
+  id                    String              @id @default(uuid())
+  nome                  String
+  empresa               Empresa             @relation(fields: [idEmpresa], references: [id])
+  idEmpresa             String
+  FinanceiroCategoria   FinanceiroCategoria @relation(fields: [categoriaLancamentoId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  categoriaLancamentoId String
+  ativo                 Boolean?            @default(true)
+  Lancamento            Lancamento[]
+  ContasPagar           ContasPagar[]
+}
+
 model Lancamento {
-  id               String              @id @default(uuid())
-  empresa          Empresa             @relation(fields: [idEmpresa], references: [id])
-  idEmpresa        String
-  categoria        CategoriaLancamento @relation(fields: [idCategoria], references: [id])
-  idCategoria      String
-  conta            Conta               @relation(fields: [contaId], references: [id])
-  pessoa           Pessoa?             @relation(fields: [idPessoa], references: [id])
-  idPessoa         String?
-  contaId          String
-  data             DateTime
-  competencia      DateTime
-  valor            Decimal
-  tipo             String
-  texto            String?
-  arquivo          String?
-  tipolancamento   TipoLancamento      @relation(fields: [tipoLancamentoId], references: [id])
-  tipoLancamentoId String
+  id                       String                  @id @default(uuid())
+  empresa                  Empresa                 @relation(fields: [idEmpresa], references: [id])
+  idEmpresa                String
+  categoria                FinanceiroCategoria     @relation(fields: [idCategoria], references: [id])
+  idCategoria              String
+  conta                    Conta                   @relation(fields: [contaId], references: [id])
+  pessoa                   Pessoa?                 @relation(fields: [idPessoa], references: [id])
+  idPessoa                 String?
+  contaId                  String
+  data                     DateTime
+  competencia              DateTime
+  valor                    Decimal
+  tipo                     String
+  texto                    String?
+  arquivo                  String?
+  tipolancamento           TipoLancamento          @relation(fields: [tipoLancamentoId], references: [id])
+  tipoLancamentoId         String
+  SubCategoriaLancamento   SubCategoriaLancamento? @relation(fields: [subCategoriaLancamentoId], references: [id])
+  subCategoriaLancamentoId String?
+  CategoriaLancamento      CategoriaLancamento?    @relation(fields: [categoriaLancamentoId], references: [id])
+  categoriaLancamentoId    String?
 }
 
 model FormaPagamento {
@@ -283,11 +301,14 @@ model Ocorrencia {
 }
 
 model FinanceiroCategoria {
-  id         String       @id @default(uuid())
-  empresa    Empresa      @relation(fields: [idEmpresa], references: [id])
-  idEmpresa  String
-  nome       String
-  Financeiro Financeiro[]
+  id                     String                   @id @default(uuid())
+  empresa                Empresa                  @relation(fields: [idEmpresa], references: [id])
+  idEmpresa              String
+  nome                   String
+  Financeiro             Financeiro[]
+  Lancamento             Lancamento[]
+  SubCategoriaLancamento SubCategoriaLancamento[]
+  ContasPagar            ContasPagar[]
 }
 
 model Financeiro {
@@ -859,28 +880,31 @@ model CentroCusto {
 }
 
 model ContasPagar {
-  id                    String               @id @default(uuid())
-  empresa               Empresa?             @relation(fields: [idEmpresa], references: [id])
-  idEmpresa             String
-  centroCusto           CentroCusto          @relation(fields: [centroCustoId], references: [id])
-  centroCustoId         String
-  pessoa                Pessoa               @relation(fields: [pessoaId], references: [id])
-  pessoaId              String
-  vencOriginal          DateTime
-  vencimento            DateTime
-  valor                 Decimal
-  dataEmissao           DateTime
-  numDocumento          String
-  competencia           DateTime
-  historico             String
-  categoriaLancamentoId String
-  parcelaVencimento     Int
-  parcela               Int
-  ContasPagarArquivo    ContasPagarArquivo[]
-  usuario               Usuario?             @relation(fields: [usuarioId], references: [id])
-  usuarioId             String
-  CondicaoPagamento     CondicaoPagamento    @relation(fields: [condicaoPagamentoId], references: [id])
-  condicaoPagamentoId   String
+  id                       String                  @id @default(uuid())
+  empresa                  Empresa?                @relation(fields: [idEmpresa], references: [id])
+  idEmpresa                String
+  centroCusto              CentroCusto             @relation(fields: [centroCustoId], references: [id])
+  centroCustoId            String
+  pessoa                   Pessoa                  @relation(fields: [pessoaId], references: [id])
+  pessoaId                 String
+  vencOriginal             DateTime
+  vencimento               DateTime
+  valor                    Decimal
+  dataEmissao              DateTime
+  numDocumento             String
+  competencia              DateTime
+  historico                String
+  FinanceiroCategoria      FinanceiroCategoria     @relation(fields: [categoriaLancamentoId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  categoriaLancamentoId    String
+  parcelaVencimento        Int
+  parcela                  Int
+  ContasPagarArquivo       ContasPagarArquivo[]
+  usuario                  Usuario?                @relation(fields: [usuarioId], references: [id])
+  usuarioId                String
+  CondicaoPagamento        CondicaoPagamento       @relation(fields: [condicaoPagamentoId], references: [id])
+  condicaoPagamentoId      String
+  SubCategoriaLancamento   SubCategoriaLancamento? @relation(fields: [subCategoriaLancamentoId], references: [id])
+  subCategoriaLancamentoId String?
 }
 
 model ContasPagarArquivo {

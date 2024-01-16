@@ -39,6 +39,7 @@ import { UnidadeModule } from './unidade/unidade.module';
 import { UserModule } from './user/user.module';
 
 import { PedidoCompraModule } from './pedido-compra/pedido-compra.module';
+import { FinanceSubCategoryModule } from './finance_sub_category/finance_sub_category.module';
 
 @Module({
   imports: [
@@ -80,6 +81,7 @@ import { PedidoCompraModule } from './pedido-compra/pedido-compra.module';
     ArquivoModule,
     NovoProdutoModule,
     PedidoCompraModule,
+    FinanceSubCategoryModule,
   ],
   controllers: [],
   providers: [AppService],
