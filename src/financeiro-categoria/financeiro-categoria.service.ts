@@ -24,6 +24,9 @@ export class FinanceiroCategoriaService {
       where: {
         idEmpresa: id,
       },
+      include: {
+        SubCategoriaLancamento: true,
+      },
     });
   }
 

@@ -1,12 +1,13 @@
-import { IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 export class CreateCondicaoPagamentoDto {
   @IsString()
   idEmpresa: string;
   @IsString()
   nome: string;
-  @IsString()
-  condicao: string;
-  variacao: number;
-  divisor: number;
+  @IsNumber()
+  parcelas: number;
+  baixaPrimeira: boolean;
+  entrada: boolean;
+  diaFixo: number;
 }

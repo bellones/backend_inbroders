@@ -38,6 +38,11 @@ export class ContasPagarService {
             arquivo: true,
           },
         },
+        FinanceiroCategoria: {
+          include: {
+            SubCategoriaLancamento: true,
+          },
+        },
         centroCusto: true,
         empresa: true,
         CondicaoPagamento: true,
