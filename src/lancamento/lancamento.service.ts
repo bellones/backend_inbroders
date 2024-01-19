@@ -13,14 +13,17 @@ export class LancamentoService {
       data: {
         competencia: dto.competencia,
         data: dto.data,
-        arquivo: dto.arquivo,
-        idCategoria: dto.idCategoria,
         tipo: dto.tipo,
-        texto: dto.texto,
         valor: dto.valor,
+        categoriaLancamentoId: dto.categoriaLancamentoId,
         contaId: dto.contaId,
+        contaPagarId: dto.contaPagarId,
+        contaReceberId: dto.contaReceberId,
+        idCategoria: dto.idCategoria,
         idEmpresa: dto.idEmpresa,
+        subCategoriaLancamentoId: dto.subCategoriaLancamentoId,
         idPessoa: dto.idPessoa,
+        texto: dto.texto,
         tipoLancamentoId: dto.tipoLancamentoId,
       },
     });
@@ -49,19 +52,7 @@ export class LancamentoService {
       where: {
         id: id,
       },
-      data: {
-        competencia: dto.competencia,
-        data: dto.data,
-        arquivo: dto.arquivo,
-        idCategoria: dto.idCategoria,
-        tipo: dto.tipo,
-        texto: dto.texto,
-        valor: dto.valor,
-        contaId: dto.contaId,
-        idEmpresa: dto.idEmpresa,
-        idPessoa: dto.idPessoa,
-        tipoLancamentoId: dto.tipoLancamentoId,
-      },
+      data: dto,
     });
 
     return item !== null ? true : false;

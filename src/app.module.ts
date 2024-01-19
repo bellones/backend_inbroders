@@ -40,6 +40,7 @@ import { UserModule } from './user/user.module';
 
 import { PedidoCompraModule } from './pedido-compra/pedido-compra.module';
 import { FinanceSubCategoryModule } from './finance_sub_category/finance_sub_category.module';
+import { ContasReceberModule } from './contas-receber/contas-receber.module';
 
 @Module({
   imports: [
@@ -82,6 +83,7 @@ import { FinanceSubCategoryModule } from './finance_sub_category/finance_sub_cat
     NovoProdutoModule,
     PedidoCompraModule,
     FinanceSubCategoryModule,
+    ContasReceberModule,
   ],
   controllers: [],
   providers: [AppService],
