@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { LancamentoService } from './lancamento.service';
 import { LancamentoController } from './lancamento.controller';
+import { LancamentoService } from './lancamento.service';
 
 @Module({
   controllers: [LancamentoController],
-  providers: [LancamentoService]
+  providers: [LancamentoService],
 })
 export class LancamentoModule {}
