@@ -41,8 +41,7 @@ export class ContasReceberService {
         cliente: true,
         empresa: true,
         empresaSaida: true,
-        Lancamento: true,
-        tipolancamento: true,
+        tipoConta: true,
       },
     });
   }

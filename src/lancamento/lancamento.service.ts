@@ -15,16 +15,14 @@ export class LancamentoService {
         data: dto.data,
         tipo: dto.tipo,
         valor: dto.valor,
-        categoriaLancamentoId: dto.categoriaLancamentoId,
-        contaId: dto.contaId,
+        acrescimo: dto.acrescimo,
+        desconto: dto.desconto,
         contaPagarId: dto.contaPagarId,
         contaReceberId: dto.contaReceberId,
-        idCategoria: dto.idCategoria,
         idEmpresa: dto.idEmpresa,
-        subCategoriaLancamentoId: dto.subCategoriaLancamentoId,
         idPessoa: dto.idPessoa,
         texto: dto.texto,
-        tipoLancamentoId: dto.tipoLancamentoId,
+        vencimento: dto.vencimento,
       },
     });
 
@@ -43,6 +41,22 @@ export class LancamentoService {
     return await this.prisma.lancamento.findFirst({
       where: {
         id: id,
+      },
+    });
+  }
+
+  async findContasPagar(id: string): Promise<Lancamento[]> {
+    return await this.prisma.lancamento.findMany({
+      where: {
+        contaPagarId: id,
+      },
+    });
+  }
+
+  async findContasReceber(id: string): Promise<Lancamento[]> {
+    return await this.prisma.lancamento.findMany({
+      where: {
+        contaReceberId: id,
       },
     });
   }

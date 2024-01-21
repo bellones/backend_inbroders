@@ -211,34 +211,32 @@ model EnderecoPessoa {
 }
 
 model TipoConta {
-  id        String  @id @default(uuid())
-  empresa   Empresa @relation(fields: [idEmpresa], references: [id])
-  idEmpresa String
-  descricao String
-  Conta     Conta[]
+  id            String          @id @default(uuid())
+  empresa       Empresa         @relation(fields: [idEmpresa], references: [id])
+  idEmpresa     String
+  descricao     String
+  Conta         Conta[]
+  ContasReceber ContasReceber[]
 }
 
 model Conta {
-  id          String       @id @default(uuid())
-  empresa     Empresa      @relation(fields: [idEmpresa], references: [id])
+  id          String    @id @default(uuid())
+  empresa     Empresa   @relation(fields: [idEmpresa], references: [id])
   idEmpresa   String
-  tipoconta   TipoConta    @relation(fields: [idTipoConta], references: [id])
+  tipoconta   TipoConta @relation(fields: [idTipoConta], references: [id])
   idTipoConta String
   banco       String
   agencia     String
   conta       String
-  ativo       Boolean?     @default(true)
-  Lancamento  Lancamento[]
+  ativo       Boolean?  @default(true)
 }
 
 model TipoLancamento {
-  id            String          @id @default(uuid())
-  empresa       Empresa         @relation(fields: [idEmpresa], references: [id])
-  idEmpresa     String
-  nome          String
-  ativo         Boolean?        @default(true)
-  Lancamento    Lancamento[]
-  ContasReceber ContasReceber[]
+  id        String   @id @default(uuid())
+  empresa   Empresa  @relation(fields: [idEmpresa], references: [id])
+  idEmpresa String
+  nome      String
+  ativo     Boolean? @default(true)
 }
 
 model CategoriaLancamento {
@@ -247,8 +245,6 @@ model CategoriaLancamento {
   idEmpresa String
   nome      String
   ativo     Boolean? @default(true)
-
-  Lancamento Lancamento[]
 }
 
 model SubCategoriaLancamento {
@@ -259,36 +255,26 @@ model SubCategoriaLancamento {
   FinanceiroCategoria   FinanceiroCategoria @relation(fields: [categoriaLancamentoId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   categoriaLancamentoId String
   ativo                 Boolean?            @default(true)
-  Lancamento            Lancamento[]
   ContasPagar           ContasPagar[]
 }
 
 model Lancamento {
-  id                       String                  @id @default(uuid())
-  empresa                  Empresa                 @relation(fields: [idEmpresa], references: [id])
-  idEmpresa                String
-  categoria                FinanceiroCategoria     @relation(fields: [idCategoria], references: [id])
-  idCategoria              String
-  conta                    Conta                   @relation(fields: [contaId], references: [id])
-  pessoa                   Pessoa?                 @relation(fields: [idPessoa], references: [id])
-  idPessoa                 String?
-  contaId                  String
-  data                     DateTime
-  competencia              DateTime
-  valor                    Decimal
-  tipo                     String
-  texto                    String?
-  arquivo                  String?
-  tipolancamento           TipoLancamento          @relation(fields: [tipoLancamentoId], references: [id])
-  tipoLancamentoId         String
-  SubCategoriaLancamento   SubCategoriaLancamento? @relation(fields: [subCategoriaLancamentoId], references: [id])
-  subCategoriaLancamentoId String?
-  CategoriaLancamento      CategoriaLancamento?    @relation(fields: [categoriaLancamentoId], references: [id])
-  categoriaLancamentoId    String?
-  ContasPagar              ContasPagar             @relation(fields: [contaPagarId], references: [id])
-  contaPagarId             String
-  ContasReceber            ContasReceber           @relation(fields: [contaReceberId], references: [id])
-  contaReceberId           String
+  id           String   @id @default(uuid())
+  empresa      Empresa  @relation(fields: [idEmpresa], references: [id])
+  idEmpresa    String
+  pessoa       Pessoa?  @relation(fields: [idPessoa], references: [id])
+  idPessoa     String?
+  data         DateTime
+  competencia  DateTime
+  vencimento   DateTime
+  acrescimo    Decimal
+  desconto     Decimal
+  valor        Decimal
+  tipo         String
+  texto        String?
+  contaPagarId String?
+
+  contaReceberId String?
 }
 
 model FormaPagamento {
@@ -309,12 +295,12 @@ model Ocorrencia {
 }
 
 model FinanceiroCategoria {
-  id                     String                   @id @default(uuid())
-  empresa                Empresa                  @relation(fields: [idEmpresa], references: [id])
-  idEmpresa              String
-  nome                   String
-  Financeiro             Financeiro[]
-  Lancamento             Lancamento[]
+  id         String       @id @default(uuid())
+  empresa    Empresa      @relation(fields: [idEmpresa], references: [id])
+  idEmpresa  String
+  nome       String
+  Financeiro Financeiro[]
+
   SubCategoriaLancamento SubCategoriaLancamento[]
   ContasPagar            ContasPagar[]
 }
@@ -913,7 +899,6 @@ model ContasPagar {
   condicaoPagamentoId      String
   SubCategoriaLancamento   SubCategoriaLancamento? @relation(fields: [subCategoriaLancamentoId], references: [id])
   subCategoriaLancamentoId String?
-  Lancamento               Lancamento[]
 }
 
 model ContasPagarArquivo {
@@ -1031,9 +1016,8 @@ model ContasReceber {
   tipoRecebimento      String
   observcao            String
   status               String
-  tipolancamento       TipoLancamento         @relation(fields: [tipoLancamentoId], references: [id])
+  tipoConta            TipoConta              @relation(fields: [tipoLancamentoId], references: [id])
   tipoLancamentoId     String
-  Lancamento           Lancamento[]
   ContasReceberArquivo ContasReceberArquivo[]
 }
 
