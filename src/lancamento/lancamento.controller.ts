@@ -25,6 +25,16 @@ export class LancamentoController {
     return this.lancamentoService.findAll(id);
   }
 
+  @Get('/contaspagar/:id')
+  findContasPagar(@Param('id') id: string) {
+    return this.lancamentoService.findContasPagar(id);
+  }
+
+  @Get('/contasreceber/:id')
+  findContasReceber(@Param('id') id: string) {
+    return this.lancamentoService.findContasReceber(id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.lancamentoService.findOne(id);

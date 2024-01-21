@@ -259,21 +259,22 @@ model SubCategoriaLancamento {
 }
 
 model Lancamento {
-  id             String        @id @default(uuid())
-  empresa        Empresa       @relation(fields: [idEmpresa], references: [id])
-  idEmpresa      String
-  pessoa         Pessoa?       @relation(fields: [idPessoa], references: [id])
-  idPessoa       String?
-  data           DateTime
-  competencia    DateTime
-  vencimento     DateTime
-  valor          Decimal
-  tipo           String
-  texto          String?
-  ContasPagar    ContasPagar   @relation(fields: [contaPagarId], references: [id])
-  contaPagarId   String
-  ContasReceber  ContasReceber @relation(fields: [contaReceberId], references: [id])
-  contaReceberId String
+  id           String   @id @default(uuid())
+  empresa      Empresa  @relation(fields: [idEmpresa], references: [id])
+  idEmpresa    String
+  pessoa       Pessoa?  @relation(fields: [idPessoa], references: [id])
+  idPessoa     String?
+  data         DateTime
+  competencia  DateTime
+  vencimento   DateTime
+  acrescimo    Decimal
+  desconto     Decimal
+  valor        Decimal
+  tipo         String
+  texto        String?
+  contaPagarId String?
+
+  contaReceberId String?
 }
 
 model FormaPagamento {
@@ -898,7 +899,6 @@ model ContasPagar {
   condicaoPagamentoId      String
   SubCategoriaLancamento   SubCategoriaLancamento? @relation(fields: [subCategoriaLancamentoId], references: [id])
   subCategoriaLancamentoId String?
-  Lancamento               Lancamento[]
 }
 
 model ContasPagarArquivo {
@@ -1018,7 +1018,6 @@ model ContasReceber {
   status               String
   tipoConta            TipoConta              @relation(fields: [tipoLancamentoId], references: [id])
   tipoLancamentoId     String
-  Lancamento           Lancamento[]
   ContasReceberArquivo ContasReceberArquivo[]
 }
 

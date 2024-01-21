@@ -4,6 +4,8 @@ export class CreateLancamentoDto {
   data: Date;
   competencia: Date;
   vencimento: Date;
+  acrescimo: number;
+  desconto: number;
   valor: number;
   tipo: string;
   texto: string;

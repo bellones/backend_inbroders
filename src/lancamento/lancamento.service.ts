@@ -15,6 +15,8 @@ export class LancamentoService {
         data: dto.data,
         tipo: dto.tipo,
         valor: dto.valor,
+        acrescimo: dto.acrescimo,
+        desconto: dto.desconto,
         contaPagarId: dto.contaPagarId,
         contaReceberId: dto.contaReceberId,
         idEmpresa: dto.idEmpresa,
@@ -39,6 +41,22 @@ export class LancamentoService {
     return await this.prisma.lancamento.findFirst({
       where: {
         id: id,
+      },
+    });
+  }
+
+  async findContasPagar(id: string): Promise<Lancamento[]> {
+    return await this.prisma.lancamento.findMany({
+      where: {
+        contaPagarId: id,
+      },
+    });
+  }
+
+  async findContasReceber(id: string): Promise<Lancamento[]> {
+    return await this.prisma.lancamento.findMany({
+      where: {
+        contaReceberId: id,
       },
     });
   }
