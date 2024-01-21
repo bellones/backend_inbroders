@@ -42,7 +42,7 @@ export class ContasReceberService {
         empresa: true,
         empresaSaida: true,
         Lancamento: true,
-        tipolancamento: true,
+        tipoConta: true,
       },
     });
   }

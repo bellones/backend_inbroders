@@ -15,16 +15,12 @@ export class LancamentoService {
         data: dto.data,
         tipo: dto.tipo,
         valor: dto.valor,
-        categoriaLancamentoId: dto.categoriaLancamentoId,
-        contaId: dto.contaId,
         contaPagarId: dto.contaPagarId,
         contaReceberId: dto.contaReceberId,
-        idCategoria: dto.idCategoria,
         idEmpresa: dto.idEmpresa,
-        subCategoriaLancamentoId: dto.subCategoriaLancamentoId,
         idPessoa: dto.idPessoa,
         texto: dto.texto,
-        tipoLancamentoId: dto.tipoLancamentoId,
+        vencimento: dto.vencimento,
       },
     });
 
