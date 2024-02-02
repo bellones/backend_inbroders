@@ -81,4 +81,48 @@ export class LancamentoService {
 
     return item !== null ? true : false;
   }
+
+  async pagar(id: string): Promise<boolean> {
+    const item = await this.prisma.lancamento.update({
+      where: {
+        id: id,
+      },
+      data: {
+        pago: true,
+        dataPago: new Date(),
+      },
+    });
+
+    return item !== null ? true : false;
+  }
+
+  async removerPagamento(id: string): Promise<boolean> {
+    const item = await this.prisma.lancamento.update({
+      where: {
+        id: id,
+      },
+      data: {
+        pago: false,
+        dataPago: new Date(),
+      },
+    });
+
+    return item !== null ? true : false;
+  }
+
+  async findLancamentoData(
+    id: string,
+    dataInicio: Date,
+    dataFim: Date,
+  ): Promise<Lancamento[]> {
+    return await this.prisma.lancamento.findMany({
+      where: {
+        idEmpresa: id,
+        data: {
+          gte: dataInicio,
+          lte: dataFim,
+        },
+      },
+    });
+  }
 }

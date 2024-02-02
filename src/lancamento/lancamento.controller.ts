@@ -35,6 +35,15 @@ export class LancamentoController {
     return this.lancamentoService.findContasReceber(id);
   }
 
+  @Get('/lancamentodata/:id/:datainicio/:datafim')
+  findLancamentoData(
+    @Param('id') id: string,
+    @Param('datainicio') datainicio: Date,
+    @Param('datafim') datafim: Date,
+  ) {
+    return this.lancamentoService.findLancamentoData(id, datainicio, datafim);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.lancamentoService.findOne(id);
@@ -46,6 +55,16 @@ export class LancamentoController {
     @Body() updateLancamentoDto: UpdateLancamentoDto,
   ) {
     return this.lancamentoService.update(id, updateLancamentoDto);
+  }
+
+  @Patch('/pagar/:id')
+  pagar(@Param('id') id: string) {
+    return this.lancamentoService.pagar(id);
+  }
+
+  @Patch('/removerpagamento/:id')
+  removerPagamento(@Param('id') id: string) {
+    return this.lancamentoService.removerPagamento(id);
   }
 
   @Delete(':id')
