@@ -259,22 +259,23 @@ model SubCategoriaLancamento {
 }
 
 model Lancamento {
-  id           String   @id @default(uuid())
-  empresa      Empresa  @relation(fields: [idEmpresa], references: [id])
-  idEmpresa    String
-  pessoa       Pessoa?  @relation(fields: [idPessoa], references: [id])
-  idPessoa     String?
-  data         DateTime
-  competencia  DateTime
-  vencimento   DateTime
-  acrescimo    Decimal
-  desconto     Decimal
-  valor        Decimal
-  tipo         String
-  texto        String?
-  contaPagarId String?
-
+  id             String    @id @default(uuid())
+  empresa        Empresa   @relation(fields: [idEmpresa], references: [id])
+  idEmpresa      String
+  pessoa         Pessoa?   @relation(fields: [idPessoa], references: [id])
+  idPessoa       String?
+  data           DateTime
+  competencia    DateTime
+  vencimento     DateTime
+  acrescimo      Decimal
+  desconto       Decimal
+  valor          Decimal
+  tipo           String
+  texto          String?
+  contaPagarId   String?
   contaReceberId String?
+  pago           Boolean   @default(false)
+  dataPago       DateTime?
 }
 
 model FormaPagamento {

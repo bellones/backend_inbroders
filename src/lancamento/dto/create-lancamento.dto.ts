@@ -11,4 +11,6 @@ export class CreateLancamentoDto {
   texto: string;
   contaPagarId?: string;
   contaReceberId?: string;
+  pago?: boolean;
+  dataPago?: Date;
 }
