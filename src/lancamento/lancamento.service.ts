@@ -123,6 +123,12 @@ export class LancamentoService {
           lte: new Date(dataFim).toISOString(),
         },
       },
+      include: {
+        pessoa: true,
+      },
+      orderBy: {
+        vencimento: 'asc',
+      },
     });
   }
 }

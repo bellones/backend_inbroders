@@ -16,4 +16,5 @@ export class CreateContasPagarDto {
   parcela: number;
   usuarioId: string;
   subCategoriaLancamentoId: string;
+  tipoRecebimento: string;
 }
