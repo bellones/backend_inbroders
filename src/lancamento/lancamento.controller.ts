@@ -38,8 +38,8 @@ export class LancamentoController {
   @Get('/lancamentodata/:id/:datainicio/:datafim')
   findLancamentoData(
     @Param('id') id: string,
-    @Param('datainicio') datainicio: Date,
-    @Param('datafim') datafim: Date,
+    @Param('datainicio') datainicio: string,
+    @Param('datafim') datafim: string,
   ) {
     return this.lancamentoService.findLancamentoData(id, datainicio, datafim);
   }

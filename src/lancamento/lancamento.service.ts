@@ -103,7 +103,7 @@ export class LancamentoService {
       },
       data: {
         pago: false,
-        dataPago: new Date(),
+        dataPago: null,
       },
     });
 
@@ -112,16 +112,22 @@ export class LancamentoService {
 
   async findLancamentoData(
     id: string,
-    dataInicio: Date,
-    dataFim: Date,
+    dataInicio: string,
+    dataFim: string,
   ): Promise<Lancamento[]> {
     return await this.prisma.lancamento.findMany({
       where: {
         idEmpresa: id,
-        data: {
-          gte: dataInicio,
-          lte: dataFim,
+        vencimento: {
+          gte: new Date(dataInicio).toISOString(),
+          lte: new Date(dataFim).toISOString(),
         },
+      },
+      include: {
+        pessoa: true,
+      },
+      orderBy: {
+        vencimento: 'asc',
       },
     });
   }
