@@ -39,7 +39,17 @@ export class ContaFinanceiroService {
       where: {
         id: id,
       },
-      data: dto,
+      data: {
+        agencia: dto.agencia,
+        banco: dto.banco,
+        documento: dto.documento,
+        idEmpresa: dto.idEmpresa,
+        idTipoConta: dto.idTipoConta,
+        numero: dto.numero,
+        tipoPessoa: dto.tipoPessoa,
+        tipo: dto.tipo,
+        titular: dto.titular,
+      },
     });
     return item !== null;
   }

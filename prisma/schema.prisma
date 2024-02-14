@@ -56,6 +56,7 @@ model Empresa {
   SubCategoriaLancamento SubCategoriaLancamento[]
   ContasReceber          ContasReceber[]
   ContaFinanceiro        ContaFinanceiro[]
+  OrcamentoDepto         OrcamentoDepto[]
 }
 
 model Usuario {
@@ -859,11 +860,12 @@ model ProjetoOS {
 }
 
 model Departamento {
-  id          String        @id @default(uuid())
-  empresa     Empresa       @relation(fields: [idEmpresa], references: [id])
-  idEmpresa   String
-  nome        String
-  CentroCusto CentroCusto[]
+  id             String           @id @default(uuid())
+  empresa        Empresa          @relation(fields: [idEmpresa], references: [id])
+  idEmpresa      String
+  nome           String
+  CentroCusto    CentroCusto[]
+  OrcamentoDepto OrcamentoDepto[]
 }
 
 model CentroCusto {
@@ -1047,4 +1049,26 @@ model ContaFinanceiro {
   documento   String
   tipoconta   TipoConta @relation(fields: [idTipoConta], references: [id])
   idTipoConta String
+}
+
+model OrcamentoDepto {
+  id                 String               @id @default(uuid())
+  empresa            Empresa?             @relation(fields: [idEmpresa], references: [id])
+  idEmpresa          String
+  departamento       Departamento         @relation(fields: [departamentoId], references: [id])
+  departamentoId     String
+  total              Decimal
+  verba              Decimal
+  alocado            Decimal
+  disponivel         Decimal
+  OrcamentoDeptoItem OrcamentoDeptoItem[]
+}
+
+model OrcamentoDeptoItem {
+  id               String         @id @default(uuid())
+  orcamentoDepto   OrcamentoDepto @relation(fields: [orcamentoDeptoId], references: [id])
+  orcamentoDeptoId String
+  tipo             String
+  descricao        String
+  valor            Decimal
 }
