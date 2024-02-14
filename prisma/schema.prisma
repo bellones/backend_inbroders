@@ -55,6 +55,7 @@ model Empresa {
   PedidoCompra           PedidoCompra[]
   SubCategoriaLancamento SubCategoriaLancamento[]
   ContasReceber          ContasReceber[]
+  ContaFinanceiro        ContaFinanceiro[]
 }
 
 model Usuario {
@@ -211,12 +212,13 @@ model EnderecoPessoa {
 }
 
 model TipoConta {
-  id            String          @id @default(uuid())
-  empresa       Empresa         @relation(fields: [idEmpresa], references: [id])
-  idEmpresa     String
-  descricao     String
-  Conta         Conta[]
-  ContasReceber ContasReceber[]
+  id              String            @id @default(uuid())
+  empresa         Empresa           @relation(fields: [idEmpresa], references: [id])
+  idEmpresa       String
+  descricao       String
+  Conta           Conta[]
+  ContasReceber   ContasReceber[]
+  ContaFinanceiro ContaFinanceiro[]
 }
 
 model Conta {
@@ -1029,4 +1031,20 @@ model ContasReceberArquivo {
   contasReceberId String
   arquivo         Arquivo       @relation(fields: [arquivoId], references: [id], onDelete: Cascade)
   arquivoId       String
+}
+
+model ContaFinanceiro {
+  id          String    @id @default(uuid())
+  empresa     Empresa?  @relation(fields: [idEmpresa], references: [id])
+  idEmpresa   String
+  banco       String
+  agencia     String
+  tipo        String
+  numero      String
+  validade    String?
+  titular     String
+  tipoPessoa  String
+  documento   String
+  tipoconta   TipoConta @relation(fields: [idTipoConta], references: [id])
+  idTipoConta String
 }
