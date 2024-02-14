@@ -19,6 +19,9 @@ export class ContaFinanceiroService {
       where: {
         idEmpresa: id,
       },
+      include: {
+        tipoconta: true,
+      },
     });
   }
 
