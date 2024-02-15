@@ -1055,7 +1055,7 @@ model OrcamentoDepto {
   id                 String               @id @default(uuid())
   empresa            Empresa?             @relation(fields: [idEmpresa], references: [id])
   idEmpresa          String
-  departamento       Departamento         @relation(fields: [departamentoId], references: [id])
+  departamento       Departamento         @relation(fields: [departamentoId], references: [id], onDelete: Cascade)
   departamentoId     String
   total              Decimal
   verba              Decimal
@@ -1066,7 +1066,7 @@ model OrcamentoDepto {
 
 model OrcamentoDeptoItem {
   id               String         @id @default(uuid())
-  orcamentoDepto   OrcamentoDepto @relation(fields: [orcamentoDeptoId], references: [id])
+  orcamentoDepto   OrcamentoDepto @relation(fields: [orcamentoDeptoId], references: [id], onDelete: Cascade)
   orcamentoDeptoId String
   tipo             String
   descricao        String

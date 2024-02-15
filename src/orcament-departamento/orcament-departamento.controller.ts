@@ -22,7 +22,7 @@ export class OrcamentDepartamentoController {
   create(@Body() dto: CreateOrcamentDepartamentoDto) {
     return this.orcamentDepartamentoService.create(dto);
   }
-  @Post()
+  @Post('/item')
   createItems(@Body() dto: OrcamentoDepartamentoItemDto) {
     return this.orcamentDepartamentoService.createItem(dto);
   }
