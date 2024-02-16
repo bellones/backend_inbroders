@@ -56,6 +56,7 @@ model Empresa {
   SubCategoriaLancamento SubCategoriaLancamento[]
   ContasReceber          ContasReceber[]
   ContaFinanceiro        ContaFinanceiro[]
+  OrcamentoDepto         OrcamentoDepto[]
 }
 
 model Usuario {
@@ -332,30 +333,32 @@ model Financeiro {
 }
 
 model UnidadeMedida {
-  id                      String                    @id @default(uuid())
-  empresa                 Empresa                   @relation(fields: [idEmpresa], references: [id])
-  idEmpresa               String
-  nome                    String
-  ativo                   Boolean                   @default(true)
-  ProdutoUnidade          ProdutoUnidade[]
-  OrcamentoItem           OrcamentoItem[]
-  ModeloOrcamentoItemList ModeloOrcamentoItemList[]
-  ProjetoItem             ProjetoItem[]
-  ProjetoOS               ProjetoOS[]
-  NovoProduto             NovoProduto[]
-  PedidoCompraItens       PedidoCompraItens[]
+  id                       String                     @id @default(uuid())
+  empresa                  Empresa                    @relation(fields: [idEmpresa], references: [id])
+  idEmpresa                String
+  nome                     String
+  ativo                    Boolean                    @default(true)
+  ProdutoUnidade           ProdutoUnidade[]
+  OrcamentoItem            OrcamentoItem[]
+  ModeloOrcamentoItemList  ModeloOrcamentoItemList[]
+  ProjetoItem              ProjetoItem[]
+  ProjetoOS                ProjetoOS[]
+  NovoProduto              NovoProduto[]
+  PedidoCompraItens        PedidoCompraItens[]
+  PedidoCompraServicoItens PedidoCompraServicoItens[]
 }
 
 model Produto {
-  id                      String                    @id @default(uuid())
-  empresa                 Empresa                   @relation(fields: [idEmpresa], references: [id])
-  idEmpresa               String
-  nome                    String
-  ativo                   Boolean                   @default(true)
-  ProdutoUnidade          ProdutoUnidade[]
-  OrcamentoItem           OrcamentoItem[]
-  ModeloOrcamentoItemList ModeloOrcamentoItemList[]
-  ProjetoItem             ProjetoItem[]
+  id                       String                     @id @default(uuid())
+  empresa                  Empresa                    @relation(fields: [idEmpresa], references: [id])
+  idEmpresa                String
+  nome                     String
+  ativo                    Boolean                    @default(true)
+  ProdutoUnidade           ProdutoUnidade[]
+  OrcamentoItem            OrcamentoItem[]
+  ModeloOrcamentoItemList  ModeloOrcamentoItemList[]
+  ProjetoItem              ProjetoItem[]
+  PedidoCompraServicoItens PedidoCompraServicoItens[]
 }
 
 model ProdutoUnidade {
@@ -402,6 +405,7 @@ model CondicaoPagamento {
   ProdutoUnidade ProdutoUnidade[]
   ContasPagar    ContasPagar[]
   PedidoCompra   PedidoCompra[]
+  ContasReceber  ContasReceber[]
 }
 
 model Midias {
@@ -859,21 +863,24 @@ model ProjetoOS {
 }
 
 model Departamento {
-  id          String        @id @default(uuid())
-  empresa     Empresa       @relation(fields: [idEmpresa], references: [id])
-  idEmpresa   String
-  nome        String
-  CentroCusto CentroCusto[]
+  id             String           @id @default(uuid())
+  empresa        Empresa          @relation(fields: [idEmpresa], references: [id])
+  idEmpresa      String
+  nome           String
+  CentroCusto    CentroCusto[]
+  OrcamentoDepto OrcamentoDepto[]
 }
 
 model CentroCusto {
-  id             String        @id @default(uuid())
+  id             String          @id @default(uuid())
   nome           String
-  empresa        Empresa       @relation(fields: [idEmpresa], references: [id])
+  empresa        Empresa         @relation(fields: [idEmpresa], references: [id])
   idEmpresa      String
-  departamento   Departamento  @relation(fields: [departamentoId], references: [id])
+  departamento   Departamento    @relation(fields: [departamentoId], references: [id])
   ContasPagar    ContasPagar[]
   departamentoId String
+  ContasReceber  ContasReceber[]
+  PedidoCompra   PedidoCompra[]
 }
 
 model ContasPagar {
@@ -903,6 +910,9 @@ model ContasPagar {
   SubCategoriaLancamento   SubCategoriaLancamento? @relation(fields: [subCategoriaLancamentoId], references: [id])
   subCategoriaLancamentoId String?
   tipoRecebimento          String?
+  origem                   String?
+  contaFinanceiro          ContaFinanceiro         @relation(fields: [contaFinanceiroId], references: [id])
+  contaFinanceiroId        String
 }
 
 model ContasPagarArquivo {
@@ -958,29 +968,36 @@ model NovoProdutoFornecedor {
 }
 
 model PedidoCompra {
-  id                    String              @id @default(uuid())
-  empresa               Empresa             @relation(fields: [idEmpresa], references: [id])
-  idEmpresa             String
-  usuario               Usuario?            @relation(fields: [usuarioId], references: [id])
-  usuarioId             String
-  CondicaoPagamento     CondicaoPagamento   @relation(fields: [condicaoPagamentoId], references: [id])
-  condicaoPagamentoId   String
-  pessoa                Pessoa              @relation(fields: [pessoaId], references: [id])
-  pessoaId              String
-  responsavel           Usuario             @relation(name: "responsavelCompra", fields: [responsavelId], references: [id])
-  responsavelId         String
-  icms                  Decimal
-  ipi                   Decimal
-  valor                 Decimal
-  valorPedido           Decimal
-  desconto              Decimal
-  frete                 Decimal
-  ordem                 Int                 @default(autoincrement())
-  categoriaLancamentoId String
-  dataCompra            DateTime            @default(now())
-  dataPrevista          DateTime
-  observacao            String
-  PedidoCompraItens     PedidoCompraItens[]
+  id                       String                     @id @default(uuid())
+  empresa                  Empresa                    @relation(fields: [idEmpresa], references: [id])
+  idEmpresa                String
+  usuario                  Usuario?                   @relation(fields: [usuarioId], references: [id])
+  usuarioId                String
+  CondicaoPagamento        CondicaoPagamento          @relation(fields: [condicaoPagamentoId], references: [id])
+  condicaoPagamentoId      String
+  pessoa                   Pessoa                     @relation(fields: [pessoaId], references: [id])
+  pessoaId                 String
+  responsavel              Usuario                    @relation(name: "responsavelCompra", fields: [responsavelId], references: [id])
+  responsavelId            String
+  icms                     Decimal
+  ipi                      Decimal
+  valor                    Decimal
+  valorPedido              Decimal
+  desconto                 Decimal
+  frete                    Decimal
+  ordem                    Int                        @default(autoincrement())
+  categoriaLancamentoId    String
+  dataCompra               DateTime                   @default(now())
+  dataPrevista             DateTime
+  observacao               String
+  PedidoCompraItens        PedidoCompraItens[]
+  origem                   String?
+  contaFinaceiro           ContaFinanceiro            @relation(fields: [contaFinanceiroId], references: [id])
+  tipoRecebimento          String
+  centroCusto              CentroCusto                @relation(fields: [centroCustoId], references: [id])
+  centroCustoId            String
+  PedidoCompraServicoItens PedidoCompraServicoItens[]
+  contaFinanceiroId        String
 }
 
 model PedidoCompraItens {
@@ -1000,29 +1017,51 @@ model PedidoCompraItens {
   valorTotal      Decimal
 }
 
+model PedidoCompraServicoItens {
+  id              String         @id @default(uuid())
+  pedidoCompra    PedidoCompra   @relation(fields: [pedidoCompraId], references: [id])
+  pedidoCompraId  String
+  produto         Produto        @relation(fields: [produtoId], references: [id])
+  produtoId       String
+  descricao       String?
+  unidade         UnidadeMedida? @relation(fields: [unidadeMedidaId], references: [id])
+  unidadeMedidaId String?
+  quantidade      Decimal
+  valorUn         Decimal
+  valorTotal      Decimal
+}
+
 model ContasReceber {
-  id                   String                 @id @default(uuid())
-  empresa              Empresa?               @relation(fields: [idEmpresa], references: [id])
-  idEmpresa            String
-  dataCriacao          DateTime               @default(now())
-  dataEdicao           DateTime               @default(now())
-  data                 DateTime
-  empresaSaida         Pessoa?                @relation("empresaSaidaC", fields: [empresaSaiadaId], references: [id])
-  empresaSaiadaId      String?
-  cliente              Pessoa?                @relation("clientePessoaC", fields: [clientId], references: [id])
-  clientId             String?
-  documento            String
-  emissao              DateTime
-  vencimento           DateTime
-  valor                Decimal
-  regime               String
-  formaRecebimento     String
-  tipoRecebimento      String
-  observcao            String
-  status               String
-  tipoConta            TipoConta              @relation(fields: [tipoLancamentoId], references: [id])
-  tipoLancamentoId     String
+  id               String    @id @default(uuid())
+  empresa          Empresa?  @relation(fields: [idEmpresa], references: [id])
+  idEmpresa        String
+  dataCriacao      DateTime  @default(now())
+  dataEdicao       DateTime  @default(now())
+  data             DateTime
+  empresaSaida     Pessoa?   @relation("empresaSaidaC", fields: [empresaSaiadaId], references: [id])
+  empresaSaiadaId  String?
+  cliente          Pessoa?   @relation("clientePessoaC", fields: [clientId], references: [id])
+  clientId         String?
+  documento        String
+  emissao          DateTime
+  vencimento       DateTime
+  valor            Decimal
+  regime           String
+  formaRecebimento String
+  tipoRecebimento  String
+  observcao        String
+  status           String
+  tipoConta        TipoConta @relation(fields: [tipoLancamentoId], references: [id])
+  tipoLancamentoId String
+  origem           String?
+
+  centroCusto          CentroCusto            @relation(fields: [centroCustoId], references: [id])
+  condicaoPagamento    CondicaoPagamento      @relation(fields: [condicaoPagamentoId], references: [id])
   ContasReceberArquivo ContasReceberArquivo[]
+  centroCustoId        String
+  condicaoPagamentoId  String
+  contaFinanceiro      ContaFinanceiro        @relation(fields: [contaFinanceiroId], references: [id])
+  contaFinanceiroId    String
 }
 
 model ContasReceberArquivo {
@@ -1034,17 +1073,42 @@ model ContasReceberArquivo {
 }
 
 model ContaFinanceiro {
-  id          String    @id @default(uuid())
-  empresa     Empresa?  @relation(fields: [idEmpresa], references: [id])
-  idEmpresa   String
-  banco       String
-  agencia     String
-  tipo        String
-  numero      String
-  validade    String?
-  titular     String
-  tipoPessoa  String
-  documento   String
-  tipoconta   TipoConta @relation(fields: [idTipoConta], references: [id])
-  idTipoConta String
+  id            String          @id @default(uuid())
+  empresa       Empresa?        @relation(fields: [idEmpresa], references: [id])
+  idEmpresa     String
+  banco         String
+  agencia       String
+  tipo          String
+  numero        String
+  validade      String?
+  titular       String
+  tipoPessoa    String
+  documento     String
+  tipoconta     TipoConta       @relation(fields: [idTipoConta], references: [id])
+  idTipoConta   String
+  PedidoCompra  PedidoCompra[]
+  ContasPagar   ContasPagar[]
+  ContasReceber ContasReceber[]
+}
+
+model OrcamentoDepto {
+  id                 String               @id @default(uuid())
+  empresa            Empresa?             @relation(fields: [idEmpresa], references: [id])
+  idEmpresa          String
+  departamento       Departamento         @relation(fields: [departamentoId], references: [id], onDelete: Cascade)
+  departamentoId     String
+  total              Decimal
+  verba              Decimal
+  alocado            Decimal
+  disponivel         Decimal
+  OrcamentoDeptoItem OrcamentoDeptoItem[]
+}
+
+model OrcamentoDeptoItem {
+  id               String         @id @default(uuid())
+  orcamentoDepto   OrcamentoDepto @relation(fields: [orcamentoDeptoId], references: [id], onDelete: Cascade)
+  orcamentoDeptoId String
+  tipo             String
+  descricao        String
+  valor            Decimal
 }

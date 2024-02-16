@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PedidoCompra } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CompraPedidoItem } from './dto/create-pedido-compra-item.dto';
+import { CreatePedidoCompraServicoDto } from './dto/create-pedido-compra-servico.dto';
 import { CreatePedidoCompraDto } from './dto/create-pedido-compra.dto';
 import { UpdatePedidoCompraDto } from './dto/update-pedido-compra.dto';
 
@@ -21,6 +22,12 @@ export class PedidoCompraService {
     });
     return item != null ? true : false;
   }
+  async createServico(dto: CreatePedidoCompraServicoDto): Promise<boolean> {
+    const item = await this.prisma.pedidoCompraServicoItens.create({
+      data: dto,
+    });
+    return item != null ? true : false;
+  }
 
   async findAll(id: string): Promise<PedidoCompra[]> {
     const item = await this.prisma.pedidoCompra.findMany({
@@ -35,6 +42,14 @@ export class PedidoCompraService {
           include: {
             novoProduto: true,
             pedidoCompra: true,
+            unidade: true,
+          },
+        },
+        centroCusto: true,
+        contaFinaceiro: true,
+        PedidoCompraServicoItens: {
+          include: {
+            produto: true,
             unidade: true,
           },
         },
@@ -77,6 +92,14 @@ export class PedidoCompraService {
   }
   async removeItem(id: string): Promise<boolean> {
     const item = await this.prisma.pedidoCompraItens.delete({
+      where: {
+        id: id,
+      },
+    });
+    return item != null ? true : false;
+  }
+  async removeServico(id: string): Promise<boolean> {
+    const item = await this.prisma.pedidoCompraServicoItens.delete({
       where: {
         id: id,
       },

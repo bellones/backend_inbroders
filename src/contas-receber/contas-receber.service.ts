@@ -42,6 +42,9 @@ export class ContasReceberService {
         empresa: true,
         empresaSaida: true,
         tipoConta: true,
+        centroCusto: true,
+        condicaoPagamento: true,
+        contaFinanceiro: true,
       },
     });
   }

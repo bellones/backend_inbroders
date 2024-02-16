@@ -42,6 +42,7 @@ import { PedidoCompraModule } from './pedido-compra/pedido-compra.module';
 import { FinanceSubCategoryModule } from './finance_sub_category/finance_sub_category.module';
 import { ContasReceberModule } from './contas-receber/contas-receber.module';
 import { ContaFinanceiroModule } from './conta-financeiro/conta-financeiro.module';
+import { OrcamentDepartamentoModule } from './orcament-departamento/orcament-departamento.module';
 
 @Module({
   imports: [
@@ -86,6 +87,7 @@ import { ContaFinanceiroModule } from './conta-financeiro/conta-financeiro.modul
     FinanceSubCategoryModule,
     ContasReceberModule,
     ContaFinanceiroModule,
+    OrcamentDepartamentoModule,
   ],
   controllers: [],
   providers: [AppService],

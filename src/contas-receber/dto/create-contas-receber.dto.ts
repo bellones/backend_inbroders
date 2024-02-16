@@ -15,4 +15,8 @@ export class CreateContasReceberDto {
   observcao: string;
   status: string;
   tipoLancamentoId: string;
+  origem: string;
+  contaFinanceiroId: string;
+  centroCustoId: string;
+  condicaoPagamentoId: string;
 }

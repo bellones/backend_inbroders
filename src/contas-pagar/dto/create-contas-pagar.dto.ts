@@ -17,4 +17,6 @@ export class CreateContasPagarDto {
   usuarioId: string;
   subCategoriaLancamentoId: string;
   tipoRecebimento: string;
+  contaFinanceiroId: string;
+  origem: string;
 }

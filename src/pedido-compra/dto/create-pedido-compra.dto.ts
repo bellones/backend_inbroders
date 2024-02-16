@@ -16,4 +16,8 @@ export class CreatePedidoCompraDto {
   dataCompra: Date;
   dataPrevista: Date;
   observacao: string;
+  origem: string;
+  contaFinanceiroId: string;
+  tipoRecebimento: string;
+  centroCustoId: string;
 }

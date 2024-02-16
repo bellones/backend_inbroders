@@ -48,6 +48,8 @@ export class ContasPagarService {
         CondicaoPagamento: true,
         pessoa: true,
         usuario: true,
+        contaFinanceiro: true,
+        SubCategoriaLancamento: true,
       },
     });
   }
