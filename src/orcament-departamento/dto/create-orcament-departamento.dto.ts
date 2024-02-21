@@ -5,4 +5,7 @@ export class CreateOrcamentDepartamentoDto {
   verba: number;
   alocado: number;
   disponivel: number;
+  usuarioId: string;
+  descricao: string;
+  vigencia: Date;
 }

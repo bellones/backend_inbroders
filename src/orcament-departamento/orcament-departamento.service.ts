@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { OrcamentoDepto, OrcamentoDeptoItem } from '@prisma/client';
+import {
+  OrcamentoDepto,
+  OrcamentoDeptoItem,
+  OrcamentoDeptoProduto,
+} from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { OrcamentoDepartamentoProdutoItemDto } from './dto/create-orcament-departamento-product-item';
 import { CreateOrcamentDepartamentoDto } from './dto/create-orcament-departamento.dto';
 import { OrcamentoDepartamentoItemDto } from './dto/create-orcamento-deptartamento-item';
 import { UpdateOrcamentDepartamentoDto } from './dto/update-orcament-departamento.dto';
@@ -22,6 +27,14 @@ export class OrcamentDepartamentoService {
     });
     return item;
   }
+  async createProduct(
+    dto: OrcamentoDepartamentoProdutoItemDto,
+  ): Promise<OrcamentoDeptoProduto> {
+    const item = await this.prisma.orcamentoDeptoProduto.create({
+      data: dto,
+    });
+    return item;
+  }
   async findAll(id: string): Promise<OrcamentoDepto[]> {
     return await this.prisma.orcamentoDepto.findMany({
       where: {
@@ -29,7 +42,21 @@ export class OrcamentDepartamentoService {
       },
       include: {
         departamento: true,
-        OrcamentoDeptoItem: true,
+        usuario: true,
+        OrcamentoDeptoCategoria: {
+          include: {
+            OrcamentoDeptoItem: {
+              include: {
+                produto: true,
+              },
+            },
+            OrcamentoDeptoProduto: {
+              include: {
+                NovoProduto: true,
+              },
+            },
+          },
+        },
       },
     });
   }
@@ -63,6 +90,14 @@ export class OrcamentDepartamentoService {
   }
   async removeItens(id: string): Promise<boolean> {
     const item = await this.prisma.orcamentoDeptoItem.delete({
+      where: {
+        id: id,
+      },
+    });
+    return item !== null;
+  }
+  async removeProducts(id: string): Promise<boolean> {
+    const item = await this.prisma.orcamentoDeptoProduto.delete({
       where: {
         id: id,
       },

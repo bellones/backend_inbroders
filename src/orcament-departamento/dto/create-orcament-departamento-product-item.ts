@@ -1,8 +1,7 @@
-export class OrcamentoDepartamentoItemDto {
+export class OrcamentoDepartamentoProdutoItemDto {
   orcamentoDeptoCategoriaId: string;
+  novoProdutoId: string;
   descricao: string;
-  produtoId: string;
-  unidadeMedidaId: string;
   quantidade: number;
   valorUn: number;
   valorTotal: number;

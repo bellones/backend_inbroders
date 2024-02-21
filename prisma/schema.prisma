@@ -81,6 +81,7 @@ model Usuario {
   ContasPagar           ContasPagar[]
   PedidoCompra          PedidoCompra[]
   responsavel           PedidoCompra[]          @relation("responsavelCompra")
+  OrcamentoDepto        OrcamentoDepto[]
 }
 
 model MatrizFilial {
@@ -359,6 +360,7 @@ model Produto {
   ModeloOrcamentoItemList  ModeloOrcamentoItemList[]
   ProjetoItem              ProjetoItem[]
   PedidoCompraServicoItens PedidoCompraServicoItens[]
+  OrcamentoDeptoItem       OrcamentoDeptoItem[]
 }
 
 model ProdutoUnidade {
@@ -957,6 +959,7 @@ model NovoProduto {
   OrcamentoProduto               OrcamentoProduto[]
   ModeloOrcamentoItemProdutoList ModeloOrcamentoItemProdutoList[]
   ProjetoProduto                 ProjetoProduto[]
+  OrcamentoDeptoProduto          OrcamentoDeptoProduto[]
 }
 
 model NovoProdutoFornecedor {
@@ -1092,23 +1095,53 @@ model ContaFinanceiro {
 }
 
 model OrcamentoDepto {
-  id                 String               @id @default(uuid())
-  empresa            Empresa?             @relation(fields: [idEmpresa], references: [id])
-  idEmpresa          String
-  departamento       Departamento         @relation(fields: [departamentoId], references: [id], onDelete: Cascade)
-  departamentoId     String
-  total              Decimal
-  verba              Decimal
-  alocado            Decimal
-  disponivel         Decimal
-  OrcamentoDeptoItem OrcamentoDeptoItem[]
+  id                      String                    @id @default(uuid())
+  empresa                 Empresa?                  @relation(fields: [idEmpresa], references: [id])
+  idEmpresa               String
+  departamento            Departamento              @relation(fields: [departamentoId], references: [id], onDelete: Cascade)
+  departamentoId          String
+  total                   Decimal
+  verba                   Decimal
+  alocado                 Decimal
+  disponivel              Decimal
+  descricao               String
+  vigencia                DateTime
+  usuario                 Usuario                   @relation(fields: [usuarioId], references: [id])
+  usuarioId               String
+  OrcamentoDeptoCategoria OrcamentoDeptoCategoria[]
+}
+
+model OrcamentoDeptoCategoria {
+  id                    String                  @id @default(uuid())
+  orcamentoDepto        OrcamentoDepto          @relation(fields: [orcamentoDeptoId], references: [id], onDelete: Cascade)
+  orcamentoDeptoId      String
+  descricao             String
+  valor                 Decimal
+  OrcamentoDeptoItem    OrcamentoDeptoItem[]
+  OrcamentoDeptoProduto OrcamentoDeptoProduto[]
 }
 
 model OrcamentoDeptoItem {
-  id               String         @id @default(uuid())
-  orcamentoDepto   OrcamentoDepto @relation(fields: [orcamentoDeptoId], references: [id], onDelete: Cascade)
-  orcamentoDeptoId String
-  tipo             String
-  descricao        String
-  valor            Decimal
+  id                        String                  @id @default(uuid())
+  orcamentoDeptoCategoria   OrcamentoDeptoCategoria @relation(fields: [orcamentoDeptoCategoriaId], references: [id])
+  orcamentoDeptoCategoriaId String
+  descricao                 String
+  produto                   Produto                 @relation(fields: [produtoId], references: [id])
+  produtoId                 String
+  unidadeMedidaId           String
+  quantidade                Decimal
+  valorUn                   Decimal
+  valorTotal                Decimal
+}
+
+model OrcamentoDeptoProduto {
+  id                        String                  @id @default(uuid())
+  orcamentoDeptoCategoria   OrcamentoDeptoCategoria @relation(fields: [orcamentoDeptoCategoriaId], references: [id])
+  orcamentoDeptoCategoriaId String
+  NovoProduto               NovoProduto             @relation(fields: [novoProdutoId], references: [id])
+  novoProdutoId             String
+  descricao                 String?
+  quantidade                Decimal
+  valorUn                   Decimal
+  valorTotal                Decimal
 }
