@@ -17,6 +17,7 @@ export class CreateContasReceberDto {
   tipoLancamentoId: string;
   origem: string;
   contaFinanceiroId: string;
+  usuarioId: string;
   centroCustoId: string;
   condicaoPagamentoId: string;
 }

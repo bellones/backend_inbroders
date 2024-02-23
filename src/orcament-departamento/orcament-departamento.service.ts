@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import {
   OrcamentoDepto,
+  OrcamentoDeptoCategoria,
   OrcamentoDeptoItem,
   OrcamentoDeptoProduto,
 } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateOrcamentoDepartametnoOrcamentoCategoria } from './dto/create-orcament-departamento-category';
 import { OrcamentoDepartamentoProdutoItemDto } from './dto/create-orcament-departamento-product-item';
 import { CreateOrcamentDepartamentoDto } from './dto/create-orcament-departamento.dto';
 import { OrcamentoDepartamentoItemDto } from './dto/create-orcamento-deptartamento-item';
@@ -19,11 +21,31 @@ export class OrcamentDepartamentoService {
     });
     return item;
   }
+  async createCategory(
+    dto: CreateOrcamentoDepartametnoOrcamentoCategoria,
+  ): Promise<OrcamentoDeptoCategoria> {
+    const item = await this.prisma.orcamentoDeptoCategoria.create({
+      data: {
+        descricao: dto.descricao,
+        valor: dto.valor,
+        orcamentoDeptoId: dto.orcamentoDeptoId,
+      },
+    });
+    return item;
+  }
   async createItem(
     dto: OrcamentoDepartamentoItemDto,
   ): Promise<OrcamentoDeptoItem> {
     const item = await this.prisma.orcamentoDeptoItem.create({
-      data: dto,
+      data: {
+        descricao: dto.descricao,
+        quantidade: dto.quantidade,
+        unidadeMedidaId: dto.unidadeMedidaId,
+        valorTotal: dto.valorTotal,
+        valorUn: dto.valorUn,
+        orcamentoDeptoCategoriaId: dto.orcamentoDeptoCategoriaId,
+        produtoId: dto.produtoId,
+      },
     });
     return item;
   }
@@ -31,7 +53,14 @@ export class OrcamentDepartamentoService {
     dto: OrcamentoDepartamentoProdutoItemDto,
   ): Promise<OrcamentoDeptoProduto> {
     const item = await this.prisma.orcamentoDeptoProduto.create({
-      data: dto,
+      data: {
+        descricao: dto.descricao,
+        quantidade: dto.quantidade,
+        valorTotal: dto.valorTotal,
+        valorUn: dto.valorUn,
+        orcamentoDeptoCategoriaId: dto.orcamentoDeptoCategoriaId,
+        novoProdutoId: dto.novoProdutoId,
+      },
     });
     return item;
   }
@@ -82,6 +111,14 @@ export class OrcamentDepartamentoService {
   }
   async remove(id: string): Promise<boolean> {
     const item = await this.prisma.orcamentoDepto.delete({
+      where: {
+        id: id,
+      },
+    });
+    return item !== null;
+  }
+  async removeCategory(id: string): Promise<boolean> {
+    const item = await this.prisma.orcamentoDeptoCategoria.delete({
       where: {
         id: id,
       },

@@ -23,6 +23,8 @@ export class LancamentoService {
         idPessoa: dto.idPessoa,
         texto: dto.texto,
         vencimento: dto.vencimento,
+        obs: dto.obs,
+        tipoRecebimento: dto.tipoRecebimento,
       },
     });
 

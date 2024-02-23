@@ -1,5 +1,5 @@
-export class CreateContaFinanceiroDto {
-  idEmpresa: string;
+export class CreatePessoaContaDto {
+  pessoaId: string;
   banco: string;
   agencia: string;
   tipo: string;
@@ -8,7 +8,6 @@ export class CreateContaFinanceiroDto {
   titular: string;
   tipoPessoa: string;
   documento: string;
-  idTipoConta: string;
   descricao: string;
-  empresaSaiadaId: string;
+  obs: string;
 }
