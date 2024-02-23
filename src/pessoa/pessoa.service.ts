@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Pessoa, PessoaFilial } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreatePessoaContaDto } from './dto/create-pessoa-conta.dto';
 import { CreatePessoaFilialDto } from './dto/create-pessoa-filial.dto';
 import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
@@ -49,6 +50,7 @@ export class PessoaService {
         PessoaFilial: true,
         Classificacao: true,
         tipo: true,
+        PessoaContaFinanceiro: true,
       },
       orderBy: {
         id: 'desc',
@@ -109,6 +111,14 @@ export class PessoaService {
     return item !== null ? true : false;
   }
 
+  async createContaPessoa(dto: CreatePessoaContaDto): Promise<boolean> {
+    const item = await this.prisma.pessoaContaFinanceiro.create({
+      data: dto,
+    });
+
+    return item !== null ? true : false;
+  }
+
   async listFilialPessoa(id: string): Promise<PessoaFilial[]> {
     return await this.prisma.pessoaFilial.findMany({
       where: {
@@ -128,6 +138,15 @@ export class PessoaService {
     const item = await this.prisma.pessoaFilial.deleteMany({
       where: {
         idPessoa: id,
+      },
+    });
+    return item !== null ? true : false;
+  }
+
+  async removeConta(id: string): Promise<boolean> {
+    const item = await this.prisma.pessoaContaFinanceiro.deleteMany({
+      where: {
+        pessoaId: id,
       },
     });
     return item !== null ? true : false;

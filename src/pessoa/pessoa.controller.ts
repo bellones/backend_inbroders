@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { CreatePessoaContaDto } from './dto/create-pessoa-conta.dto';
 import { CreatePessoaFilialDto } from './dto/create-pessoa-filial.dto';
 import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
@@ -23,6 +24,11 @@ export class PessoaController {
   @Post('/filial')
   createFilialPessoa(@Body() dto: CreatePessoaFilialDto) {
     return this.pessoaService.createFilialPessoa(dto);
+  }
+
+  @Post('/conta')
+  createContaPessoa(@Body() dto: CreatePessoaContaDto) {
+    return this.pessoaService.createContaPessoa(dto);
   }
 
   @Get('/list/:id')
@@ -62,5 +68,10 @@ export class PessoaController {
   @Delete('filial/:id')
   removeFilial(@Param('id') id: string) {
     return this.pessoaService.removeFilial(id);
+  }
+
+  @Delete('conta/:id')
+  removeConta(@Param('id') id: string) {
+    return this.pessoaService.removeConta(id);
   }
 }

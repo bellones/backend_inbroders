@@ -50,6 +50,24 @@ export class ContasPagarService {
         usuario: true,
         contaFinanceiro: true,
         SubCategoriaLancamento: true,
+        orcamentoDepto: {
+          include: {
+            OrcamentoDeptoCategoria: {
+              include: {
+                OrcamentoDeptoItem: {
+                  include: {
+                    produto: true,
+                  },
+                },
+                OrcamentoDeptoProduto: {
+                  include: {
+                    NovoProduto: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
   }

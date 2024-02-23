@@ -20,4 +20,5 @@ export class CreatePedidoCompraDto {
   contaFinanceiroId: string;
   tipoRecebimento: string;
   centroCustoId: string;
+  orcamentoDeptoId: string;
 }

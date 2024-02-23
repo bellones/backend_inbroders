@@ -45,6 +45,7 @@ export class ContasReceberService {
         centroCusto: true,
         condicaoPagamento: true,
         contaFinanceiro: true,
+        usuario: true,
       },
     });
   }

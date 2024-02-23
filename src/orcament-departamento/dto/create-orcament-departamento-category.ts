@@ -1,5 +1,5 @@
 export class CreateOrcamentoDepartametnoOrcamentoCategoria {
-  orcamentoDeptoCategoriaId: string;
+  orcamentoDeptoId: string;
   descricao: string;
   valor: number;
 }

@@ -53,6 +53,24 @@ export class PedidoCompraService {
             unidade: true,
           },
         },
+        orcamentoDepto: {
+          include: {
+            OrcamentoDeptoCategoria: {
+              include: {
+                OrcamentoDeptoItem: {
+                  include: {
+                    produto: true,
+                  },
+                },
+                OrcamentoDeptoProduto: {
+                  include: {
+                    NovoProduto: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
     return item;

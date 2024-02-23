@@ -13,4 +13,6 @@ export class CreateLancamentoDto {
   contaReceberId?: string;
   pago?: boolean;
   dataPago?: Date;
+  tipoRecebimento: string;
+  obs: string;
 }
