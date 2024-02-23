@@ -21,6 +21,7 @@ export class ContaFinanceiroService {
       },
       include: {
         tipoconta: true,
+        empresaSaidaContaFinanceiro: true,
       },
     });
   }

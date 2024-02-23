@@ -24,11 +24,18 @@ export class PedidoCompraService {
   }
   async createServico(dto: CreatePedidoCompraServicoDto): Promise<boolean> {
     const item = await this.prisma.pedidoCompraServicoItens.create({
-      data: dto,
+      data: {
+        quantidade: dto.quantidade,
+        valorTotal: dto.valorTotal,
+        valorUn: dto.valorUn,
+        descricao: dto.descricao,
+        pedidoCompraId: dto.pedidoCompraId,
+        produtoId: dto.produtoId,
+        unidadeMedidaId: dto.unidadeMedidaId,
+      },
     });
     return item != null ? true : false;
   }
-
   async findAll(id: string): Promise<PedidoCompra[]> {
     const item = await this.prisma.pedidoCompra.findMany({
       where: {
@@ -45,6 +52,7 @@ export class PedidoCompraService {
             unidade: true,
           },
         },
+        empresaSaida: true,
         centroCusto: true,
         contaFinaceiro: true,
         PedidoCompraServicoItens: {
@@ -75,7 +83,6 @@ export class PedidoCompraService {
     });
     return item;
   }
-
   async findOne(id: string): Promise<PedidoCompra> {
     const item = await this.prisma.pedidoCompra.findFirst({
       where: {
@@ -84,7 +91,6 @@ export class PedidoCompraService {
     });
     return item;
   }
-
   async update(id: string, dto: UpdatePedidoCompraDto): Promise<PedidoCompra> {
     const item = await this.prisma.pedidoCompra.update({
       where: {
@@ -94,7 +100,6 @@ export class PedidoCompraService {
     });
     return item;
   }
-
   async remove(id: string): Promise<boolean> {
     const itens = await this.prisma.pedidoCompraItens.deleteMany({
       where: {

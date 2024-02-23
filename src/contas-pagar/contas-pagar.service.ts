@@ -68,6 +68,7 @@ export class ContasPagarService {
             },
           },
         },
+        empresaSaida: true,
       },
     });
   }

@@ -10,4 +10,5 @@ export class CreateContaFinanceiroDto {
   documento: string;
   idTipoConta: string;
   descricao: string;
+  empresaSaiadaId: string;
 }

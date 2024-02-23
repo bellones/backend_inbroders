@@ -163,12 +163,15 @@ model Pessoa {
   clienteAgencia           PessoaFilial[]          @relation("agenciaClienteFilial")
   ProjetoPessoa            ProjetoPessoa[]
   ProjetoOS                ProjetoOS[]
-  ContasPagar              ContasPagar[]
+  ContasPagar              ContasPagar[]           @relation("responsavelContasPagar")
   NovoProdutoFornecedor    NovoProdutoFornecedor[]
   PedidoCompra             PedidoCompra[]
   clienteContaReceber      ContasReceber[]         @relation("clientePessoaC")
   empresaSaidaContaReceber ContasReceber[]         @relation("empresaSaidaC")
   PessoaContaFinanceiro    PessoaContaFinanceiro[]
+  ContaFinanceiro          ContaFinanceiro[]       @relation("empresaSaidaContaFinanceiro")
+  empresaSaidaContasPagar  ContasPagar[]           @relation("empresaSaidaContasPagar")
+  PedidoCompraSaida        PedidoCompra[]          @relation("empresaSaidaCompras")
 }
 
 model PessoaFilial {
@@ -895,7 +898,7 @@ model ContasPagar {
   idEmpresa                String
   centroCusto              CentroCusto             @relation(fields: [centroCustoId], references: [id])
   centroCustoId            String
-  pessoa                   Pessoa                  @relation(fields: [pessoaId], references: [id])
+  pessoa                   Pessoa                  @relation("responsavelContasPagar", fields: [pessoaId], references: [id])
   pessoaId                 String
   vencOriginal             DateTime
   vencimento               DateTime
@@ -921,6 +924,8 @@ model ContasPagar {
   contaFinanceiroId        String
   orcamentoDepto           OrcamentoDepto          @relation(fields: [orcamentoDeptoId], references: [id], onDelete: Cascade)
   orcamentoDeptoId         String
+  empresaSaida             Pessoa?                 @relation("empresaSaidaContasPagar", fields: [empresaSaiadaId], references: [id])
+  empresaSaiadaId          String?
 }
 
 model ContasPagarArquivo {
@@ -1009,11 +1014,13 @@ model PedidoCompra {
   contaFinanceiroId        String
   orcamentoDepto           OrcamentoDepto             @relation(fields: [orcamentoDeptoId], references: [id], onDelete: Cascade)
   orcamentoDeptoId         String
+  empresaSaida             Pessoa?                    @relation("empresaSaidaCompras", fields: [empresaSaiadaId], references: [id])
+  empresaSaiadaId          String?
 }
 
 model PedidoCompraItens {
   id              String        @id @default(uuid())
-  pedidoCompra    PedidoCompra  @relation(fields: [pedidoCompraId], references: [id])
+  pedidoCompra    PedidoCompra  @relation(fields: [pedidoCompraId], references: [id], onDelete: Cascade)
   pedidoCompraId  String
   novoProduto     NovoProduto   @relation(fields: [novoProdutoId], references: [id])
   novoProdutoId   String
@@ -1030,7 +1037,7 @@ model PedidoCompraItens {
 
 model PedidoCompraServicoItens {
   id              String         @id @default(uuid())
-  pedidoCompra    PedidoCompra   @relation(fields: [pedidoCompraId], references: [id])
+  pedidoCompra    PedidoCompra   @relation(fields: [pedidoCompraId], references: [id], onDelete: Cascade)
   pedidoCompraId  String
   produto         Produto        @relation(fields: [produtoId], references: [id])
   produtoId       String
@@ -1085,23 +1092,25 @@ model ContasReceberArquivo {
 }
 
 model ContaFinanceiro {
-  id            String          @id @default(uuid())
-  empresa       Empresa?        @relation(fields: [idEmpresa], references: [id])
-  idEmpresa     String
-  banco         String
-  agencia       String
-  tipo          String
-  numero        String
-  validade      String?
-  descricao     String          @default("Conta padrão")
-  titular       String
-  tipoPessoa    String
-  documento     String
-  tipoconta     TipoConta       @relation(fields: [idTipoConta], references: [id])
-  idTipoConta   String
-  PedidoCompra  PedidoCompra[]
-  ContasPagar   ContasPagar[]
-  ContasReceber ContasReceber[]
+  id                          String          @id @default(uuid())
+  empresa                     Empresa?        @relation(fields: [idEmpresa], references: [id])
+  idEmpresa                   String
+  banco                       String
+  agencia                     String
+  tipo                        String
+  numero                      String
+  validade                    String?
+  descricao                   String          @default("Conta padrão")
+  titular                     String
+  tipoPessoa                  String
+  documento                   String
+  tipoconta                   TipoConta       @relation(fields: [idTipoConta], references: [id])
+  idTipoConta                 String
+  empresaSaidaContaFinanceiro Pessoa?         @relation("empresaSaidaContaFinanceiro", fields: [empresaSaiadaId], references: [id])
+  empresaSaiadaId             String?
+  PedidoCompra                PedidoCompra[]
+  ContasPagar                 ContasPagar[]
+  ContasReceber               ContasReceber[]
 }
 
 model OrcamentoDepto {
@@ -1159,16 +1168,17 @@ model OrcamentoDeptoProduto {
 }
 
 model PessoaContaFinanceiro {
-  id        String  @id @default(uuid())
-  banco     String
-  agencia   String
-  tipo      String
-  numero    String
-  validade  String?
-  descricao String  @default("Conta padrão")
-  titular   String
-  documento String
-  obs       String
-  pessoa    Pessoa  @relation(fields: [pessoaId], references: [id])
-  pessoaId  String
+  id         String  @id @default(uuid())
+  banco      String
+  agencia    String
+  tipo       String
+  numero     String
+  validade   String?
+  descricao  String  @default("Conta padrão")
+  titular    String
+  documento  String
+  obs        String
+  pessoa     Pessoa  @relation(fields: [pessoaId], references: [id])
+  pessoaId   String
+  tipoPessoa String
 }
