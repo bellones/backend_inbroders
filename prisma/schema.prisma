@@ -268,10 +268,10 @@ model SubCategoriaLancamento {
 }
 
 model Lancamento {
-  id              String    @id @default(uuid())
-  empresa         Empresa   @relation(fields: [idEmpresa], references: [id])
+  id              String       @id @default(uuid())
+  empresa         Empresa      @relation(fields: [idEmpresa], references: [id])
   idEmpresa       String
-  pessoa          Pessoa?   @relation(fields: [idPessoa], references: [id])
+  pessoa          Pessoa?      @relation(fields: [idPessoa], references: [id])
   idPessoa        String?
   data            DateTime
   competencia     DateTime
@@ -283,10 +283,11 @@ model Lancamento {
   texto           String?
   contaPagarId    String?
   contaReceberId  String?
-  pago            Boolean   @default(false)
+  pago            Boolean      @default(false)
   dataPago        DateTime?
   tipoRecebimento String
   obs             String
+  ContaSaldo      ContaSaldo[]
 }
 
 model FormaPagamento {
@@ -1111,6 +1112,7 @@ model ContaFinanceiro {
   PedidoCompra                PedidoCompra[]
   ContasPagar                 ContasPagar[]
   ContasReceber               ContasReceber[]
+  ContaSaldo                  ContaSaldo[]
 }
 
 model OrcamentoDepto {
@@ -1181,4 +1183,15 @@ model PessoaContaFinanceiro {
   pessoa     Pessoa  @relation(fields: [pessoaId], references: [id])
   pessoaId   String
   tipoPessoa String
+}
+
+model ContaSaldo {
+  id                String          @id @default(uuid())
+  contaFinanceiro   ContaFinanceiro @relation(fields: [contaFinanceiroId], references: [id])
+  contaFinanceiroId String
+  data              DateTime
+  valor             Decimal
+  Lancamento        Lancamento      @relation(fields: [lancamentoId], references: [id])
+  lancamentoId      String
+  tipo              Boolean
 }

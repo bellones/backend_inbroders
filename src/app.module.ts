@@ -43,6 +43,7 @@ import { FinanceSubCategoryModule } from './finance_sub_category/finance_sub_cat
 import { ContasReceberModule } from './contas-receber/contas-receber.module';
 import { ContaFinanceiroModule } from './conta-financeiro/conta-financeiro.module';
 import { OrcamentDepartamentoModule } from './orcament-departamento/orcament-departamento.module';
+import { ContaSaldoModule } from './conta_saldo/conta_saldo.module';
 
 @Module({
   imports: [
@@ -88,6 +89,7 @@ import { OrcamentDepartamentoModule } from './orcament-departamento/orcament-dep
     ContasReceberModule,
     ContaFinanceiroModule,
     OrcamentDepartamentoModule,
+    ContaSaldoModule,
   ],
   controllers: [],
   providers: [AppService],
