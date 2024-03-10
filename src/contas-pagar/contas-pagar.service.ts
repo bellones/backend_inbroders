@@ -56,12 +56,8 @@ export class ContasPagarService {
               include: {
                 OrcamentoDeptoItem: {
                   include: {
-                    produto: true,
-                  },
-                },
-                OrcamentoDeptoProduto: {
-                  include: {
-                    NovoProduto: true,
+                    OrcamentoDeptoItem: true,
+                    orcamentoDeptoItem: true,
                   },
                 },
               },
