@@ -41,7 +41,6 @@ export class OrcamentDepartamentoService {
         valorTotal: dto.valorTotal,
         orcamentoDeptoCategoriaId: dto.orcamentoDeptoCategoriaId,
         nivel: dto.nivel,
-        orcamentoDeptoItemId: dto.orcamentoDeptoItemId,
       },
     });
     return item;
@@ -57,12 +56,7 @@ export class OrcamentDepartamentoService {
         usuario: true,
         OrcamentoDeptoCategoria: {
           include: {
-            OrcamentoDeptoItem: {
-              include: {
-                OrcamentoDeptoItem: true,
-                orcamentoDeptoItem: true,
-              },
-            },
+            OrcamentoDeptoItem: true,
           },
         },
       },

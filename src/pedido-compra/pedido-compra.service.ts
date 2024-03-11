@@ -65,12 +65,7 @@ export class PedidoCompraService {
           include: {
             OrcamentoDeptoCategoria: {
               include: {
-                OrcamentoDeptoItem: {
-                  include: {
-                    OrcamentoDeptoItem: true,
-                    orcamentoDeptoItem: true,
-                  },
-                },
+                OrcamentoDeptoItem: true,
               },
             },
           },

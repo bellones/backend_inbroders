@@ -54,12 +54,7 @@ export class ContasPagarService {
           include: {
             OrcamentoDeptoCategoria: {
               include: {
-                OrcamentoDeptoItem: {
-                  include: {
-                    OrcamentoDeptoItem: true,
-                    orcamentoDeptoItem: true,
-                  },
-                },
+                OrcamentoDeptoItem: true,
               },
             },
           },

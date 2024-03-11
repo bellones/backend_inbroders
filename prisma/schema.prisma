@@ -1149,9 +1149,6 @@ model OrcamentoDeptoItem {
   descricao                 String
   valorTotal                Decimal
   nivel                     Int
-  orcamentoDeptoItem        OrcamentoDeptoItem?     @relation(name: "NivelOrcamento", fields: [orcamentoDeptoItemId], references: [id])
-  OrcamentoDeptoItem        OrcamentoDeptoItem[]    @relation(name: "NivelOrcamento")
-  orcamentoDeptoItemId      String?
 }
 
 model PessoaContaFinanceiro {
