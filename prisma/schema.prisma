@@ -368,7 +368,6 @@ model Produto {
   ModeloOrcamentoItemList  ModeloOrcamentoItemList[]
   ProjetoItem              ProjetoItem[]
   PedidoCompraServicoItens PedidoCompraServicoItens[]
-  OrcamentoDeptoItem       OrcamentoDeptoItem[]
 }
 
 model ProdutoUnidade {
@@ -971,7 +970,6 @@ model NovoProduto {
   OrcamentoProduto               OrcamentoProduto[]
   ModeloOrcamentoItemProdutoList ModeloOrcamentoItemProdutoList[]
   ProjetoProduto                 ProjetoProduto[]
-  OrcamentoDeptoProduto          OrcamentoDeptoProduto[]
 }
 
 model NovoProdutoFornecedor {
@@ -1135,13 +1133,13 @@ model OrcamentoDepto {
 }
 
 model OrcamentoDeptoCategoria {
-  id                    String                  @id @default(uuid())
-  orcamentoDepto        OrcamentoDepto          @relation(fields: [orcamentoDeptoId], references: [id], onDelete: Cascade)
-  orcamentoDeptoId      String
-  descricao             String
-  valor                 Decimal
-  OrcamentoDeptoItem    OrcamentoDeptoItem[]
-  OrcamentoDeptoProduto OrcamentoDeptoProduto[]
+  id                 String               @id @default(uuid())
+  orcamentoDepto     OrcamentoDepto       @relation(fields: [orcamentoDeptoId], references: [id], onDelete: Cascade)
+  orcamentoDeptoId   String
+  descricao          String
+  ordem              Int
+  valor              Decimal
+  OrcamentoDeptoItem OrcamentoDeptoItem[]
 }
 
 model OrcamentoDeptoItem {
@@ -1149,24 +1147,8 @@ model OrcamentoDeptoItem {
   orcamentoDeptoCategoria   OrcamentoDeptoCategoria @relation(fields: [orcamentoDeptoCategoriaId], references: [id], onDelete: Cascade)
   orcamentoDeptoCategoriaId String
   descricao                 String
-  produto                   Produto                 @relation(fields: [produtoId], references: [id])
-  produtoId                 String
-  unidadeMedidaId           String
-  quantidade                Decimal
-  valorUn                   Decimal
   valorTotal                Decimal
-}
-
-model OrcamentoDeptoProduto {
-  id                        String                  @id @default(uuid())
-  orcamentoDeptoCategoria   OrcamentoDeptoCategoria @relation(fields: [orcamentoDeptoCategoriaId], references: [id], onDelete: Cascade)
-  orcamentoDeptoCategoriaId String
-  NovoProduto               NovoProduto             @relation(fields: [novoProdutoId], references: [id])
-  novoProdutoId             String
-  descricao                 String?
-  quantidade                Decimal
-  valorUn                   Decimal
-  valorTotal                Decimal
+  nivel                     Int
 }
 
 model PessoaContaFinanceiro {

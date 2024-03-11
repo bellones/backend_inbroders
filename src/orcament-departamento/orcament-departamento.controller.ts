@@ -8,7 +8,6 @@ import {
   Post,
 } from '@nestjs/common';
 import { CreateOrcamentoDepartametnoOrcamentoCategoria } from './dto/create-orcament-departamento-category';
-import { OrcamentoDepartamentoProdutoItemDto } from './dto/create-orcament-departamento-product-item';
 import { CreateOrcamentDepartamentoDto } from './dto/create-orcament-departamento.dto';
 import { OrcamentoDepartamentoItemDto } from './dto/create-orcamento-deptartamento-item';
 import { UpdateOrcamentDepartamentoDto } from './dto/update-orcament-departamento.dto';
@@ -31,10 +30,6 @@ export class OrcamentDepartamentoController {
   @Post('/item')
   createItems(@Body() dto: OrcamentoDepartamentoItemDto) {
     return this.orcamentDepartamentoService.createItem(dto);
-  }
-  @Post('/produto')
-  createProduto(@Body() dto: OrcamentoDepartamentoProdutoItemDto) {
-    return this.orcamentDepartamentoService.createProduct(dto);
   }
   @Get('/list/:id')
   findAll(@Param('id') id: string) {
@@ -59,9 +54,5 @@ export class OrcamentDepartamentoController {
   @Delete('/categpry/:id')
   removeCateg(@Param('id') id: string) {
     return this.orcamentDepartamentoService.removeCategory(id);
-  }
-  @Delete('/produto/:id')
-  removeProduto(@Param('id') id: string) {
-    return this.orcamentDepartamentoService.removeProducts(id);
   }
 }

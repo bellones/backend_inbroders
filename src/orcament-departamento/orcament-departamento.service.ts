@@ -3,11 +3,9 @@ import {
   OrcamentoDepto,
   OrcamentoDeptoCategoria,
   OrcamentoDeptoItem,
-  OrcamentoDeptoProduto,
 } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateOrcamentoDepartametnoOrcamentoCategoria } from './dto/create-orcament-departamento-category';
-import { OrcamentoDepartamentoProdutoItemDto } from './dto/create-orcament-departamento-product-item';
 import { CreateOrcamentDepartamentoDto } from './dto/create-orcament-departamento.dto';
 import { OrcamentoDepartamentoItemDto } from './dto/create-orcamento-deptartamento-item';
 import { UpdateOrcamentDepartamentoDto } from './dto/update-orcament-departamento.dto';
@@ -29,6 +27,7 @@ export class OrcamentDepartamentoService {
         descricao: dto.descricao,
         valor: dto.valor,
         orcamentoDeptoId: dto.orcamentoDeptoId,
+        ordem: dto.ordem,
       },
     });
     return item;
@@ -39,31 +38,14 @@ export class OrcamentDepartamentoService {
     const item = await this.prisma.orcamentoDeptoItem.create({
       data: {
         descricao: dto.descricao,
-        quantidade: dto.quantidade,
-        unidadeMedidaId: dto.unidadeMedidaId,
         valorTotal: dto.valorTotal,
-        valorUn: dto.valorUn,
         orcamentoDeptoCategoriaId: dto.orcamentoDeptoCategoriaId,
-        produtoId: dto.produtoId,
+        nivel: dto.nivel,
       },
     });
     return item;
   }
-  async createProduct(
-    dto: OrcamentoDepartamentoProdutoItemDto,
-  ): Promise<OrcamentoDeptoProduto> {
-    const item = await this.prisma.orcamentoDeptoProduto.create({
-      data: {
-        descricao: dto.descricao,
-        quantidade: dto.quantidade,
-        valorTotal: dto.valorTotal,
-        valorUn: dto.valorUn,
-        orcamentoDeptoCategoriaId: dto.orcamentoDeptoCategoriaId,
-        novoProdutoId: dto.novoProdutoId,
-      },
-    });
-    return item;
-  }
+
   async findAll(id: string): Promise<OrcamentoDepto[]> {
     return await this.prisma.orcamentoDepto.findMany({
       where: {
@@ -74,16 +56,7 @@ export class OrcamentDepartamentoService {
         usuario: true,
         OrcamentoDeptoCategoria: {
           include: {
-            OrcamentoDeptoItem: {
-              include: {
-                produto: true,
-              },
-            },
-            OrcamentoDeptoProduto: {
-              include: {
-                NovoProduto: true,
-              },
-            },
+            OrcamentoDeptoItem: true,
           },
         },
       },
@@ -127,14 +100,6 @@ export class OrcamentDepartamentoService {
   }
   async removeItens(id: string): Promise<boolean> {
     const item = await this.prisma.orcamentoDeptoItem.delete({
-      where: {
-        id: id,
-      },
-    });
-    return item !== null;
-  }
-  async removeProducts(id: string): Promise<boolean> {
-    const item = await this.prisma.orcamentoDeptoProduto.delete({
       where: {
         id: id,
       },
