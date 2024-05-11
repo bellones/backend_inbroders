@@ -19,7 +19,7 @@ export class UserService {
     return usuario;
   }
 
-  async create(dto: CreateUserDTO): Promise<boolean> {
+  async create(dto: CreateUserDTO): Promise<string> {
     const usuario = await this.prisma.usuario.create({
       data: {
         email: dto.email,
@@ -31,7 +31,7 @@ export class UserService {
       },
     });
 
-    return usuario !== null ? true : false;
+    return usuario.id;
   }
 
   async findAll(id: string): Promise<Usuario[]> {
