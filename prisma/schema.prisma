@@ -93,13 +93,10 @@ model MatrizFilial {
 }
 
 model Permissao {
-  id        String   @id @default(uuid())
-  usuario   Usuario  @relation(fields: [idUsuario], references: [id])
+  id        String  @id @default(uuid())
+  usuario   Usuario @relation(fields: [idUsuario], references: [id])
   idUsuario String
-  listar    Boolean? @default(false)
-  cadastrar Boolean? @default(false)
-  editar    Boolean? @default(false)
-  excluir   Boolean? @default(false)
+  item      String
 }
 
 model EnderecoEmpresa {
