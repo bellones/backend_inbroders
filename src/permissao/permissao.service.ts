@@ -15,24 +15,36 @@ export class PermissaoService {
     });
     return perm;
   }
-  async createPermissao(dto: CreatePermissaoDto[]): Promise<boolean> {
-    let response;
-    const newPerms = this.prisma.permissao.createMany({
-      data: dto,
+  async createPermissao(
+    dto: CreatePermissaoDto[],
+    idUsuario: string,
+  ): Promise<boolean> {
+    const response = true;
+    dto.map(async (permissao) => {
+      await this.prisma.permissao.create({
+        data: {
+          item: permissao.item,
+          idUsuario: idUsuario,
+        },
+      });
     });
-
-    newPerms !== null ? (response = true) : (response = false);
     return response;
   }
-  async updatePermissao(dto: UpdatePermissaoDto[]): Promise<boolean> {
-    let response;
-    const update = await this.prisma.permissao.updateMany({
-      data: dto,
-      where: {
-        idUsuario: dto[0].idUsuario,
-      },
+  async updatePermissao(
+    dto: UpdatePermissaoDto[],
+    id: string,
+  ): Promise<boolean> {
+    const response = true;
+    dto.map(async (permissao) => {
+      await this.prisma.permissao.update({
+        data: {
+          item: permissao.item,
+        },
+        where: {
+          id: id,
+        },
+      });
     });
-    update !== null ? (response = true) : (response = false);
     return response;
   }
 }

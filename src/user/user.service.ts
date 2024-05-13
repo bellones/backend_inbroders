@@ -27,7 +27,7 @@ export class UserService {
         senha: dto.senha,
         telefone: dto.telefone,
         ativo: true,
-        idEmpresa: dto.idempresa,
+        idEmpresa: dto.idEmpresa,
       },
     });
 
@@ -60,7 +60,7 @@ export class UserService {
         nome: dto.nome,
         senha: dto.senha,
         telefone: dto.telefone,
-        idEmpresa: dto.idempresa,
+        idEmpresa: dto.idEmpresa,
       },
     });
 

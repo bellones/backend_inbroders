@@ -9,7 +9,7 @@ export class CreateUserDTO {
   @IsString()
   telefone: string;
   @IsString()
-  idempresa: string;
+  idEmpresa: string;
   @IsBoolean()
   ativo: boolean;
 }
