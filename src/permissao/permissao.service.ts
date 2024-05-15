@@ -16,35 +16,26 @@ export class PermissaoService {
     return perm;
   }
   async createPermissao(
-    dto: CreatePermissaoDto[],
+    dto: CreatePermissaoDto,
     idUsuario: string,
   ): Promise<boolean> {
-    const response = true;
-    dto.map(async (permissao) => {
-      await this.prisma.permissao.create({
-        data: {
-          item: permissao.item,
-          idUsuario: idUsuario,
-        },
-      });
+    const response = await this.prisma.permissao.create({
+      data: {
+        item: dto.item,
+        idUsuario: idUsuario,
+      },
     });
-    return response;
+    return response != null;
   }
-  async updatePermissao(
-    dto: UpdatePermissaoDto[],
-    id: string,
-  ): Promise<boolean> {
-    const response = true;
-    dto.map(async (permissao) => {
-      await this.prisma.permissao.update({
-        data: {
-          item: permissao.item,
-        },
-        where: {
-          id: id,
-        },
-      });
+  async updatePermissao(dto: UpdatePermissaoDto, id: string): Promise<boolean> {
+    const response = await this.prisma.permissao.update({
+      data: {
+        item: dto.item,
+      },
+      where: {
+        id: id,
+      },
     });
-    return response;
+    return response != null;
   }
 }

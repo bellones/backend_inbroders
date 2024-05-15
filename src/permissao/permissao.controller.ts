@@ -22,13 +22,13 @@ export class PermissaoController {
   }
   @Post('create/:id')
   @HttpCode(HttpStatus.CREATED)
-  createTipo(@Body() dto: CreatePermissaoDto[], @Param('id') id: string) {
+  createTipo(@Body() dto: CreatePermissaoDto, @Param('id') id: string) {
     return this.permissaoService.createPermissao(dto, id);
   }
 
   @Post('update/:id')
   @HttpCode(HttpStatus.OK)
-  updateTipo(@Body() dto: UpdatePermissaoDto[], @Param('id') id: string) {
+  updateTipo(@Body() dto: UpdatePermissaoDto, @Param('id') id: string) {
     return this.permissaoService.updatePermissao(dto, id);
   }
 }

@@ -15,6 +15,9 @@ export class UserService {
         email: dto.usuario,
         senha: dto.senha,
       },
+      include: {
+        Permissao: true,
+      },
     });
     return usuario;
   }
@@ -39,6 +42,9 @@ export class UserService {
       where: {
         idEmpresa: id,
       },
+      include: {
+        Permissao: true,
+      },
     });
   }
 
@@ -46,6 +52,9 @@ export class UserService {
     return await this.prisma.usuario.findFirst({
       where: {
         id: id,
+      },
+      include: {
+        Permissao: true,
       },
     });
   }
