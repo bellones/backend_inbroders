@@ -17,7 +17,7 @@ export class PermissaoController {
   constructor(private permissaoService: PermissaoService) {}
   @Get('list/:id')
   @HttpCode(HttpStatus.OK)
-  list(@Param('id') id) {
+  list(@Param('id') id: string) {
     return this.permissaoService.list(id);
   }
   @Post('create/:id')
