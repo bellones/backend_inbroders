@@ -1,4 +1,6 @@
-import { IsBoolean, IsEmail, IsString } from 'class-validator';
+import { IsBoolean, IsEmail, IsNumber, IsString } from 'class-validator';
+import { CreateUserAddressDTO } from './create-user-address.dto';
+import { CreateUserContactDTO } from './create-user-contact.dto';
 export class CreateUserDTO {
   @IsString()
   nome: string;
@@ -7,9 +9,22 @@ export class CreateUserDTO {
   @IsString()
   senha: string;
   @IsString()
-  telefone: string;
-  @IsString()
   idEmpresa: string;
   @IsBoolean()
   ativo: boolean;
+
+  nascimento: Date;
+  @IsString()
+  cpf: string;
+  rg: string;
+
+  dataAdmissao: Date;
+  pispasep: string;
+  ctps: string;
+  codigo: string;
+  @IsNumber()
+  salario: number;
+  endereco?: CreateUserAddressDTO[] | null;
+  contato?: CreateUserContactDTO[] | null;
+  permissoes?: string;
 }

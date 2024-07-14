@@ -17,6 +17,8 @@ export class UserService {
       },
       include: {
         Permissao: true,
+        UsuarioContato: true,
+        UsuarioEndereco: true,
       },
     });
     return usuario;
@@ -28,11 +30,51 @@ export class UserService {
         email: dto.email,
         nome: dto.nome,
         senha: dto.senha,
-        telefone: dto.telefone,
         ativo: true,
         idEmpresa: dto.idEmpresa,
+        nascimento: dto.nascimento,
+        cpf: dto.cpf,
+        rg: dto.rg,
+        dataAdmissao: dto.dataAdmissao,
+        pispasep: dto.pispasep,
+        ctps: dto.ctps,
+        codigo: dto.codigo,
+        salario: dto.salario,
       },
     });
+
+    if (dto.endereco && usuario.id) {
+      dto.endereco.forEach(async (endereco) => {
+        await this.prisma.usuarioEndereco.create({
+          data: {
+            idUsuario: usuario.id,
+            cep: endereco.cep,
+            local: endereco.local,
+            numero: endereco.numero,
+            bairro: endereco.bairro,
+            cidade: endereco.cidade,
+            estado: endereco.estado,
+            complemento: endereco.complemento,
+            principal: endereco.principal,
+          },
+        });
+      });
+    }
+
+    if (dto.contato && usuario.id) {
+      dto.contato.forEach(async (contato) => {
+        await this.prisma.usuarioContato.create({
+          data: {
+            idUsuario: usuario.id,
+            nome: contato.nome,
+            cargo: contato.cargo,
+            telefone: contato.telefone,
+            email: contato.email,
+            principal: contato.principal,
+          },
+        });
+      });
+    }
 
     return usuario.id;
   }
@@ -44,6 +86,8 @@ export class UserService {
       },
       include: {
         Permissao: true,
+        UsuarioContato: true,
+        UsuarioEndereco: true,
       },
     });
   }
@@ -55,6 +99,8 @@ export class UserService {
       },
       include: {
         Permissao: true,
+        UsuarioContato: true,
+        UsuarioEndereco: true,
       },
     });
   }
@@ -68,10 +114,61 @@ export class UserService {
         email: dto.email,
         nome: dto.nome,
         senha: dto.senha,
-        telefone: dto.telefone,
+        ativo: true,
         idEmpresa: dto.idEmpresa,
+        nascimento: dto.nascimento,
+        cpf: dto.cpf,
+        rg: dto.rg,
+        dataAdmissao: dto.dataAdmissao,
+        pispasep: dto.pispasep,
+        ctps: dto.ctps,
+        codigo: dto.codigo,
+        salario: dto.salario,
       },
     });
+
+    if (dto.endereco && usuario.id) {
+      const remove = await this.prisma.usuarioEndereco.deleteMany({
+        where: { idUsuario: usuario.id },
+      });
+      if (remove.count > 0) {
+        dto.endereco.forEach(async (endereco) => {
+          await this.prisma.usuarioEndereco.create({
+            data: {
+              idUsuario: usuario.id,
+              cep: endereco.cep,
+              local: endereco.local,
+              numero: endereco.numero,
+              bairro: endereco.bairro,
+              cidade: endereco.cidade,
+              estado: endereco.estado,
+              complemento: endereco.complemento,
+              principal: endereco.principal,
+            },
+          });
+        });
+      }
+    }
+
+    if (dto.contato && usuario.id) {
+      const remove = await this.prisma.usuarioContato.deleteMany({
+        where: { idUsuario: usuario.id },
+      });
+      if (remove.count > 0) {
+        dto.contato.forEach(async (contato) => {
+          await this.prisma.usuarioContato.create({
+            data: {
+              idUsuario: usuario.id,
+              nome: contato.nome,
+              cargo: contato.cargo,
+              telefone: contato.telefone,
+              email: contato.email,
+              principal: contato.principal,
+            },
+          });
+        });
+      }
+    }
 
     return usuario !== null ? true : false;
   }
