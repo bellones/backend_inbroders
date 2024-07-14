@@ -64,14 +64,14 @@ model Usuario {
   nome                  String
   email                 String                  @unique
   senha                 String
-  nascimento            DateTime
-  cpf                   String
-  rg                    String
-  dataAdmissao          DateTime
-  pispasep              String
-  ctps                  String
-  codigo                String
-  salario               Decimal
+  nascimento            DateTime                @default(now())
+  cpf                   String                  @default("")
+  rg                    String                  @default("")
+  dataAdmissao          DateTime                @default(now())
+  pispasep              String                  @default("")
+  ctps                  String                  @default("")
+  codigo                String                  @default("")
+  salario               Decimal                 @default(0.0)
   empresa               Empresa                 @relation(fields: [idEmpresa], references: [id])
   idEmpresa             String
   ativo                 Boolean                 @default(true)
