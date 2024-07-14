@@ -63,8 +63,15 @@ model Usuario {
   id                    String                  @id @default(uuid())
   nome                  String
   email                 String                  @unique
-  telefone              String                  @default("81 98240 0972")
   senha                 String
+  nascimento            DateTime
+  cpf                   String
+  rg                    String
+  dataAdmissao          DateTime
+  pispasep              String
+  ctps                  String
+  codigo                String
+  salario               Decimal
   empresa               Empresa                 @relation(fields: [idEmpresa], references: [id])
   idEmpresa             String
   ativo                 Boolean                 @default(true)
@@ -83,6 +90,36 @@ model Usuario {
   responsavel           PedidoCompra[]          @relation("responsavelCompra")
   OrcamentoDepto        OrcamentoDepto[]
   ContasReceber         ContasReceber[]
+  UsuarioEndereco       UsuarioEndereco[]
+  UsuarioContato        UsuarioContato[]
+}
+
+model UsuarioEndereco {
+  id          String   @id @default(uuid())
+  usuario     Usuario  @relation(fields: [idUsuario], references: [id])
+  idUsuario   String
+  cep         String
+  local       String
+  numero      String
+  bairro      String
+  complemento String?
+  observacao  String?
+  cidade      String
+  estado      String
+  ativo       Boolean? @default(true)
+  principal   Boolean? @default(false)
+}
+
+model UsuarioContato {
+  id        String  @id @default(uuid())
+  usuario   Usuario @relation(fields: [idUsuario], references: [id])
+  idUsuario String
+  nome      String
+  cargo     String
+  telefone  String
+  email     String
+  principal Boolean @default(false)
+  ativo     Boolean @default(true)
 }
 
 model MatrizFilial {
