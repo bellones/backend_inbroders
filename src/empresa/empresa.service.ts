@@ -69,13 +69,22 @@ export class EmpresaService {
   }
 
   async findAll(): Promise<Empresa[]> {
-    return await this.prisma.empresa.findMany();
+    return await this.prisma.empresa.findMany({
+      include: {
+        ContatoEmpresa: true,
+        EnderecoEmpresa: true,
+      },
+    });
   }
 
   async findOne(id: string): Promise<Empresa> {
     return await this.prisma.empresa.findFirst({
       where: {
         id: id,
+      },
+      include: {
+        ContatoEmpresa: true,
+        EnderecoEmpresa: true,
       },
     });
   }

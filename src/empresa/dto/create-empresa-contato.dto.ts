@@ -1,5 +1,5 @@
 export class CreateEmpresaContatoDto {
-  idEmpresa: string;
+  idEmpresa?: string;
   nome: string;
   cargo: string;
   telefone: string;

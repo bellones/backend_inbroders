@@ -1,5 +1,5 @@
 export class CreateEmpresaEnderecoDto {
-  idEmpresa: string;
+  idEmpresa?: string;
   cep: string;
   local: string;
   numero: string;

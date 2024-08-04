@@ -1,5 +1,5 @@
 import { IsString } from 'class-validator';
-import { CreateEmpresaContatoDto } from './create-empresa-contato';
+import { CreateEmpresaContatoDto } from './create-empresa-contato.dto';
 import { CreateEmpresaEnderecoDto } from './create-empresa-endereco.dto';
 
 export class CreateEmpresaDto {
