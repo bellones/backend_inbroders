@@ -19,8 +19,51 @@ export class EmpresaService {
         inscricaoMunicipal: dto.inscricaoMunicipal,
         matriz: dto.matriz,
         nomeFantasia: dto.nomeFantasia,
+        cnae: dto.cnae,
+        atividadePrincipal: dto.atividadePrincipal,
+        regimeTributario: dto.regimeTributario,
+        tamanhoEmpresa: dto.tamanhoEmpresa,
+        comercio: dto.comercio,
+        ecommerce: dto.ecommerce,
+        industria: dto.industria,
+        servicos: dto.servicos,
+        faturamentoUltimoAno: dto.faturamentoUltimoAno,
+        quantidadeFuncionarios: dto.quantidadeFuncionarios,
       },
     });
+
+    if (dto.endereco && empresa.id) {
+      dto.endereco.forEach(async (endereco) => {
+        await this.prisma.enderecoEmpresa.create({
+          data: {
+            idEmpresa: empresa.id,
+            cep: endereco.cep,
+            local: endereco.local,
+            numero: endereco.numero,
+            bairro: endereco.bairro,
+            cidade: endereco.cidade,
+            estado: endereco.estado,
+            complemento: endereco.complemento,
+            principal: endereco.principal,
+          },
+        });
+      });
+    }
+
+    if (dto.contato && empresa.id) {
+      dto.contato.forEach(async (contato) => {
+        await this.prisma.contatoEmpresa.create({
+          data: {
+            idEmpresa: empresa.id,
+            nome: contato.nome,
+            cargo: contato.cargo,
+            telefone: contato.telefone,
+            email: contato.email,
+            principal: contato.principal,
+          },
+        });
+      });
+    }
 
     return empresa !== null ? true : false;
   }
@@ -51,8 +94,61 @@ export class EmpresaService {
         matriz: dto.matriz,
         nomeFantasia: dto.nomeFantasia,
         dataAtualizado: dto.dataAtualizado,
+        cnae: dto.cnae,
+        atividadePrincipal: dto.atividadePrincipal,
+        regimeTributario: dto.regimeTributario,
+        tamanhoEmpresa: dto.tamanhoEmpresa,
+        comercio: dto.comercio,
+        ecommerce: dto.ecommerce,
+        industria: dto.industria,
+        servicos: dto.servicos,
+        faturamentoUltimoAno: dto.faturamentoUltimoAno,
+        quantidadeFuncionarios: dto.quantidadeFuncionarios,
       },
     });
+
+    if (dto.endereco && empresa.id) {
+      const remove = await this.prisma.enderecoEmpresa.deleteMany({
+        where: { idEmpresa: empresa.id },
+      });
+      if (remove.count > 0) {
+        dto.endereco.forEach(async (endereco) => {
+          await this.prisma.enderecoEmpresa.create({
+            data: {
+              idEmpresa: empresa.id,
+              cep: endereco.cep,
+              local: endereco.local,
+              numero: endereco.numero,
+              bairro: endereco.bairro,
+              cidade: endereco.cidade,
+              estado: endereco.estado,
+              complemento: endereco.complemento,
+              principal: endereco.principal,
+            },
+          });
+        });
+      }
+    }
+
+    if (dto.contato && empresa.id) {
+      const remove = await this.prisma.contatoEmpresa.deleteMany({
+        where: { idEmpresa: empresa.id },
+      });
+      if (remove.count > 0) {
+        dto.contato.forEach(async (contato) => {
+          await this.prisma.contatoEmpresa.create({
+            data: {
+              idEmpresa: empresa.id,
+              nome: contato.nome,
+              cargo: contato.cargo,
+              telefone: contato.telefone,
+              email: contato.email,
+              principal: contato.principal,
+            },
+          });
+        });
+      }
+    }
 
     return empresa !== null ? true : false;
   }
