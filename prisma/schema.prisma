@@ -21,6 +21,16 @@ model Empresa {
   dataAtualizado         DateTime?
   ativo                  Boolean                  @default(true)
   matriz                 Boolean                  @default(false)
+  cnae                   String                   @default("")
+  atividadePrincipal     String                   @default("")
+  regimeTributario       String                   @default("")
+  tamanhoEmpresa         String                   @default("")
+  comercio               Boolean                  @default(false)
+  ecommerce              Boolean                  @default(false)
+  industria              Boolean                  @default(false)
+  servicos               Boolean                  @default(false)
+  faturamentoUltimoAno   Decimal                  @default(0)
+  quantidadeFuncionarios Decimal                  @default(0)
   Usuario                Usuario[]
   EnderecoEmpresa        EnderecoEmpresa[]
   ContaFixa              Conta[]
@@ -57,6 +67,7 @@ model Empresa {
   ContasReceber          ContasReceber[]
   ContaFinanceiro        ContaFinanceiro[]
   OrcamentoDepto         OrcamentoDepto[]
+  ContatoEmpresa         ContatoEmpresa[]
 }
 
 model Usuario {
@@ -149,6 +160,18 @@ model EnderecoEmpresa {
   estado      String
   ativo       Boolean? @default(true)
   principal   Boolean? @default(false)
+}
+
+model ContatoEmpresa {
+  id        String  @id @default(uuid())
+  empresa   Empresa @relation(fields: [idEmpresa], references: [id])
+  idEmpresa String
+  nome      String
+  cargo     String
+  telefone  String
+  email     String
+  principal Boolean @default(false)
+  ativo     Boolean @default(true)
 }
 
 model Tipo {
