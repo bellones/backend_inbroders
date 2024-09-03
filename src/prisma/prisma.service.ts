@@ -10,7 +10,7 @@ export class PrismaService
     super({
       datasources: {
         db: {
-          url: 'postgresql://postgres:250519@localhost:5432/InBroders',
+          url: process.env.DATABASE_URL,
         },
       },
     });

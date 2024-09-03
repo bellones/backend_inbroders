@@ -31,7 +31,6 @@ export class UserService {
         nome: dto.nome,
         senha: dto.senha,
         ativo: true,
-        idEmpresa: dto.idEmpresa,
         nascimento: dto.nascimento,
         cpf: dto.cpf,
         rg: dto.rg,
@@ -44,7 +43,7 @@ export class UserService {
     });
 
     if (dto.endereco && usuario.id) {
-      dto.endereco.forEach(async (endereco) => {
+      for (const endereco of dto.endereco) {
         await this.prisma.usuarioEndereco.create({
           data: {
             idUsuario: usuario.id,
@@ -56,13 +55,14 @@ export class UserService {
             estado: endereco.estado,
             complemento: endereco.complemento,
             principal: endereco.principal,
+            observacao: endereco.observacao,
           },
         });
-      });
+      }
     }
 
     if (dto.contato && usuario.id) {
-      dto.contato.forEach(async (contato) => {
+      for (const contato of dto.contato) {
         await this.prisma.usuarioContato.create({
           data: {
             idUsuario: usuario.id,
@@ -73,16 +73,22 @@ export class UserService {
             principal: contato.principal,
           },
         });
-      });
+      }
     }
 
     return usuario.id;
   }
 
   async findAll(id: string): Promise<Usuario[]> {
+    console.log(id);
+
     return await this.prisma.usuario.findMany({
       where: {
-        idEmpresa: id,
+        UsuarioEmpresa: {
+          every: {
+            idEmpresa: id,
+          },
+        },
       },
       include: {
         Permissao: true,
@@ -115,7 +121,6 @@ export class UserService {
         nome: dto.nome,
         senha: dto.senha,
         ativo: true,
-        idEmpresa: dto.idEmpresa,
         nascimento: dto.nascimento,
         cpf: dto.cpf,
         rg: dto.rg,
@@ -128,44 +133,61 @@ export class UserService {
     });
 
     if (dto.endereco && usuario.id) {
-      const remove = await this.prisma.usuarioEndereco.deleteMany({
-        where: { idUsuario: usuario.id },
-      });
-      if (remove.count > 0) {
-        dto.endereco.forEach(async (endereco) => {
-          await this.prisma.usuarioEndereco.create({
-            data: {
-              idUsuario: usuario.id,
-              cep: endereco.cep,
-              local: endereco.local,
-              numero: endereco.numero,
-              bairro: endereco.bairro,
-              cidade: endereco.cidade,
-              estado: endereco.estado,
-              complemento: endereco.complemento,
-              principal: endereco.principal,
-            },
-          });
+      for (const endereco of dto.endereco) {
+        await this.prisma.usuarioEndereco.upsert({
+          where: {
+            id: endereco.id,
+          },
+          create: {
+            idUsuario: usuario.id,
+            cep: endereco.cep,
+            local: endereco.local,
+            numero: endereco.numero,
+            bairro: endereco.bairro,
+            cidade: endereco.cidade,
+            estado: endereco.estado,
+            complemento: endereco.complemento,
+            principal: endereco.principal,
+            observacao: endereco.observacao,
+          },
+          update: {
+            idUsuario: usuario.id,
+            cep: endereco.cep,
+            local: endereco.local,
+            numero: endereco.numero,
+            bairro: endereco.bairro,
+            cidade: endereco.cidade,
+            estado: endereco.estado,
+            complemento: endereco.complemento,
+            principal: endereco.principal,
+            observacao: endereco.observacao,
+          },
         });
       }
     }
 
     if (dto.contato && usuario.id) {
-      const remove = await this.prisma.usuarioContato.deleteMany({
-        where: { idUsuario: usuario.id },
-      });
-      if (remove.count > 0) {
-        dto.contato.forEach(async (contato) => {
-          await this.prisma.usuarioContato.create({
-            data: {
-              idUsuario: usuario.id,
-              nome: contato.nome,
-              cargo: contato.cargo,
-              telefone: contato.telefone,
-              email: contato.email,
-              principal: contato.principal,
-            },
-          });
+      for (const contato of dto.contato) {
+        await this.prisma.usuarioContato.upsert({
+          where: {
+            id: contato.id,
+          },
+          create: {
+            idUsuario: usuario.id,
+            nome: contato.nome,
+            cargo: contato.cargo,
+            telefone: contato.telefone,
+            email: contato.email,
+            principal: contato.principal,
+          },
+          update: {
+            idUsuario: usuario.id,
+            nome: contato.nome,
+            cargo: contato.cargo,
+            telefone: contato.telefone,
+            email: contato.email,
+            principal: contato.principal,
+          },
         });
       }
     }

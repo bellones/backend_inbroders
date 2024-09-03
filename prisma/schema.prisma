@@ -31,7 +31,7 @@ model Empresa {
   servicos               Boolean                  @default(false)
   faturamentoUltimoAno   Decimal                  @default(0)
   quantidadeFuncionarios Decimal                  @default(0)
-  Usuario                Usuario[]
+  UsuarioEmpresa        UsuarioEmpresa[]
   EnderecoEmpresa        EnderecoEmpresa[]
   ContaFixa              Conta[]
   TipoLancamento         TipoLancamento[]
@@ -83,9 +83,8 @@ model Usuario {
   ctps                  String                  @default("")
   codigo                String                  @default("")
   salario               Decimal                 @default(0.0)
-  empresa               Empresa                 @relation(fields: [idEmpresa], references: [id])
-  idEmpresa             String
   ativo                 Boolean                 @default(true)
+  UsuarioEmpresa        UsuarioEmpresa[]
   Permissao             Permissao[]
   Orcamento             Orcamento[]
   RascunhoOrcamento     RascunhoOrcamento[]
@@ -103,6 +102,15 @@ model Usuario {
   ContasReceber         ContasReceber[]
   UsuarioEndereco       UsuarioEndereco[]
   UsuarioContato        UsuarioContato[]
+}
+
+model UsuarioEmpresa {
+  idEmpresa   String
+  idUsuario   String
+  empresa     Empresa @relation(fields: [idEmpresa], references: [id])
+  usuario     Usuario @relation(fields: [idUsuario], references: [id])
+
+  @@id([idEmpresa, idUsuario])  // Chave primária composta
 }
 
 model UsuarioEndereco {
