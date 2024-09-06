@@ -32,6 +32,7 @@ export class UserService {
         senha: dto.senha,
         ativo: true,
         nascimento: dto.nascimento,
+        idEmpresa: dto.idEmpresa,
         cpf: dto.cpf,
         rg: dto.rg,
         dataAdmissao: dto.dataAdmissao,
@@ -80,15 +81,9 @@ export class UserService {
   }
 
   async findAll(id: string): Promise<Usuario[]> {
-    console.log(id);
-
     return await this.prisma.usuario.findMany({
       where: {
-        UsuarioEmpresa: {
-          every: {
-            idEmpresa: id,
-          },
-        },
+        idEmpresa: id,
       },
       include: {
         Permissao: true,
@@ -122,6 +117,7 @@ export class UserService {
         senha: dto.senha,
         ativo: true,
         nascimento: dto.nascimento,
+        idEmpresa: dto.idEmpresa,
         cpf: dto.cpf,
         rg: dto.rg,
         dataAdmissao: dto.dataAdmissao,
