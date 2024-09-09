@@ -4,6 +4,6 @@ import { ContasPagarController } from './contas-pagar.controller';
 
 @Module({
   controllers: [ContasPagarController],
-  providers: [ContasPagarService]
+  providers: [ContasPagarService],
 })
 export class ContasPagarModule {}

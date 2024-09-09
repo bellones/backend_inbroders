@@ -44,6 +44,8 @@ import { ContasReceberModule } from './contas-receber/contas-receber.module';
 import { ContaFinanceiroModule } from './conta-financeiro/conta-financeiro.module';
 import { OrcamentDepartamentoModule } from './orcament-departamento/orcament-departamento.module';
 import { ContaSaldoModule } from './conta_saldo/conta_saldo.module';
+import { RecuperarSenhaModule } from './recuperar-senha/recuperar-senha.module';
+import { NotificacoesModule } from './notificacoes/notificacoes.module';
 
 @Module({
   imports: [
@@ -90,6 +92,8 @@ import { ContaSaldoModule } from './conta_saldo/conta_saldo.module';
     ContaFinanceiroModule,
     OrcamentDepartamentoModule,
     ContaSaldoModule,
+    RecuperarSenhaModule,
+    NotificacoesModule,
   ],
   controllers: [],
   providers: [AppService],

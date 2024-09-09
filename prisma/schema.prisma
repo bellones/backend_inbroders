@@ -86,6 +86,7 @@ model Usuario {
   empresa               Empresa                 @relation(fields: [idEmpresa], references: [id])
   idEmpresa             String
   ativo                 Boolean                 @default(true)
+  codigoRecuperacao     String?                 @default("")
   Permissao             Permissao[]
   Orcamento             Orcamento[]
   RascunhoOrcamento     RascunhoOrcamento[]
@@ -103,6 +104,7 @@ model Usuario {
   ContasReceber         ContasReceber[]
   UsuarioEndereco       UsuarioEndereco[]
   UsuarioContato        UsuarioContato[]
+  Notificacoes          Notificacoes[]
 }
 
 model UsuarioEndereco {
@@ -131,6 +133,16 @@ model UsuarioContato {
   email     String
   principal Boolean @default(false)
   ativo     Boolean @default(true)
+}
+
+model Notificacoes {
+  id        String   @id @default(uuid())
+  usuario   Usuario  @relation(fields: [idUsuario], references: [id])
+  idUsuario String
+  titulo    String
+  descricao String
+  dado      String
+  lida      Boolean  @default(false)
 }
 
 model MatrizFilial {
