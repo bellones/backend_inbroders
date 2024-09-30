@@ -1,12 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Usuario } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { LoginDTO } from './dto/login.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { LoginGoogleDTO } from './dto/check-email.dto';
+import { OAuth2Client } from 'google-auth-library';
 
 @Injectable()
 export class UserService {
+  private auth2Client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
   constructor(private prisma: PrismaService) {}
 
   async login(dto: LoginDTO): Promise<Usuario> {
@@ -21,6 +25,22 @@ export class UserService {
         UsuarioEndereco: true,
       },
     });
+    return usuario;
+  }
+
+  async loginGoogle(payload: LoginGoogleDTO): Promise<Usuario> {
+    const ticket = await this.auth2Client.getTokenInfo(payload.token);
+
+    if (!ticket) {
+      throw new UnauthorizedException('Token inválido');
+    }
+
+    const usuario = await this.prisma.usuario.findFirst({
+      where: {
+        email: ticket.email,
+      },
+    });
+
     return usuario;
   }
 

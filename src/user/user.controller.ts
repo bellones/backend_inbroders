@@ -12,6 +12,7 @@ import { CreateUserDTO } from './dto/create-user.dto';
 import { LoginDTO } from './dto/login.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
+import { LoginGoogleDTO } from './dto/check-email.dto';
 
 @Controller('user')
 export class UserController {
@@ -20,6 +21,11 @@ export class UserController {
   @Post('/login')
   login(@Body() login: LoginDTO) {
     return this.userService.login(login);
+  }
+
+  @Post('login-google')
+  async loginGoogle(@Body() payload: LoginGoogleDTO) {
+    return this.userService.loginGoogle(payload);
   }
 
   @Post()
