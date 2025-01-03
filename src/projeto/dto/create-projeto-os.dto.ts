@@ -1,10 +1,12 @@
 export class ProjetoOsDto {
+  id?: string;
   osNum: number;
   projetoItemId: string;
   projetoCategoriaId: string;
   pessoaId: string;
-  formaPagamentoId: string;
+  condicaoPagamentoId: string;
   unidadeMedidaId: string;
+  financeiroGerado: boolean;
   status: string;
   comercialQtd: number;
   comercialValorUN: number;
@@ -19,4 +21,7 @@ export class ProjetoOsDto {
   pago: number;
   saldo: number;
   tipo: string;
+  unidadeNome: string;
+  produtoId: string;
+  descricao: string;
 }

@@ -136,13 +136,13 @@ model UsuarioContato {
 }
 
 model Notificacoes {
-  id        String   @id @default(uuid())
-  usuario   Usuario  @relation(fields: [idUsuario], references: [id])
+  id        String  @id @default(uuid())
+  usuario   Usuario @relation(fields: [idUsuario], references: [id])
   idUsuario String
   titulo    String
   descricao String
   dado      String
-  lida      Boolean  @default(false)
+  lida      Boolean @default(false)
 }
 
 model MatrizFilial {
@@ -437,6 +437,7 @@ model Produto {
   ModeloOrcamentoItemList  ModeloOrcamentoItemList[]
   ProjetoItem              ProjetoItem[]
   PedidoCompraServicoItens PedidoCompraServicoItens[]
+  ProjetoOS                ProjetoOS[]
 }
 
 model ProdutoUnidade {
@@ -484,6 +485,7 @@ model CondicaoPagamento {
   ContasPagar    ContasPagar[]
   PedidoCompra   PedidoCompra[]
   ContasReceber  ContasReceber[]
+  ProjetoOS      ProjetoOS[]
 }
 
 model Midias {
@@ -910,34 +912,41 @@ model ApontamentoArquivo {
 }
 
 model ProjetoOS {
-  id                 String               @id @default(uuid())
-  osNum              Int
-  ProjetoCategoria   ProjetoCategoria     @relation(fields: [projetoCategoriaId], references: [id], onDelete: Cascade)
-  projetoCategoriaId String
-  projetoItem        ProjetoItem          @relation(fields: [projetoItemId], references: [id])
-  projetoItemId      String
-  fornecedor         Pessoa?              @relation(fields: [pessoaId], references: [id])
-  pessoaId           String?
-  formaPagamento     FormaPagamento       @relation(fields: [formaPagamentoId], references: [id])
-  unidade            UnidadeMedida        @relation(fields: [unidadeMedidaId], references: [id])
-  unidadeMedidaId    String
-  formaPagamentoId   String
-  dataCriacao        DateTime             @default(now())
-  status             String
-  comercialQtd       Int
-  comercialValorUN   Decimal
-  comercialTotal     Decimal
-  trabalhoQtd        Int
-  trabalhoValorUN    Decimal
-  trabalhoTotal      Decimal
-  producaoQtd        Int
-  producaoValorUn    Decimal
-  producaoTotal      Decimal
-  executado          Decimal
-  pago               Decimal
-  saldo              Decimal
-  tipo               String
-  AcompanhamentoItem AcompanhamentoItem[]
+  id                  String               @id @default(uuid())
+  osNum               Int
+  ProjetoCategoria    ProjetoCategoria     @relation(fields: [projetoCategoriaId], references: [id], onDelete: Cascade)
+  projetoCategoriaId  String
+  projetoItem         ProjetoItem          @relation(fields: [projetoItemId], references: [id])
+  projetoItemId       String
+  fornecedor          Pessoa?              @relation(fields: [pessoaId], references: [id])
+  pessoaId            String?
+  condicaoPagamento   CondicaoPagamento    @relation(fields: [condicaoPagamentoId], references: [id])
+  unidade             UnidadeMedida        @relation(fields: [unidadeMedidaId], references: [id])
+  unidadeMedidaId     String
+  condicaoPagamentoId String
+  dataCriacao         DateTime             @default(now())
+  financeiroGerado    Boolean              @default(false)
+  status              String
+  comercialQtd        Int
+  comercialValorUN    Decimal
+  comercialTotal      Decimal
+  trabalhoQtd         Int
+  trabalhoValorUN     Decimal
+  trabalhoTotal       Decimal
+  producaoQtd         Int
+  producaoValorUn     Decimal
+  producaoTotal       Decimal
+  executado           Decimal
+  pago                Decimal
+  saldo               Decimal
+  tipo                String
+  unidadeNome         String
+  descricao           String
+  produto             Produto              @relation(fields: [produtoId], references: [id])
+  produtoId           String
+  AcompanhamentoItem  AcompanhamentoItem[]
+  FormaPagamento      FormaPagamento?      @relation(fields: [formaPagamentoId], references: [id])
+  formaPagamentoId    String?
 }
 
 model Departamento {

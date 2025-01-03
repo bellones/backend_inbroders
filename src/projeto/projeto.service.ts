@@ -427,16 +427,22 @@ export class ProjetoService {
     return item;
   }
 
-  async createProjetoOs(dto: ProjetoOsDto): Promise<boolean> {
-    const item = this.prisma.projetoOS.create({
-      data: dto,
-    });
+  async createProjetoOs(dto: ProjetoOsDto[]): Promise<boolean> {
+    const item = await this.prisma.$transaction(
+      dto.map((item) =>
+        this.prisma.projetoOS.upsert({
+          where: { id: item?.id || '' },
+          update: item,
+          create: item,
+        }),
+      ),
+    );
 
     return item != null ? true : false;
   }
 
   async deleteProjectOs(id: string): Promise<boolean> {
-    const item = this.prisma.projetoOS.delete({
+    const item = await this.prisma.projetoOS.delete({
       where: {
         id: id,
       },
@@ -449,12 +455,12 @@ export class ProjetoService {
       where: {
         projetoItem: {
           ProjetoCategoria: {
-            projetoId: id,
+            projetoId: Number(id),
           },
         },
       },
       include: {
-        formaPagamento: true,
+        condicaoPagamento: true,
         AcompanhamentoItem: true,
         fornecedor: true,
         projetoItem: {

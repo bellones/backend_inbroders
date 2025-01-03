@@ -69,7 +69,7 @@ export class ProjetoController {
   }
 
   @Post('/OS')
-  createOS(@Body() dto: ProjetoOsDto) {
+  createOS(@Body() dto: ProjetoOsDto[]) {
     return this.projetoService.createProjetoOs(dto);
   }
 
