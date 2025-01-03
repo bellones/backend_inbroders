@@ -24,4 +24,5 @@ export class ProjetoOsDto {
   unidadeNome: string;
   produtoId: string;
   descricao: string;
+  contasPagarId?: string;
 }

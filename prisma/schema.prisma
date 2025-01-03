@@ -947,6 +947,8 @@ model ProjetoOS {
   AcompanhamentoItem  AcompanhamentoItem[]
   FormaPagamento      FormaPagamento?      @relation(fields: [formaPagamentoId], references: [id])
   formaPagamentoId    String?
+  ContasPagar         ContasPagar?         @relation(fields: [contasPagarId], references: [id])
+  contasPagarId       String?
 }
 
 model Departamento {
@@ -1004,6 +1006,7 @@ model ContasPagar {
   orcamentoDeptoId         String
   empresaSaida             Pessoa?                 @relation("empresaSaidaContasPagar", fields: [empresaSaiadaId], references: [id])
   empresaSaiadaId          String?
+  ProjetoOS                ProjetoOS[]
 }
 
 model ContasPagarArquivo {
