@@ -1,8 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ContasPagar, ContasPagarArquivo } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateContasPagarArquivoDto } from './dto/create-contas-pagar-arquivo.dto';
-import { CreateContasPagarDto } from './dto/create-contas-pagar.dto';
+import {
+  CreateContasPagarByOSDto,
+  CreateContasPagarDto,
+} from './dto/create-contas-pagar.dto';
 import { UpdateContasPagarDto } from './dto/update-contas-pagar.dto';
 
 @Injectable()
@@ -16,6 +19,39 @@ export class ContasPagarService {
       data: createContasPagarDto,
     });
     return item;
+  }
+
+  async createByOS(
+    createContasPagarDto: CreateContasPagarByOSDto[],
+  ): Promise<boolean> {
+    try {
+      for (const item of createContasPagarDto) {
+        const osId = item.osId;
+        const conta = {
+          ...item,
+          empresaSaiadaId: item.empresaSaidaId,
+        };
+        delete conta.osId;
+        delete conta.empresaSaidaId;
+        delete conta.deptoId;
+        delete conta.selectedCategorias;
+
+        const contaPagar = await this.prisma.contasPagar.create({
+          data: conta,
+        });
+
+        await this.prisma.projetoOS.update({
+          where: { id: osId },
+          data: { contasPagarId: contaPagar.id, financeiroGerado: true },
+        });
+      }
+
+      return true;
+    } catch (error) {
+      console.log('createByOS: ', error);
+
+      return false;
+    }
   }
 
   async createArquivo(

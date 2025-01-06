@@ -22,3 +22,9 @@ export class CreateContasPagarDto {
   orcamentoDeptoId: string;
   empresaSaidaId: string;
 }
+
+export class CreateContasPagarByOSDto extends CreateContasPagarDto {
+  osId: string;
+  deptoId: string;
+  selectedCategorias: string[];
+}
