@@ -12,6 +12,8 @@ import { ProjetoPessoDto } from './dto/create-projeto-pessoa.dto';
 import { ProjetoProdutoDto } from './dto/create-projeto-produto.dto';
 import { CreateProjetoDto } from './dto/create-projeto.dto';
 import { UpdateProjetoDto } from './dto/update-projeto.dto';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { GetTaskDto } from './dto/get-task.dto';
 
 @Injectable()
 export class ProjetoService {
@@ -490,5 +492,54 @@ export class ProjetoService {
         Contato: true,
       },
     });
+  }
+
+  async findTaskProject(id: string): Promise<GetTaskDto[]> {
+    const items = await this.prisma.taskCard.findMany({
+      where: {
+        projetoId: Number(id),
+      },
+      include: {
+        projeto: {
+          select: {
+            descricao: true,
+          },
+        },
+        userCriador: {
+          select: {
+            nome: true,
+          },
+        },
+        userResponsavel: {
+          select: {
+            nome: true,
+          },
+        },
+      },
+    });
+
+    return items;
+  }
+
+  async upsertTaskProject(dto: CreateTaskDto): Promise<boolean> {
+    const item = await this.prisma.taskCard.upsert({
+      where: {
+        id: dto.id || '',
+      },
+      create: dto,
+      update: dto,
+    });
+
+    return item != null ? true : false;
+  }
+
+  async deleteTaskProject(id: string): Promise<boolean> {
+    const item = await this.prisma.taskCard.delete({
+      where: {
+        id: id,
+      },
+    });
+
+    return item != null;
   }
 }

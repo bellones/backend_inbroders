@@ -19,6 +19,7 @@ import { ProjetoProdutoDto } from './dto/create-projeto-produto.dto';
 import { CreateProjetoDto } from './dto/create-projeto.dto';
 import { UpdateProjetoDto } from './dto/update-projeto.dto';
 import { ProjetoService } from './projeto.service';
+import { CreateTaskDto } from './dto/create-task.dto';
 
 @Controller('projeto')
 export class ProjetoController {
@@ -164,5 +165,15 @@ export class ProjetoController {
   @Delete('/os/:id')
   removeProjetoOS(@Param('id') id: string) {
     return this.projetoService.deleteProjectOs(id);
+  }
+
+  @Get('/task/:id')
+  findTasks(@Param('id') id: string) {
+    return this.projetoService.findTaskProject(id);
+  }
+
+  @Post('/task')
+  createTask(@Body() dto: CreateTaskDto) {
+    return this.projetoService.upsertTaskProject(dto);
   }
 }

@@ -105,6 +105,8 @@ model Usuario {
   UsuarioEndereco       UsuarioEndereco[]
   UsuarioContato        UsuarioContato[]
   Notificacoes          Notificacoes[]
+  criadorDeTasks        TaskCard[]              @relation("UserCriadorRelation")
+  responsavelTasks      TaskCard[]              @relation("UserResponsavelRelation")
 }
 
 model UsuarioEndereco {
@@ -734,6 +736,7 @@ model Projeto {
   valorEconomia        String             @default("0")
   percentualProdutor   String             @default("0")
   retornoProdutor      String             @default("0")
+  TaskCard             TaskCard[]
 }
 
 model ProjetoCategoria {
@@ -1257,4 +1260,20 @@ model ContaSaldo {
   Lancamento        Lancamento      @relation(fields: [lancamentoId], references: [id])
   lancamentoId      String
   tipo              Boolean
+}
+
+model TaskCard {
+  id                String  @id @default(uuid())
+  code              String
+  status            String
+  titulo            String
+  descricao         String
+  projeto           Projeto @relation(fields: [projetoId], references: [id])
+  projetoId         Int
+  dataEstimativa    DateTime
+  dataCriacao       DateTime
+  userCriador       Usuario @relation("UserCriadorRelation", fields: [userCriadorId], references: [id])
+  userCriadorId     String
+  userResponsavel   Usuario @relation("UserResponsavelRelation", fields: [userResponsavelId], references: [id])
+  userResponsavelId String
 }
