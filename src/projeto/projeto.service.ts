@@ -14,6 +14,8 @@ import { CreateProjetoDto } from './dto/create-projeto.dto';
 import { UpdateProjetoDto } from './dto/update-projeto.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTaskDto } from './dto/get-task.dto';
+import { CreateTimerDto } from './dto/create-timer.dto';
+import { GetTimerDto } from './dto/get-timer.dto';
 
 @Injectable()
 export class ProjetoService {
@@ -541,5 +543,67 @@ export class ProjetoService {
     });
 
     return item != null;
+  }
+
+  async upsertTimer(dto: CreateTimerDto): Promise<boolean> {
+    const item = await this.prisma.timerTracker.upsert({
+      where: {
+        id: dto.id || '',
+      },
+      create: {
+        taskId: dto.taskId ?? null,
+        projectId: dto.projectId ?? null,
+        description: dto.description ?? null,
+        userId: dto.userId,
+        initialMoment: dto.initialMoment,
+        finalMoment: dto.finalMoment,
+      },
+      update: {
+        taskId: dto.taskId ?? null,
+        projectId: dto.projectId ?? null,
+        description: dto.description ?? null,
+        userId: dto.userId,
+        initialMoment: dto.initialMoment,
+        finalMoment: dto.finalMoment,
+      },
+    });
+
+    return item != null ? true : false;
+  }
+
+  async deleteTimer(id: string): Promise<boolean> {
+    const item = await this.prisma.timerTracker.delete({
+      where: {
+        id: id,
+      },
+    });
+
+    return item != null;
+  }
+
+  async getTimers(userId: string): Promise<GetTimerDto[]> {
+    const items = await this.prisma.timerTracker.findMany({
+      where: {
+        userId: userId,
+      },
+      include: {
+        task: {
+          select: {
+            code: true,
+            titulo: true,
+          },
+        },
+        projeto: {
+          select: {
+            descricao: true,
+          },
+        },
+      },
+      orderBy: {
+        initialMoment: 'desc',
+      },
+    });
+
+    return items;
   }
 }

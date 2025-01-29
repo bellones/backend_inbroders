@@ -107,6 +107,7 @@ model Usuario {
   Notificacoes          Notificacoes[]
   criadorDeTasks        TaskCard[]              @relation("UserCriadorRelation")
   responsavelTasks      TaskCard[]              @relation("UserResponsavelRelation")
+  TimerTracker          TimerTracker[]
 }
 
 model UsuarioEndereco {
@@ -737,6 +738,7 @@ model Projeto {
   percentualProdutor   String             @default("0")
   retornoProdutor      String             @default("0")
   TaskCard             TaskCard[]
+  TimerTracker         TimerTracker[]
 }
 
 model ProjetoCategoria {
@@ -1263,17 +1265,31 @@ model ContaSaldo {
 }
 
 model TaskCard {
-  id                String  @id @default(uuid())
+  id                String         @id @default(uuid())
   code              String
   status            String
   titulo            String
   descricao         String
-  projeto           Projeto @relation(fields: [projetoId], references: [id])
+  projeto           Projeto        @relation(fields: [projetoId], references: [id])
   projetoId         Int
   dataEstimativa    DateTime
   dataCriacao       DateTime
-  userCriador       Usuario @relation("UserCriadorRelation", fields: [userCriadorId], references: [id])
+  userCriador       Usuario        @relation("UserCriadorRelation", fields: [userCriadorId], references: [id])
   userCriadorId     String
-  userResponsavel   Usuario @relation("UserResponsavelRelation", fields: [userResponsavelId], references: [id])
+  userResponsavel   Usuario        @relation("UserResponsavelRelation", fields: [userResponsavelId], references: [id])
   userResponsavelId String
+  TimerTracker      TimerTracker[]
+}
+
+model TimerTracker {
+  id            String    @id @default(uuid())
+  task          TaskCard? @relation(fields: [taskId], references: [id])
+  taskId        String?
+  projeto       Projeto?  @relation(fields: [projectId], references: [id])
+  projectId     Int?
+  description   String?
+  initialMoment DateTime
+  finalMoment   DateTime
+  user          Usuario   @relation(fields: [userId], references: [id])
+  userId        String
 }

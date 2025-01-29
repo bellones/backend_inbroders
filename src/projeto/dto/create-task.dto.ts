@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsDate, IsInt } from 'class-validator';
+import { IsString, IsNotEmpty, IsInt } from 'class-validator';
 
 export class CreateTaskDto {
   id?: string;

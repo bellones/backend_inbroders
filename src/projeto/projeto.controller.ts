@@ -20,6 +20,7 @@ import { CreateProjetoDto } from './dto/create-projeto.dto';
 import { UpdateProjetoDto } from './dto/update-projeto.dto';
 import { ProjetoService } from './projeto.service';
 import { CreateTaskDto } from './dto/create-task.dto';
+import { CreateTimerDto } from './dto/create-timer.dto';
 
 @Controller('projeto')
 export class ProjetoController {
@@ -175,5 +176,20 @@ export class ProjetoController {
   @Post('/task')
   createTask(@Body() dto: CreateTaskDto) {
     return this.projetoService.upsertTaskProject(dto);
+  }
+
+  @Post('/timer')
+  createTimer(@Body() dto: CreateTimerDto) {
+    return this.projetoService.upsertTimer(dto);
+  }
+
+  @Get('/timer/:id')
+  findTimer(@Param('id') id: string) {
+    return this.projetoService.getTimers(id);
+  }
+
+  @Delete('/timer/:id')
+  removeTimer(@Param('id') id: string) {
+    return this.projetoService.deleteTimer(id);
   }
 }
