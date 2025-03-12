@@ -60,6 +60,7 @@ export class UserService {
         ctps: dto.ctps,
         codigo: dto.codigo,
         salario: dto.salario,
+        image: dto.image,
       },
     });
 
@@ -145,6 +146,7 @@ export class UserService {
         ctps: dto.ctps,
         codigo: dto.codigo,
         salario: dto.salario,
+        image: dto.image,
       },
     });
 

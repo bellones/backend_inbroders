@@ -87,6 +87,7 @@ model Usuario {
   idEmpresa             String
   ativo                 Boolean                 @default(true)
   codigoRecuperacao     String?                 @default("")
+  image                String?                 @default("")
   Permissao             Permissao[]
   Orcamento             Orcamento[]
   RascunhoOrcamento     RascunhoOrcamento[]
@@ -130,10 +131,10 @@ model UsuarioContato {
   id        String  @id @default(uuid())
   usuario   Usuario @relation(fields: [idUsuario], references: [id])
   idUsuario String
-  nome      String
-  cargo     String
-  telefone  String
-  email     String
+  nome      String  @default("")
+  cargo     String  @default("")
+  telefone  String  @default("")
+  email     String  @default("")
   principal Boolean @default(false)
   ativo     Boolean @default(true)
 }

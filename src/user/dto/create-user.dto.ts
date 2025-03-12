@@ -9,22 +9,23 @@ export class CreateUserDTO {
   @IsString()
   senha: string;
   @IsString()
-  idEmpresa: string;
+  idEmpresa?: string;
   @IsBoolean()
-  ativo: boolean;
+  ativo?: boolean;
 
-  nascimento: Date;
+  nascimento?: Date;
   @IsString()
   cpf: string;
-  rg: string;
+  rg?: string;
 
-  dataAdmissao: Date;
-  pispasep: string;
-  ctps: string;
-  codigo: string;
+  dataAdmissao?: Date;
+  pispasep?: string;
+  ctps?: string;
+  codigo?: string;
   @IsNumber()
-  salario: number;
+  salario?: number;
   endereco?: CreateUserAddressDTO[] | null;
   contato?: CreateUserContactDTO[] | null;
   permissoes?: string;
+  image?: string;
 }
