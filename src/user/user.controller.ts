@@ -13,11 +13,13 @@ import { LoginDTO } from './dto/login.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
 import { LoginGoogleDTO } from './dto/check-email.dto';
+import { Public } from '../auth/public.decorator';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Public()
   @Post('/login')
   login(@Body() login: LoginDTO) {
     return this.userService.login(login);

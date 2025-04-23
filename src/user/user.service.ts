@@ -6,14 +6,18 @@ import { LoginDTO } from './dto/login.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginGoogleDTO } from './dto/check-email.dto';
 import { OAuth2Client } from 'google-auth-library';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
   private auth2Client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  async login(dto: LoginDTO): Promise<Usuario> {
+  async login(dto: LoginDTO): Promise<any> {
     const usuario = await this.prisma.usuario.findFirst({
       where: {
         email: dto.usuario,
@@ -25,10 +29,20 @@ export class UserService {
         UsuarioEndereco: true,
       },
     });
-    return usuario;
+
+    if (!usuario) {
+      throw new UnauthorizedException('Usuário ou senha inválidos');
+    }
+
+    const token = this.jwtService.sign(usuario);
+
+    return {
+      ...usuario,
+      access_token: token,
+    };
   }
 
-  async loginGoogle(payload: LoginGoogleDTO): Promise<Usuario> {
+  async loginGoogle(payload: LoginGoogleDTO): Promise<any> {
     const ticket = await this.auth2Client.getTokenInfo(payload.token);
 
     if (!ticket) {
@@ -41,7 +55,16 @@ export class UserService {
       },
     });
 
-    return usuario;
+    if (!usuario) {
+      throw new UnauthorizedException('Usuário ou senha inválidos');
+    }
+
+    const token = this.jwtService.sign(usuario);
+
+    return {
+      ...usuario,
+      access_token: token,
+    };
   }
 
   async create(dto: CreateUserDTO): Promise<string> {

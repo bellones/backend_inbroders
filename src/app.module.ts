@@ -46,6 +46,7 @@ import { OrcamentDepartamentoModule } from './orcament-departamento/orcament-dep
 import { ContaSaldoModule } from './conta_saldo/conta_saldo.module';
 import { RecuperarSenhaModule } from './recuperar-senha/recuperar-senha.module';
 import { NotificacoesModule } from './notificacoes/notificacoes.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -94,6 +95,7 @@ import { NotificacoesModule } from './notificacoes/notificacoes.module';
     ContaSaldoModule,
     RecuperarSenhaModule,
     NotificacoesModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [AppService],
