@@ -1269,6 +1269,7 @@ model TaskCard {
   id                String         @id @default(uuid())
   code              String
   status            String
+  tags              String         @default("")
   titulo            String
   descricao         String
   projeto           Projeto        @relation(fields: [projetoId], references: [id])

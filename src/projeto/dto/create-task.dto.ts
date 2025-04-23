@@ -12,6 +12,9 @@ export class CreateTaskDto {
   status: string;
 
   @IsString()
+  tags?: string;
+
+  @IsString()
   @IsNotEmpty()
   titulo: string;
 
